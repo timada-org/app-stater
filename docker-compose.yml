@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  starter-cockroach-init:
+    image: cockroachdb/cockroach:v23.1.4
+    command: >
+      sql --insecure --host="cockroach" --execute="
+        CREATE DATABASE IF NOT EXISTS starter;
+        CREATE USER IF NOT EXISTS starter; GRANT ALL ON DATABASE starter TO starter WITH GRANT OPTION;
+        ALTER USER starter CREATEDB;
+      "
+    restart: on-failure
+    networks:
+      - intranet
+
+        #starter-migrate:
+        #image: timada0/starter
+        #command: migrate -c /home/timada/starter.yml
+        #volumes:
+        #- type: bind
+        #source: configs/standalone.yml
+        #target: /home/timada/starter.yml
+        #restart: on-failure
+        #profiles:
+        #- standalone
+        #networks:
+        #- intranet
+        #depends_on:
+        #- starter-cockroach-init
+
+        #starter:
+        #image: timada0/starter
+        #ports:
+        #- 3000:3000
+        #- 3001:3001
+        #volumes:
+        #- type: bind
+        #source: configs/standalone.yml
+        #target: /etc/starter/config.yml
+        #profiles:
+        #- standalone
+        #restart: on-failure
+        #networks:
+        #- intranet
+        #depends_on:
+        #- starter-migrate
+
+        #starter-web:
+        #image: nginx:1.23-alpine
+        #volumes:
+        #- ./.docker/nginx/templates:/etc/nginx/templates
+        #- ./.docker/nginx/proxy.conf:/etc/nginx/proxy.conf
+        #labels:
+        #- "traefik.enable=true"
+        #- "traefik.http.routers.cobase-web.rule=Host(`starter.timada.localhost`)"
+        #- "traefik.http.routers.cobase-web.tls=true"
+        #- "traefik.http.routers.cobase-web.entrypoints=https"
+        #extra_hosts:
+        #- "host.docker.internal:host-gateway"
+        #networks:
+        #- intranet
+
+networks:
+  intranet:
+    name: timada
+    external: true
