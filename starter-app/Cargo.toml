@@ -11,10 +11,10 @@ axum = { version = "0.6.4", optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
 cfg-if = "1"
-leptos = { version = "0.4", features = ["nightly"] }
-leptos_axum = { version = "0.4", optional = true }
-leptos_meta = { version = "0.4", features = ["nightly"] }
-leptos_router = { version = "0.4", features = ["nightly"] }
+leptos = { features = ["nightly"], git = "https://github.com/snapiz/leptos", branch = "fix/wss" }
+leptos_axum = { optional = true, git = "https://github.com/snapiz/leptos", branch = "fix/wss"  }
+leptos_meta = { features = ["nightly"], git = "https://github.com/snapiz/leptos", branch = "fix/wss"  }
+leptos_router = { features = ["nightly"], git = "https://github.com/snapiz/leptos", branch = "fix/wss"  }
 log = "0.4"
 simple_logger = "4"
 tokio = { version = "1.25.0", optional = true }
@@ -52,7 +52,7 @@ site-root = "target/site"
 
 # The site-root relative folder where all compiled output (JS, WASM and CSS) is written
 # Defaults to pkg
-site-pkg-dir = "pkg"
+site-pkg-dir = "starter-pkg"
 
 # [Optional] The source CSS file. If it ends with .sass or .scss then it will be compiled by dart-sass into CSS. The CSS is optimized by Lightning CSS before being written to <site-root>/<site-pkg>/app.css
 style-file = "style/main.scss"

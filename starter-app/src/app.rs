@@ -13,8 +13,8 @@ pub fn App(cx: Scope) -> impl IntoView {
 
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/starter.css"/>
-
+        <Stylesheet id="leptos" href="/starter-pkg/starter.css"/>
+ 
         // sets the document title
         <Title text="Welcome to Starter"/>
 
@@ -29,7 +29,7 @@ pub fn App(cx: Scope) -> impl IntoView {
         }>
             <main>
                 <Routes>
-                    <Route path="" view=|cx| view! { cx, <HomePage/> }/>
+                    <Route path="/starter" view=|cx| view! { cx, <HomePage/> }/>
                 </Routes>
             </main>
         </Router>
@@ -44,7 +44,7 @@ fn HomePage(cx: Scope) -> impl IntoView {
     let on_click = move |_| set_count.update(|count| *count += 1);
 
     view! { cx,
-        <h1>"Welcome to Leptos!"</h1>
+        <h1>"Welcome to Starter!"</h1>
         <button on:click=on_click>"Click Me: " {count}</button>
     }
 }
