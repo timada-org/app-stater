@@ -11,10 +11,12 @@ pub fn App(cx: Scope) -> impl IntoView {
     view! {
         cx,
 
+        <Link rel="icon" href="/starter/favicon.ico"/>
+
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/starter-pkg/starter.css"/>
- 
+        
         // sets the document title
         <Title text="Welcome to Starter"/>
 
