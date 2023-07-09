@@ -1,12 +1,12 @@
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use std::net::SocketAddr;
     use axum::{routing::post, Router};
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use starter_app::app::*;
     use starter_app::fileserv::file_and_error_handler;
+    use std::net::SocketAddr;
 
     simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
 

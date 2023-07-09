@@ -16,7 +16,7 @@ pub fn App(cx: Scope) -> impl IntoView {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/starter-pkg/starter.css"/>
-        
+
         // sets the document title
         <Title text="Welcome to Starter"/>
 
