@@ -21,4 +21,5 @@ test: reset
 
 fmt:
 	cargo fmt -- --emit files
+	leptosfmt **/src/**/*.rs
 
