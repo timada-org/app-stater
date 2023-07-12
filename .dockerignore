@@ -4,6 +4,5 @@ docker-compose.yml
 Makefile
 .releaserc.yml
 node_modules
-.docker
 .git
 
