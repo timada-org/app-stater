@@ -14,7 +14,7 @@ async fn main() {
 
     match matches.subcommand() {
         Some(("migrate", _sub_matches)) => {
-            println!("Migration database...");
+            println!("Migration database....");
         }
         Some(("reset", _sub_matches)) => {
             println!("Reset database...");
