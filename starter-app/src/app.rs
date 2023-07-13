@@ -42,7 +42,6 @@ fn HomePage(cx: Scope) -> impl IntoView {
 
     view! { cx,
         <h1>"Welcome to Starter!"</h1>
-RUN cargo install cargo-leptos
         <button on:click=on_click>"Click Me: " {count}</button>
     }
 }

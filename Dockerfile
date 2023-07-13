@@ -51,8 +51,6 @@ COPY --from=planner /app/recipe.json recipe.json
 COPY --from=planner /app/recipe.json recipe-ssr.json
 COPY --from=planner /app/recipe.json recipe-hydrate.json
 
-ENV LEPTOS_SITE_PKG_DIR=pkg
-
 # Build dependencies - this is the caching Docker layer!
 
 RUN cargo chef cook --release --package=starter-cli --recipe-path recipe.json
@@ -65,16 +63,6 @@ COPY . .
 
 RUN cargo build --release --bin starter-cli --package starter-cli
 RUN cargo leptos build --release
-
-RUN echo $'#!/bin/sh\n\
-\n\
-if [ "$1" = "serve" ];then\n\
-  starter-server "$@"\n\
-else\n\
-  starter-cli "$@"\n\
-fi;' > docker-entrypoint.sh
-
-RUN chmod +x docker-entrypoint.sh
 
 FROM scratch
  ARG version=unknown
@@ -95,12 +83,11 @@ COPY --from=builder /etc/group /etc/group
 COPY --from=builder /app/target/server/release/starter-app /usr/bin/starter-server
 COPY --from=builder /app/target/release/starter-cli /usr/bin/starter-cli
 COPY --from=builder /app/target/site /etc/starter/site
-COPY --from=builder /app/docker-entrypoint.sh /docker-entrypoint.sh
 
 USER starter:starter
 
 EXPOSE 3000 3001
 
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "starter-cli" ]
 CMD ["serve", "-c", "/etc/starter/config.yml"]
 
