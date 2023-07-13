@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package timada;
+
+service Starter {
+    rpc CreateFeed(CreateFeedRequest) returns (CreateFeedReply) {}
+    rpc ListFeeds(ListFeedsRequest) returns (ListFeedsReply) {}
+}
+
+message CreateFeedRequest {
+}
+
+message CreateFeedReply {
+    bool success = 1;
+}
+
+message ListFeedsRequest {
+}
+
+message ListFeedsReply {
+    bool success = 1;
+}
+
