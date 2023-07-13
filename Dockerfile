@@ -86,6 +86,9 @@ COPY --from=builder /app/target/site /etc/starter/site
 
 USER starter:starter
 
+ENV LEPTOS_SITE_ROOT=/etc/starter/site
+ENV LEPTOS_SITE_PKG_DIR=starter-pkg
+
 EXPOSE 3000 3001
 
 ENTRYPOINT [ "starter-cli" ]

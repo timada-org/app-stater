@@ -5,4 +5,5 @@ Makefile
 .releaserc.yml
 node_modules
 .git
+Dockerfile
 

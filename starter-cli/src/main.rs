@@ -26,9 +26,8 @@ async fn main() {
             println!("Reset database...");
         }
         Some(("serve", _sub_matches)) => {
-            process::Command::new("starter-server")
-                .stdout(process::Stdio::null())
-                .output()
+            process::Command::new("starter-server") 
+                .status()
                 .expect("failed to execute starter-server");
         }
         _ => unreachable!(),
