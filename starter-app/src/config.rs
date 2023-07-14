@@ -24,7 +24,9 @@ impl StarterConfig {
         let config_path = env::var("STARTER_CONFIG_PATH").unwrap_or("./starter.toml".to_owned());
 
         Config::builder()
-            .add_source(File::with_name(&config_path).required(env::var("STARTER_CONFIG_PATH").is_ok()))
+            .add_source(
+                File::with_name(&config_path).required(env::var("STARTER_CONFIG_PATH").is_ok()),
+            )
             .add_source(Environment::with_prefix("starter"))
             .build()?
             .try_deserialize()

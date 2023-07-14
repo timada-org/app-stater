@@ -11,7 +11,7 @@ async fn main() {
     use leptos::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
     use starter_app::app::*;
-    use starter_app::fileserv::file_and_error_handler; 
+    use starter_app::fileserv::file_and_error_handler;
     use timada_starter_client::feed_server::FeedServer;
     use tonic::transport::Server;
 
