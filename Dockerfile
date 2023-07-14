@@ -89,8 +89,8 @@ USER starter:starter
 ENV LEPTOS_SITE_ROOT=/etc/starter/site
 ENV LEPTOS_SITE_PKG_DIR=starter-pkg
 
-EXPOSE 3000 3001
+EXPOSE 3000 4000
 
 ENTRYPOINT [ "starter-cli" ]
-CMD ["serve", "-c", "/etc/starter/config.yml"]
+CMD ["serve"]
 

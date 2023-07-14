@@ -1,4 +1,4 @@
-use clap::{arg, Command};
+use clap::Command;
 use std::process;
 
 #[tokio::main]
@@ -6,16 +6,8 @@ async fn main() {
     let matches = Command::new(env!("CARGO_PKG_NAME"))
         .version(env!("CARGO_PKG_VERSION"))
         .arg_required_else_help(true)
-        .subcommand(
-            Command::new("migrate")
-                .about("Migrate database schema to latest")
-                .arg(arg!(-c --config <CONFIG>).required(false)),
-        )
-        .subcommand(
-            Command::new("serve")
-                .about("Start starter server using bin")
-                .arg(arg!(-c --config <CONFIG>).required(false)),
-        )
+        .subcommand(Command::new("migrate").about("Migrate database schema to latest"))
+        .subcommand(Command::new("serve").about("Start starter server using bin"))
         .get_matches();
 
     match matches.subcommand() {
