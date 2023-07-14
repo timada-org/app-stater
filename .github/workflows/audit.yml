@@ -1,0 +1,9 @@
+name: Audit
+on:
+  schedule:
+    - cron: 0 9 * * 1
+
+jobs:
+  service:
+    uses: timada-org/.github/.github/workflows/service-audit.yml@v2.15.0
+
