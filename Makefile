@@ -16,7 +16,7 @@ lint:
 sqlx.reset:
 	sqlx database reset
 
-test: reset
+test: #reset
 	cargo test
 
 fmt:
