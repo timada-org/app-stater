@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 license = "AGPL-3.0"
 description = "A client for timada starter"
-repository = "https://github.com/timada-org/starter"
+repository = "https://github.com/timayz/starter"
 homepage = "https://timada.co"
 documentation = "https://docs.rs/timada-starter-client"
 
