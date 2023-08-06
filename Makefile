@@ -32,10 +32,13 @@ udeps:
 udeps.leptos:
 	cargo udeps --features ssr,hydrate -p starter-app
 
-pants:
+advisory.clean:
+	rm -rf ~/.cargo/advisory-db
+
+pants: advisory.clean
 	cargo pants
 
-audit:
+audit: advisory.clean
 	cargo audit
 
 outdated:
