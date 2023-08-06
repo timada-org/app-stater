@@ -1,0 +1,26 @@
+[package]
+name = "timada-starter-client"
+version = "0.1.0"
+edition = "2021"
+license = "AGPL-3.0"
+description = "A client for timada starter"
+repository = "https://github.com/timayz/starter"
+homepage = "https://timada.co"
+documentation = "https://docs.rs/timada-starter-client"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tonic = { version = "0.9", features = ["tls"] }
+prost = "0.11"
+prost-types = "0.11"
+prost-derive = "0.11"
+http = { version = "0.2", optional = true }
+cfg-if = "1.0"
+
+[build-dependencies]
+tonic-build = { version = "0.9", features = ["prost"] }
+
+[features]
+default = ["client"]
+client = ["dep:http"]

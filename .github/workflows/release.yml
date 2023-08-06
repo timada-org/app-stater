@@ -1,0 +1,16 @@
+name: Release
+on:
+  push:
+    branches:
+      - main-tmp-disabled
+
+jobs:
+  service:
+    uses: timayz/.github/.github/workflows/service-release.yml@v2.16.0
+    with:
+      service_name: starter
+    secrets:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+      DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}

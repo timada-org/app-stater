@@ -1,0 +1,8 @@
+name: Test
+on: pull_request
+
+jobs:
+  service:
+    uses: timayz/.github/.github/workflows/service-testing.yml@v2.16.0
+    with:
+      db_name: starter

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package starter;
+
+service Feed {
+    rpc Create(CreateFeedRequest) returns (CreateFeedResponse) {}
+    rpc List(ListFeedsRequest) returns (ListFeedsResponse) {}
+}
+
+message CreateFeedRequest {
+}
+
+message CreateFeedResponse {
+    bool success = 1;
+}
+
+message ListFeedsRequest {
+}
+
+message ListFeedsResponse{
+    bool success = 1;
+}
+
