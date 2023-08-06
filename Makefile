@@ -22,3 +22,21 @@ test: #reset
 fmt:
 	cargo fmt -- --emit files
 	leptosfmt .
+
+deny:
+	cargo deny check
+
+udeps:
+	cargo udeps -p starter -p starter-cli -p timada-starter-client
+
+udeps.leptos:
+	cargo udeps --features ssr,hydrate -p starter-app
+
+pants:
+	cargo pants
+
+audit:
+	cargo audit
+
+outdated:
+	cargo outdated
