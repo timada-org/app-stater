@@ -17,7 +17,7 @@ sqlx.reset:
 	sqlx database reset
 
 test: #reset
-	cargo test
+	cargo test --features ssr
 
 fmt:
 	cargo fmt -- --emit files
