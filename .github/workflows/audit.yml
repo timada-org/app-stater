@@ -1,9 +1,9 @@
 name: Audit
-on:
-  schedule:
-    - cron: 0 9 * * 1
+# on:
+#   schedule:
+#     - cron: 0 9 * * 1
+on: pull_request
 
 jobs:
   service:
-    uses: timada-org/.github/.github/workflows/service-audit.yml@v2.15.0
-
+    uses: timada-org/.github/.github/workflows/service-audit.yml@feat/service/add-checks
