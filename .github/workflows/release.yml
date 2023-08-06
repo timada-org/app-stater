@@ -1,8 +1,8 @@
 name: Release
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
 jobs:
   service:
@@ -14,4 +14,3 @@ jobs:
       CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
       DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-# 7

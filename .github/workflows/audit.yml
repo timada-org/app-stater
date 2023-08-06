@@ -1,8 +1,7 @@
 name: Audit
-# on:
-#   schedule:
-#     - cron: 0 9 * * 1
-on: pull_request
+on:
+  schedule:
+    - cron: 0 9 * * 1
 
 jobs:
   service:
