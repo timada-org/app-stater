@@ -26,7 +26,7 @@ jobs:
             org.opencontainers.image.vendor=Timada
           tags: |
             type=schedule
-            type=ref,event=branch
+            type=ref,event=tag
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -40,13 +40,10 @@ jobs:
       #     password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Build and push image to container registry
         uses: docker/build-push-action@v4
-        # if: ${{ inputs.build-args == ''}}
         with:
           # platforms: ${{ inputs.platforms }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          # labels: ${{ steps.meta.outputs.labels }}
+          labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          # cache-from: type=registry,ref=timayz/starter:buildcache
-          # cache-to: type=registry,ref=timayz/starter:buildcache,mode=max
