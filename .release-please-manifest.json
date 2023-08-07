@@ -1,0 +1,9 @@
+{
+  "release-type": "rust",
+  "pachages": {
+    "starter": {},
+    "starter-app": {},
+    "starter-cli": {},
+    "starter-client": {}
+  }
+}
