@@ -1,0 +1,15 @@
+name: Publish
+# on: pull_request
+on:
+  push:
+    branches:
+      - main-tmp-disabled
+
+jobs:
+  docker:
+    uses: timayz/.github/.github/workflows/docker.yml@v2.17.0
+    with:
+      image: timayz/starter
+    secrets:
+      DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+      DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}

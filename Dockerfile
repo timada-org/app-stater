@@ -59,15 +59,6 @@ RUN cargo build --release --bin starter-cli --package starter-cli
 RUN cargo leptos build --release
 
 FROM scratch
-ARG version=unknown
-ARG release=unreleased
-LABEL name="Starter" \
-    maintainer="info@timada.co" \
-    vendor="Timada" \
-    version=${version} \
-    release=${release} \
-    summary="High-level summary" \
-    description="A bit more details about this specific container"
 
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
