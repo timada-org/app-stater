@@ -6,7 +6,7 @@ on:
 
 jobs:
   service:
-    uses: timayz/.github/.github/workflows/service-release.yml@v2.16.0
+    uses: timayz/.github/.github/workflows/service-release.yml@v2.17.0
     with:
       service_name: starter
     secrets:
