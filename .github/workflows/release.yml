@@ -16,3 +16,4 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           release-type: rust
+          command: manifest
