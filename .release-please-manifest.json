@@ -1,6 +1,6 @@
 {
-  "starter": "0.0.0",
-  "starter-app": "0.1.1",
-  "starter-cli": "0.1.0",
-  "starter-client": "0.1.0"
+  "feed": "0.0.0",
+  "app": "0.1.1",
+  "cli": "0.1.0",
+  "client": "0.1.0"
 }

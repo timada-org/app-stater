@@ -1,36 +1,17 @@
 {
+  "release-type": "rust",
   "packages": {
-    "starter": {
-      "changelog-path": "CHANGELOG.md",
-      "release-type": "rust",
-      "bump-minor-pre-major": false,
-      "bump-patch-for-minor-pre-major": false,
-      "draft": false,
-      "prerelease": false
+    "feed": {
+      "skip-github-release": true
     },
-    "starter-app": {
-      "changelog-path": "CHANGELOG.md",
-      "release-type": "rust",
-      "bump-minor-pre-major": false,
-      "bump-patch-for-minor-pre-major": false,
-      "draft": false,
-      "prerelease": false
+    "app": {
+      "package-name": "app"
     },
-    "starter-cli": {
-      "changelog-path": "CHANGELOG.md",
-      "release-type": "rust",
-      "bump-minor-pre-major": false,
-      "bump-patch-for-minor-pre-major": false,
-      "draft": false,
-      "prerelease": false
+    "cli": {
+      "package-name": "cli"
     },
-    "starter-client": {
-      "changelog-path": "CHANGELOG.md",
-      "release-type": "rust",
-      "bump-minor-pre-major": false,
-      "bump-patch-for-minor-pre-major": false,
-      "draft": false,
-      "prerelease": false
+    "client": {
+      "package-name": "client"
     }
   },
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"

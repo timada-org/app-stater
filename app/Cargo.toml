@@ -8,7 +8,8 @@ license = "AGPL-3.0"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-timada-starter-client = { path = "../starter-client", default-features = false, optional = true }
+starter-feed = { workspace = true }
+timada-starter-client = { workspace = true, default-features = false, optional = true }
 axum = { version = "0.6.4", optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
@@ -32,8 +33,15 @@ config = { version = "0.13", optional = true }
 http = "0.2.8"
 
 [features]
-hydrate = ["leptos/hydrate", "leptos_meta/hydrate", "leptos_router/hydrate"]
+hydrate = [
+    "starter-feed/hydrate",
+    "leptos/hydrate",
+    "leptos_meta/hydrate",
+    "leptos_router/hydrate"
+]
+
 ssr = [
+    "starter-feed/ssr",
     "dep:timada-starter-client",
     "dep:tonic",
     "dep:prost",
