@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/timayz/starter/compare/app-v0.1.1...app-v0.1.2) (2023-08-08)
+
+
+### Bug Fixes
+
+* **home:** wrong title ([#16](https://github.com/timayz/starter/issues/16)) ([3513233](https://github.com/timayz/starter/commit/351323365e1423bde70bdb8c966517b87c4f0752))
+
 ## [0.1.1](https://github.com/timayz/starter/compare/starter-app-v0.1.0...starter-app-v0.1.1) (2023-08-08)
 
 
