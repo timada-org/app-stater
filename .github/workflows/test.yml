@@ -7,6 +7,6 @@ on:
 
 jobs:
   service:
-    uses: timayz/.github/.github/workflows/service-testing.yml@v2.17.0
+    uses: timayz/.github/.github/workflows/service-testing.yml@fix/service/udeps-stable
     with:
       db_name: starter
