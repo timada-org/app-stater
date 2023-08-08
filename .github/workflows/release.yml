@@ -15,5 +15,6 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         with:
           token: ${{ secrets.GH_TOKEN }}
-          release-type: rust
-          plugins: cargo-workspace
+          command: manifest
+          # release-type: rust
+          # plugins: cargo-workspace
