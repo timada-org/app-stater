@@ -27,7 +27,7 @@ deny:
 	cargo deny check
 
 udeps:
-	cargo udeps -p starter -p starter-cli -p timada-starter-client
+	cargo udeps -p starter-feed -p starter-cli -p timada-starter-client
 
 udeps.leptos:
 	cargo udeps --features ssr,hydrate -p starter-app
