@@ -1,8 +1,8 @@
+use starter_feed::add;
 use timada_starter_client::{
     feed_server::Feed, CreateFeedRequest, CreateFeedResponse, ListFeedsRequest, ListFeedsResponse,
 };
 use tonic::{Request, Response, Status};
-use starter_feed::add;
 
 #[derive(Default)]
 pub struct FeedService;
