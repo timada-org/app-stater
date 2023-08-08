@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/timayz/starter/compare/starter-app-v0.1.0...starter-app-v0.1.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* wrong title ([#14](https://github.com/timayz/starter/issues/14)) ([e55f697](https://github.com/timayz/starter/commit/e55f697cd549b5f9c6c6f8d8663d4451673e9d5b))
+
 ## 0.1.0 (2023-08-08)
 
 
