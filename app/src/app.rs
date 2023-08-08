@@ -16,7 +16,7 @@ pub fn App(cx: Scope) -> impl IntoView {
         <Stylesheet id="leptos" href="/starter-pkg/starter.css"/>
 
         // sets the document title
-        <Title text="Welcome to Starter!"/>
+        <Title text="Welcome to Starter"/>
 
         // content for this welcome page
         <Router fallback=|cx| {

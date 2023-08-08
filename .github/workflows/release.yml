@@ -16,5 +16,3 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           command: manifest
-          # release-type: rust
-          # plugins: cargo-workspace
