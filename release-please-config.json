@@ -3,14 +3,7 @@
   "plugins": ["cargo-workspace"],
   "packages": {
     "feed": {
-      "package-name": "feed",
-      "extra-files": [
-        {
-          "type": "toml",
-          "path": "/Cargo.toml",
-          "jsonpath": "$.workspace.dependencies.starter-feed.version"
-        }
-      ]
+      "package-name": "feed"
     },
     "app": {
       "package-name": "app"
@@ -19,14 +12,7 @@
       "package-name": "cli"
     },
     "client": {
-      "package-name": "client",
-      "extra-files": [
-        {
-          "type": "toml",
-          "path": "/Cargo.toml",
-          "jsonpath": "$.workspace.dependencies.timada-starter-client.version"
-        }
-      ]
+      "package-name": "client"
     }
   },
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
