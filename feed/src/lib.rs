@@ -1,5 +1,5 @@
 pub fn add(a: usize, b: usize) -> usize {
-    b + a
+    a + b
 }
 
 #[cfg(test)]
