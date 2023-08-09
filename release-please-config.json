@@ -2,48 +2,17 @@
   "release-type": "rust",
   "packages": {
     "feed": {
-      "skip-github-release": true,
-      "component": "feed"
+      "package-name": "feed"
     },
     "app": {
-      "package-name": "app",
-      "component": "app"
+      "package-name": "app"
     },
     "cli": {
-      "package-name": "cli",
-      "component": "cli"
+      "package-name": "cli"
     },
     "client": {
-      "package-name": "client",
-      "component": "client"
+      "package-name": "client"
     }
   },
-  "plugins": [
-    {
-      "type": "cargo-workspace",
-      "merge": false
-    },
-    {
-      "type": "linked-versions",
-      "groupName": "app",
-      "components": [
-        "feed", "app"
-      ]
-    },
-    {
-      "type": "linked-versions",
-      "groupName": "cli",
-      "components": [
-        "feed", "cli"
-      ]
-    },
-    {
-      "type": "linked-versions",
-      "groupName": "client",
-      "components": [
-        "feed", "client"
-      ]
-    }
-  ],
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
 }
