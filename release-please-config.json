@@ -3,7 +3,14 @@
   "plugins": ["cargo-workspace"],
   "packages": {
     "feed": {
-      "package-name": "feed"
+      "package-name": "feed",
+      "extra-files": [
+        {
+          "type": "toml",
+          "path": "../Cargo.toml",
+          "jsonpath": "$.workspace.dependencies.starter-feed.version"
+        }
+      ]
     },
     "app": {
       "package-name": "app"
