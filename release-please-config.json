@@ -1,5 +1,6 @@
 {
   "release-type": "rust",
+  "plugins": ["cargo-workspace"],
   "packages": {
     "feed": {
       "package-name": "feed"
