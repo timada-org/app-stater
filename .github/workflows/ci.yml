@@ -12,8 +12,8 @@ jobs:
   #     db_name: starter
 
   release:
-    needs: [test]
-    if: always() && !cancelled() && !contains(needs.*.result, 'failure')
+    # needs: [test]
+    # if: always() && !cancelled() && !contains(needs.*.result, 'failure')
     uses: timayz/.github/.github/workflows/service-release.yml@feat/service/release
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
