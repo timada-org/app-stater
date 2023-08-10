@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/timayz/starter/compare/app-v0.1.2...app-v0.2.0) (2023-08-10)
+
+
+### Features
+
+* **app:** yolo ([#24](https://github.com/timayz/starter/issues/24)) ([151f51a](https://github.com/timayz/starter/commit/151f51a6a94c9bee6215c48a83b8329f60260ea5))
+
+
+### Bug Fixes
+
+* update title ([4b6de79](https://github.com/timayz/starter/commit/4b6de79f3fe967fca6070cf67aacac6a00aac0ad))
+
 ## [0.1.2](https://github.com/timayz/starter/compare/app-v0.1.1...app-v0.1.2) (2023-08-08)
 
 
