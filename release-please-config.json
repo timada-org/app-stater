@@ -1,8 +1,17 @@
 {
-  "plugins": ["cargo-workspace"],
+  "release-type": "rust",
   "packages": {
-    ".": {
-      "release-type": "rust"
+    "feed": {
+      "package-name": "feed"
+    },
+    "app": {
+      "package-name": "app"
+    },
+    "cli": {
+      "package-name": "cli"
+    },
+    "client": {
+      "package-name": "client"
     }
   },
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
