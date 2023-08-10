@@ -9,10 +9,6 @@ members = [
     "./app"
 ]
 
-[workspace.dependencies]
-starter-feed = { path = "./feed", version = "0.1.0" }
-timada-starter-client = { path = "./client", version = "0.1.0" }
-
 [profile.release]
 codegen-units = 1
 panic = "abort"

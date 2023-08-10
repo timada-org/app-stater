@@ -8,8 +8,8 @@ license = "AGPL-3.0"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-starter-feed = { workspace = true }
-timada-starter-client = { workspace = true, default-features = false, optional = true }
+starter-feed = { path = "../feed" }
+timada-starter-client = { path = "../client", default-features = false, optional = true }
 axum = { version = "0.6.4", optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
