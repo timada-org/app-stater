@@ -16,4 +16,4 @@ jobs:
     if: always() && !cancelled() && !contains(needs.*.result, 'failure')
     uses: timayz/.github/.github/workflows/service-release.yml@feat/service/release
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
