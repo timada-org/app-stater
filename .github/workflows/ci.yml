@@ -10,3 +10,8 @@ jobs:
     uses: timayz/.github/.github/workflows/service-testing.yml@v2.17.1
     with:
       db_name: starter
+
+  release:
+    uses: timayz/.github/.github/workflows/service-release.yml@feat/service/release
+      secrets:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
