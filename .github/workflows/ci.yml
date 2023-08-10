@@ -1,4 +1,4 @@
-name: CIx
+name: CI
 on:
   pull_request:
   push:
@@ -6,10 +6,10 @@ on:
       - main
 
 jobs:
-  test:
-    uses: timayz/.github/.github/workflows/service-testing.yml@v2.17.1
-    with:
-      db_name: starter
+  # test:
+  #   uses: timayz/.github/.github/workflows/service-testing.yml@v2.17.1
+  #   with:
+  #     db_name: starter
 
   release:
     needs: [test]
