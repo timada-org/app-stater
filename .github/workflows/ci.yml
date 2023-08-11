@@ -10,10 +10,11 @@ jobs:
     uses: timayz/.github/.github/workflows/service-testing.yml@feat/cargo/publish
     with:
       db_name: starter
+    if: "!startsWith(github.event.commits[0].message, 'chore(release): ')"
 
   release:
     needs: [test]
-    if: always() && !cancelled() && !contains(needs.*.result, 'failure')
     uses: timayz/.github/.github/workflows/service-release.yml@feat/cargo/publish
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    if: "always() && !cancelled() && !contains(needs.*.result, 'failure') && !startsWith(github.event.commits[0].message, 'chore(release): ')"
