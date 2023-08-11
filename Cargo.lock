@@ -2290,7 +2290,7 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "starter-app"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "axum",
  "cfg-if",
@@ -2319,7 +2319,7 @@ dependencies = [
 
 [[package]]
 name = "starter-cli"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "clap",
  "tokio",
@@ -2327,7 +2327,7 @@ dependencies = [
 
 [[package]]
 name = "starter-feed"
-version = "0.0.3"
+version = "0.0.4"
 
 [[package]]
 name = "strsim"
@@ -2410,7 +2410,7 @@ dependencies = [
 
 [[package]]
 name = "timada-starter-client"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "cfg-if",
  "http",
