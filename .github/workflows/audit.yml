@@ -5,5 +5,4 @@ on:
 
 jobs:
   service:
-    uses: timayz/.github/.github/workflows/service-audit.yml@feat/cargo/publish
-#5
+    uses: timayz/.github/.github/workflows/service-audit.yml@v2.19.0
