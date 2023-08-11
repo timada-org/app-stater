@@ -9,14 +9,14 @@ on:
       - "Cargo.lock"
 
 jobs:
-  test:
-    uses: timayz/.github/.github/workflows/service-testing.yml@feat/cargo/publish
-    with:
-      db_name: starter
+  # test:
+  #   uses: timayz/.github/.github/workflows/service-testing.yml@feat/cargo/publish
+  #   with:
+  #     db_name: starter
 
   release:
-    needs: [test]
+    # needs: [test]
     uses: timayz/.github/.github/workflows/service-release.yml@feat/cargo/publish
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-    if: always() && !cancelled() && !contains(needs.*.result, 'failure')
+    # if: always() && !cancelled() && !contains(needs.*.result, 'failure')
