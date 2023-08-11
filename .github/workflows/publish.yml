@@ -1,6 +1,8 @@
 name: Publish
 on:
   push:
+    branches:
+      - main
     tags:
       - '*'
 
@@ -15,5 +17,7 @@ jobs:
 
   cargo:
     uses: timayz/.github/.github/workflows/cargo-publish.yml@feat/cargo/publish
+    with:
+      publish: false
     secrets:
       CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
