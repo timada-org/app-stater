@@ -1,6 +1,7 @@
 [package]
 name = "timada-starter-client"
 version = "0.0.4"
+publish = true
 edition = "2021"
 license = "AGPL-3.0"
 description = "A client for timada starter"
