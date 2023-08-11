@@ -2,11 +2,11 @@ name: Publish
 on:
   push:
     tags:
-      - *
+      - '*'
 
 jobs:
   docker:
-    uses: timayz/.github/.github/workflows/docker.yml@v2.18.2
+    uses: timayz/.github/.github/workflows/docker.yml@feat/cargo/publish
     with:
       image: timayz/starter
     secrets:

@@ -7,13 +7,13 @@ on:
 
 jobs:
   test:
-    uses: timayz/.github/.github/workflows/service-testing.yml@v2.18.2
+    uses: timayz/.github/.github/workflows/service-testing.yml@feat/cargo/publish
     with:
       db_name: starter
 
   release:
     needs: [test]
     if: always() && !cancelled() && !contains(needs.*.result, 'failure')
-    uses: timayz/.github/.github/workflows/service-release.yml@v2.18.2
+    uses: timayz/.github/.github/workflows/service-release.yml@feat/cargo/publish
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
