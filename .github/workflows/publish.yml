@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    uses: timayz/.github/.github/workflows/docker.yml@v2.18.0
+    uses: timayz/.github/.github/workflows/docker.yml@v2.18.1
     with:
       image: timayz/starter
     secrets:
