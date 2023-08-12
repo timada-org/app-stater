@@ -149,7 +149,7 @@ exceptions = [
     { allow = ["AGPL-3.0"], name = "timada-starter-client" },
     { allow = ["AGPL-3.0"], name = "starter-cli" },
     { allow = ["AGPL-3.0"], name = "starter-app" },
-    { allow = ["AGPL-3.0"], name = "starter" },
+    { allow = ["AGPL-3.0"], name = "starter-feed" },
 ]
 
 # Some crates don't have (easily) machine readable licensing information,
