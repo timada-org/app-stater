@@ -2290,7 +2290,7 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "starter-app"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "axum",
  "cfg-if",
@@ -2319,7 +2319,7 @@ dependencies = [
 
 [[package]]
 name = "starter-cli"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "clap",
  "tokio",
@@ -2327,7 +2327,7 @@ dependencies = [
 
 [[package]]
 name = "starter-feed"
-version = "0.2.2"
+version = "0.2.3"
 
 [[package]]
 name = "strsim"
@@ -2410,7 +2410,7 @@ dependencies = [
 
 [[package]]
 name = "timada-starter-client"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "cfg-if",
  "http",
@@ -2468,9 +2468,9 @@ checksum = "1f3ccbac311fea05f86f61904b462b55fb3df8837a366dfc601a0161d0532f20"
 
 [[package]]
 name = "tokio"
-version = "1.30.0"
+version = "1.31.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d3ce25f50619af8b0aec2eb23deebe84249e19e2ddd393a6e16e3300a6dadfd"
+checksum = "40de3a2ba249dcb097e01be5e67a5ff53cf250397715a071a81543e8a832a920"
 dependencies = [
  "backtrace",
  "bytes",
