@@ -1,6 +1,6 @@
 [package]
 name = "starter-app"
-version = "0.1.1"
+version = "0.2.0-alpha.1"
 edition = "2021"
 license = "AGPL-3.0"
 
@@ -30,8 +30,8 @@ lib-default-features = false
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-starter-feed = { path = "../feed", version = "0.1.1" }
-timada-starter-client = { path = "../client", default-features = false, optional = true, version = "0.1.1" }
+starter-feed = { path = "../feed", version = "0.2.0-alpha.1" }
+timada-starter-client = { path = "../client", default-features = false, optional = true, version = "0.2.0-alpha.1" }
 axum = { version = "0.6.4", optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
