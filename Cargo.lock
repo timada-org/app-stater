@@ -138,9 +138,9 @@ dependencies = [
 
 [[package]]
 name = "async-trait"
-version = "0.1.72"
+version = "0.1.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc6dde6e4ed435a4c1ee4e73592f5ba9da2151af10076cc04858746af9352d09"
+checksum = "bc00ceb34980c03614e35a3a4e218276a0a824e911d07651cd0d858a51e8c0f0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1372,9 +1372,9 @@ dependencies = [
 
 [[package]]
 name = "log"
-version = "0.4.19"
+version = "0.4.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b06a4cde4c0f271a446782e3eff8de789548ce57dbc8eca9292c27f4a42004b4"
+checksum = "b5e6163cb8c49088c2c36f57875e58ccd8c87c7427f7fbd50ea6710b2f3f2e8f"
 
 [[package]]
 name = "lru"
@@ -2290,7 +2290,7 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "starter-app"
-version = "0.0.17"
+version = "0.1.0-alpha.1"
 dependencies = [
  "axum",
  "cfg-if",
@@ -2319,7 +2319,7 @@ dependencies = [
 
 [[package]]
 name = "starter-cli"
-version = "0.0.17"
+version = "0.1.0-alpha.1"
 dependencies = [
  "clap",
  "tokio",
@@ -2327,7 +2327,7 @@ dependencies = [
 
 [[package]]
 name = "starter-feed"
-version = "0.0.17"
+version = "0.1.0-alpha.1"
 
 [[package]]
 name = "strsim"
@@ -2410,7 +2410,7 @@ dependencies = [
 
 [[package]]
 name = "timada-starter-client"
-version = "0.0.17"
+version = "0.1.0-alpha.1"
 dependencies = [
  "cfg-if",
  "http",
