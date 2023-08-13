@@ -32,7 +32,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 starter-feed = { path = "../feed", version = "0.2.3" }
 timada-starter-client = { path = "../client", default-features = false, optional = true, version = "0.2.3" }
-axum = { version = "0.6.4", optional = true }
+axum = { version = "0.6.20", optional = true }
 console_error_panic_hook = "0.1"
 console_log = "1"
 cfg-if = "1"
@@ -44,7 +44,7 @@ log = "0.4"
 simple_logger = "4"
 tonic = { version = "0.9", features = ["tls"], optional = true }
 prost = { version = "0.11", optional = true }
-tokio = { version = "1.25", optional = true }
+tokio = { version = "1.31", optional = true }
 tower = { version = "0.4", optional = true }
 tower-http = { version = "0.4", features = ["fs"], optional = true }
 wasm-bindgen = "=0.2.87"
@@ -52,7 +52,7 @@ thiserror = "1.0"
 tracing = { version = "0.1", optional = true }
 serde = { version = "1.0", optional = true }
 config = { version = "0.13", optional = true }
-http = "0.2.8"
+http = "0.2.9"
 
 [features]
 hydrate = [
