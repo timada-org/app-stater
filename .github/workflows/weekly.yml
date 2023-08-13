@@ -1,8 +1,11 @@
 name: Audit
 
 on:
-  schedule:
-    - cron: 0 9 * * 1
+  # schedule:
+  #   - cron: 0 9 * * 1
+  push:
+    branches:
+      - main
 
 jobs:
   audit:
