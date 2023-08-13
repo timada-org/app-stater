@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches:
-      - main
+      - main-ergergergergerg
     paths-ignore: 
       - "**/Cargo.toml"
       - "Cargo.lock"
@@ -12,7 +12,7 @@ on:
 
 jobs:
   docker:
-    uses: timayz/.github/.github/workflows/docker.yml@v2.19.3
+    uses: timayz/.github/.github/workflows/docker.yml@feat/renovate
     with:
       image: timayz/starter
       push: ${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -21,7 +21,7 @@ jobs:
       DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
   cargo:
-    uses: timayz/.github/.github/workflows/cargo-publish.yml@v2.19.3
+    uses: timayz/.github/.github/workflows/cargo-publish.yml@feat/renovate
     with:
       publish: ${{ startsWith(github.ref, 'refs/tags/v') }}
     secrets:

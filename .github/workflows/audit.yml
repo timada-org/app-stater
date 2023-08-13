@@ -1,9 +1,0 @@
-name: Audit
-
-on:
-  schedule:
-    - cron: 0 9 * * 1
-
-jobs:
-  service:
-    uses: timayz/.github/.github/workflows/service-audit.yml@v2.19.3

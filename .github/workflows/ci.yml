@@ -4,13 +4,13 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - main-rthrththrthrt
     paths-ignore: 
       - "**/Cargo.toml"
       - "Cargo.lock"
 
 jobs:
   test:
-    uses: timayz/.github/.github/workflows/service-testing.yml@v2.19.3
+    uses: timayz/.github/.github/workflows/service-testing.yml@feat/renovate
     with:
       db_name: starter
