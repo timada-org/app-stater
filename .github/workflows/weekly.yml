@@ -15,4 +15,4 @@ jobs:
     uses: timayz/.github/.github/workflows/renovate.yml@feat/renovate
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
-#1
+#2
