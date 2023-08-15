@@ -10,15 +10,15 @@ homepage = "https://timada.co"
 documentation = "https://docs.rs/timada-starter-client"
 
 [dependencies]
-tonic = { version = "0.9", features = ["tls"] }
-prost = "0.11"
-prost-types = "0.11"
-prost-derive = "0.11"
-http = { version = "0.2", optional = true }
-cfg-if = "1.0"
+tonic = { version = "0.9.2", features = ["tls"] }
+prost = "0.11.9"
+prost-types = "0.11.9"
+prost-derive = "0.11.9"
+http = { version = "0.2.9", optional = true }
+cfg-if = "1.0.0"
 
 [build-dependencies]
-tonic-build = { version = "0.9", features = ["prost"] }
+tonic-build = { version = "0.9.2", features = ["prost"] }
 
 [features]
 default = ["client"]
