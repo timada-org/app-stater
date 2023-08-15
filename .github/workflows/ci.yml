@@ -11,6 +11,6 @@ on:
 
 jobs:
   test:
-    uses: timayz/.github/.github/workflows/service-testing.yml@v2.20.0
+    uses: timayz/.github/.github/workflows/service-testing.yml@v2.20.1
     with:
       db_name: starter
