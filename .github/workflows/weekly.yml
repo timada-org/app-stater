@@ -6,7 +6,7 @@ on:
 
 jobs:
   audit:
-    uses: timayz/.github/.github/workflows/service-audit.yml@v3.0.1
+    uses: timayz/.github/.github/workflows/rustaudit.yml@v3.0.1
 
   renovate:
     uses: timayz/.github/.github/workflows/renovate.yml@v3.0.1
