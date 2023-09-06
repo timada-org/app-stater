@@ -5,11 +5,7 @@ use starter_core::AppState;
 
 pub async fn root(State(app): State<AppState>) -> impl IntoResponse {
     app.render_to_string(|| {
-        view! {
-            <Page title="Feed">
-                "Feed hello world"
-            </Page>
-        }
+        view! { <Page title="Feed">"Feed hello world"</Page> }
     })
 }
 

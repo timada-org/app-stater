@@ -1,6 +1,6 @@
-use axum::response::{IntoResponse, Html};
-use starter_components::AppContext;
+use axum::response::{Html, IntoResponse};
 use leptos::*;
+use starter_components::AppContext;
 
 use crate::AppConfig;
 

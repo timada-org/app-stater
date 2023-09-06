@@ -9,7 +9,9 @@ pub struct ApiConfig {
 
 impl Default for ApiConfig {
     fn default() -> Self {
-        Self { addr: "0.0.0.0:4000".to_string() }
+        Self {
+            addr: "0.0.0.0:4000".to_string(),
+        }
     }
 }
 

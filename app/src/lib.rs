@@ -18,11 +18,7 @@ use crate::config::StarterConfig;
 
 async fn root(State(app): State<AppState>) -> impl IntoResponse {
     app.render_to_string(|| {
-        view! {
-            <Page>
-                "Hello"
-            </Page>
-        }
+        view! { <Page>"Hello"</Page> }
     })
 }
 
