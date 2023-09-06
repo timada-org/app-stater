@@ -1,3 +1,9 @@
+mod api;
+mod app;
+
+pub use api::FeedService;
+pub use app::create_router;
+
 pub fn add(a: usize, b: usize) -> usize {
     b + a
 }

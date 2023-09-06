@@ -1,11 +1,24 @@
 use config::{Config, ConfigError, Environment, File};
 use serde::Deserialize;
-use starter_core::AppConfig;
 use std::env;
+
+#[derive(Debug, Deserialize)]
+pub struct ApiConfig {
+    pub addr: String,
+}
+
+impl Default for ApiConfig {
+    fn default() -> Self {
+        Self {
+            addr: "0.0.0.0:4000".to_string(),
+        }
+    }
+}
+
 #[derive(Debug, Deserialize)]
 pub struct StarterConfig {
     #[serde(default)]
-    pub app: AppConfig,
+    pub api: ApiConfig,
 }
 
 impl StarterConfig {

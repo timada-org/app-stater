@@ -28,13 +28,7 @@ ENV SYSROOT=/dummy
 # The env var tells pkg-config-rs to statically link libpq.
 ENV LIBPQ_STATIC=1
 
-RUN rustup target add wasm32-unknown-unknown
-
 RUN cargo install cargo-chef
-RUN cargo install cargo-leptos
-
-RUN mkdir -p ~/.cache/cargo-leptos/wasm-opt-version_112/wasm-opt-version_112
-RUN wget -qO- https://github.com/WebAssembly/binaryen/releases/download/version_112/binaryen-version_112-x86_64-linux.tar.gz | tar xvz -C ~/.cache/cargo-leptos/wasm-opt-version_112/wasm-opt-version_112
 
 WORKDIR /app
 
@@ -47,8 +41,6 @@ COPY --from=planner /app/recipe.json recipe.json
 
 # Build dependencies - this is the caching Docker layer!
 
-RUN cargo chef cook --package=starter-app --bin=starter-app --target-dir=target/server --no-default-features --features=ssr --release --recipe-path recipe.json
-RUN cargo chef cook --package=starter-app --target-dir=target/front --target=wasm32-unknown-unknown --no-default-features --features=hydrate --release --recipe-path recipe.json
 RUN cargo chef cook --release --package=starter-cli --recipe-path recipe.json
 
 # Build application
@@ -56,7 +48,6 @@ RUN cargo chef cook --release --package=starter-cli --recipe-path recipe.json
 COPY . .
 
 RUN cargo build --release --bin starter-cli --package starter-cli
-RUN cargo leptos build --release
 
 FROM scratch
 
@@ -64,15 +55,9 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
-
-COPY --from=builder /app/target/server/release/starter-app /usr/bin/starter-server
 COPY --from=builder /app/target/release/starter-cli /usr/bin/starter-cli
-COPY --from=builder /app/target/site /etc/starter/site
 
 USER starter:starter
-
-ENV LEPTOS_SITE_ROOT=/etc/starter/site
-ENV LEPTOS_SITE_PKG_DIR=starter-pkg
 
 EXPOSE 3000 4000
 

@@ -17,7 +17,7 @@ sqlx.reset:
 	sqlx database reset
 
 test: #reset
-	cargo test --features ssr
+	cargo test
 
 fmt:
 	cargo fmt -- --emit files
@@ -27,10 +27,7 @@ deny:
 	cargo deny check
 
 udeps:
-	cargo udeps -p starter-feed -p starter-cli -p timada-starter-client
-
-udeps.leptos:
-	cargo udeps --features ssr,hydrate -p starter-app
+	cargo udeps -p starter-feed -p starter-cli -p timada-starter-client -p starter-app -p starter-api -p starter-core -p starter-components
 
 advisory.clean:
 	rm -rf ~/.cargo/advisory-db
