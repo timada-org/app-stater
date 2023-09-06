@@ -29,9 +29,6 @@ deny:
 udeps:
 	cargo udeps -p starter-feed -p starter-cli -p timada-starter-client -p starter-app -p starter-api -p starter-core -p starter-components
 
-udeps.leptos:
-	echo "No leptos anymore"
-
 advisory.clean:
 	rm -rf ~/.cargo/advisory-db
 
