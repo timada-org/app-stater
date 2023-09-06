@@ -9,7 +9,6 @@ starter-components = { path = "../components", version = "0.2.4" }
 starter-core = { path = "../core", version = "0.2.4" }
 timada-starter-client = { path = "../client", default-features = false, version = "0.2.4" }
 axum = "0.6.20"
-anyhow = "1.0.75"
 leptos = "0.5.0-beta2"
 tonic = { version = "0.10.0", features = ["tls"]}
 prost = "0.12.0"
