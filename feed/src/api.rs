@@ -1,4 +1,4 @@
-use starter_feed::add;
+use crate::add;
 use timada_starter_client::{
     feed_server::Feed, CreateFeedRequest, CreateFeedResponse, ListFeedsRequest, ListFeedsResponse,
 };

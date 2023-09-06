@@ -1,21 +1,82 @@
-use cfg_if::cfg_if;
-pub mod app;
-pub mod error_template;
-pub mod fileserv;
+mod config;
 
-cfg_if! { if #[cfg(feature = "hydrate")] {
-    use leptos::*;
-    use wasm_bindgen::prelude::wasm_bindgen;
-    use crate::app::*;
+use anyhow::Result;
+use axum::{
+    extract::State,
+    http::{header, StatusCode, Uri},
+    response::IntoResponse,
+    routing::get,
+    Router,
+};
+use leptos::*;
+use rust_embed::RustEmbed;
+use starter_components::Page;
+use starter_core::AppState;
+use tracing::info;
 
-    #[wasm_bindgen]
-    pub fn hydrate() {
-        // initializes logging using the `log` crate
-        _ = console_log::init_with_level(log::Level::Debug);
-        console_error_panic_hook::set_once();
+use crate::config::StarterConfig;
 
-        leptos::mount_to_body(move |cx| {
-            view! { cx, <App/> }
-        });
+async fn root(State(app): State<AppState>) -> impl IntoResponse {
+    app.render_to_string(|| {
+        view! {
+            <Page>
+                "Hello"
+            </Page>
+        }
+    })
+}
+
+pub async fn serve() -> Result<()> {
+    let config = StarterConfig::new()?;
+    let app_state = AppState {
+        config: config.app.clone(),
+    };
+
+    let router = Router::new()
+        .route("/", get(root))
+        .nest("/feed", starter_feed::create_router());
+
+    let app = match config.app.base_url {
+        Some(base_url) => Router::new().nest(&base_url, router),
+        _ => router,
     }
-}}
+    .fallback(get(static_handler))
+    .with_state(app_state);
+
+    let addr = config.app.addr.parse()?;
+
+    info!("app listening on http://{}", &addr);
+
+    axum::Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await?;
+
+    Ok(())
+}
+
+#[derive(RustEmbed)]
+#[folder = "public/"]
+#[prefix = "/static/"]
+struct Asset;
+
+async fn static_handler(uri: Uri, State(app): State<AppState>) -> impl IntoResponse {
+    let uri = uri.to_string();
+    let path = app
+        .config
+        .base_url
+        .map(|base_url| {
+            let mut uri = uri.to_owned();
+            uri.replace_range(0..base_url.len(), "");
+
+            uri
+        })
+        .unwrap_or(uri);
+
+    match Asset::get(path.as_str()) {
+        Some(content) => {
+            let mime = mime_guess::from_path(path).first_or_octet_stream();
+            ([(header::CONTENT_TYPE, mime.as_ref())], content.data).into_response()
+        }
+        None => (StatusCode::NOT_FOUND, "404 Not Found").into_response(),
+    }
+}

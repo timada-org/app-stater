@@ -1,14 +1,33 @@
-use clap::Command;
-use std::process;
+use clap::{value_parser, Arg, ArgAction, Command};
+use std::str::FromStr;
+use tracing::{error, Level};
 
 #[tokio::main]
 async fn main() {
     let matches = Command::new(env!("CARGO_PKG_NAME"))
         .version(env!("CARGO_PKG_VERSION"))
         .arg_required_else_help(true)
+        .arg(
+            Arg::new("log")
+                .long("log")
+                .help("Log level")
+                .value_parser(value_parser!(String))
+                .action(ArgAction::Set),
+        )
         .subcommand(Command::new("migrate").about("Migrate database schema to latest"))
         .subcommand(Command::new("serve").about("Start starter server using bin"))
         .get_matches();
+
+    let subscriber = tracing_subscriber::FmtSubscriber::builder()
+        .with_max_level(
+            matches
+                .get_one::<String>("log")
+                .map(|log| Level::from_str(log).expect("failed to deserialize log"))
+                .unwrap_or(Level::ERROR),
+        )
+        .finish();
+
+    tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
 
     match matches.subcommand() {
         Some(("migrate", _sub_matches)) => {
@@ -18,9 +37,18 @@ async fn main() {
             println!("Reset database...");
         }
         Some(("serve", _sub_matches)) => {
-            process::Command::new("starter-server")
-                .status()
-                .expect("failed to execute starter-server");
+            let res = tokio::join! {
+                starter_api::serve(),
+                starter_app::serve()
+            };
+
+            match res {
+                (_, Err(e)) | (Err(e), _) => {
+                    error!("{}", e);
+                    std::process::exit(1);
+                }
+                _ => {}
+            };
         }
         _ => unreachable!(),
     };
