@@ -1,6 +1,6 @@
 use leptos::*;
 
-use crate::use_app;
+use crate::context::use_app;
 
 #[component]
 pub fn Page(

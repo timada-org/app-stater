@@ -1,4 +1,7 @@
+mod component;
 mod config;
+mod context;
+mod router;
 
 use anyhow::Result;
 use axum::{
@@ -8,29 +11,21 @@ use axum::{
     routing::get,
     Router,
 };
+use component::Page;
 use leptos::*;
 use rust_embed::RustEmbed;
-use starter_components::Page;
-use starter_core::AppState;
 use tracing::info;
+use router::AppState;
 
-use crate::config::StarterConfig;
-
-async fn root(State(app): State<AppState>) -> impl IntoResponse {
-    app.render_to_string(|| {
-        view! { <Page>"Hello"</Page> }
-    })
-}
+use crate::config::Config;
 
 pub async fn serve() -> Result<()> {
-    let config = StarterConfig::new()?;
+    let config = Config::new()?;
     let app_state = AppState {
         config: config.app.clone(),
     };
 
-    let router = Router::new()
-        .route("/", get(root))
-        .nest("/feed", starter_feed::create_router());
+    let router = router::create_router();
 
     let app = match config.app.base_url {
         Some(base_url) => Router::new().nest(&base_url, router),

@@ -1,5 +1,4 @@
-use crate::add;
-use timada_starter_client::{
+use starter_feed::{
     feed_server::Feed, CreateFeedRequest, CreateFeedResponse, ListFeedsRequest, ListFeedsResponse,
 };
 use tonic::{Request, Response, Status};
@@ -13,8 +12,7 @@ impl Feed for FeedService {
         &self,
         _request: Request<CreateFeedRequest>,
     ) -> Result<Response<CreateFeedResponse>, Status> {
-        let e = add(1, 2);
-        println!("{}", e);
+        println!("FeedService.create");
         Ok(Response::new(CreateFeedResponse { success: true }))
     }
 
@@ -22,6 +20,7 @@ impl Feed for FeedService {
         &self,
         _request: Request<ListFeedsRequest>,
     ) -> Result<Response<ListFeedsResponse>, Status> {
+        println!("FeedService.list");
         Ok(Response::new(ListFeedsResponse { success: true }))
     }
 }

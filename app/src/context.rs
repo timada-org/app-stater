@@ -1,17 +1,17 @@
-mod page;
-
 use leptos::use_context;
-pub use page::*;
+
+use crate::config::AppConfig;
 
 #[derive(Debug, Clone)]
 pub struct AppContext {
-    pub base_url: Option<String>,
+    pub config: AppConfig,
 }
 
 impl AppContext {
     pub fn create_url(&self, uri: impl Into<String>) -> String {
         let uri = uri.into();
-        self.base_url
+        self.config
+            .base_url
             .as_ref()
             .map(|base_url| format!("{base_url}{}", uri))
             .unwrap_or(uri)

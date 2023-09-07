@@ -1,7 +1,6 @@
 use axum::{body::Body, extract::State, response::IntoResponse, routing::get, Router};
 use leptos::*;
-use starter_components::*;
-use starter_core::AppState;
+use crate::{component::Page, AppState};
 
 pub async fn root(State(app): State<AppState>) -> impl IntoResponse {
     app.render_to_string(|| {

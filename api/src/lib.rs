@@ -1,15 +1,15 @@
 mod config;
+mod feed;
 
 use anyhow::Result;
-use timada_starter_client::feed_server::FeedServer;
+use starter_feed::feed_server::FeedServer;
 use tonic::transport::Server;
 use tracing::info;
 
-use crate::config::StarterConfig;
-use starter_feed::FeedService;
+use crate::{config::Config, feed::FeedService};
 
 pub async fn serve() -> Result<()> {
-    let config = StarterConfig::new()?;
+    let config = Config::new()?;
     let addr = config.api.addr.parse()?;
 
     let feed_service = FeedService;
