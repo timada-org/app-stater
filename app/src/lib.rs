@@ -13,9 +13,9 @@ use axum::{
 };
 use component::Page;
 use leptos::*;
+use router::AppState;
 use rust_embed::RustEmbed;
 use tracing::info;
-use router::AppState;
 
 use crate::config::Config;
 
