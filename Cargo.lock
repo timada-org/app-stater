@@ -2024,7 +2024,6 @@ dependencies = [
  "prost",
  "serde",
  "starter-feed",
- "timada-starter-client",
  "tokio",
  "tonic",
  "tower",
@@ -2042,9 +2041,6 @@ dependencies = [
  "mime_guess",
  "rust-embed",
  "serde",
- "starter-components",
- "starter-core",
- "starter-feed",
  "tokio",
  "tower",
  "tracing",
@@ -2063,38 +2059,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "starter-components"
-version = "0.2.4"
-dependencies = [
- "leptos",
-]
-
-[[package]]
-name = "starter-core"
-version = "0.2.4"
-dependencies = [
- "axum",
- "leptos",
- "serde",
- "starter-components",
-]
-
-[[package]]
 name = "starter-feed"
 version = "0.2.4"
 dependencies = [
- "axum",
- "config",
- "leptos",
  "prost",
- "serde",
- "starter-components",
- "starter-core",
- "timada-starter-client",
- "tokio",
+ "prost-derive",
+ "prost-types",
  "tonic",
- "tower",
- "tracing",
+ "tonic-build",
 ]
 
 [[package]]
@@ -2190,13 +2162,9 @@ dependencies = [
 name = "timada-starter-client"
 version = "0.2.4"
 dependencies = [
- "cfg-if",
  "http",
- "prost",
- "prost-derive",
- "prost-types",
+ "starter-feed",
  "tonic",
- "tonic-build",
 ]
 
 [[package]]

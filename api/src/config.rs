@@ -1,4 +1,4 @@
-use config::{Config, ConfigError, Environment, File};
+use config::{ConfigError, Environment, File};
 use serde::Deserialize;
 use std::env;
 
@@ -16,17 +16,17 @@ impl Default for ApiConfig {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct StarterConfig {
+pub struct Config {
     #[serde(default)]
     pub api: ApiConfig,
 }
 
-impl StarterConfig {
+impl Config {
     pub fn new() -> Result<Self, ConfigError> {
         let config_path = env::var("STARTER_CONFIG_PATH");
         let config_path_required = config_path.is_ok();
 
-        Config::builder()
+        config::Config::builder()
             .add_source(
                 File::with_name(&config_path.unwrap_or_default()).required(config_path_required),
             )

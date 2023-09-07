@@ -1,8 +1,0 @@
-[package]
-name = "starter-components"
-version = "0.2.4"
-edition = "2021"
-license = "AGPL-3.0"
-
-[dependencies]
-leptos = "0.5.0-beta2"
