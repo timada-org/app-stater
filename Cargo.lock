@@ -2041,7 +2041,6 @@ dependencies = [
  "mime_guess",
  "rust-embed",
  "serde",
- "starter-feed",
  "tokio",
  "tower",
  "tracing",
@@ -2064,6 +2063,8 @@ name = "starter-feed"
 version = "0.2.4"
 dependencies = [
  "prost",
+ "prost-derive",
+ "prost-types",
  "tonic",
  "tonic-build",
 ]
@@ -2162,9 +2163,6 @@ name = "timada-starter-client"
 version = "0.2.4"
 dependencies = [
  "http",
- "prost",
- "prost-derive",
- "prost-types",
  "starter-feed",
  "tonic",
 ]
