@@ -27,7 +27,7 @@ deny:
 	cargo deny check
 
 udeps:
-	cargo udeps -p starter-feed -p starter-cli -p timada-starter-client -p starter-app -p starter-api
+	cargo udeps -p starter-feed -p starter-cli -p timada-starter-client -p starter-app -p starter-api -p starter-core
 
 advisory.clean:
 	rm -rf ~/.cargo/advisory-db

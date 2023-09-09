@@ -1,15 +1,6 @@
-mod feed;
-
-use crate::{config::AppConfig, context::AppContext, Page};
-use axum::{
-    body::Body,
-    extract::State,
-    response::{Html, IntoResponse},
-    routing::get,
-    Router,
-};
+use crate::{config::AppConfig, context::AppContext};
+use axum::response::{Html, IntoResponse};
 use i18n_embed::fluent::FluentLanguageLoader;
-use i18n_embed_fl::fl;
 use leptos::*;
 use unic_langid::LanguageIdentifier;
 
@@ -49,18 +40,4 @@ impl AppState {
 
         crate::i18n::LANGUAGE_LOADER.select_languages(&langs)
     }
-}
-
-async fn root(State(app): State<AppState>) -> impl IntoResponse {
-    let language_loader = app.language_loader(&["fr".to_owned()]);
-
-    app.render_to_string(|| {
-        view! { <Page>{fl!(language_loader, "hello-world")}</Page> }
-    })
-}
-
-pub fn create_router() -> Router<AppState, Body> {
-    Router::new()
-        .route("/", get(root))
-        .nest("/feed", feed::create_router())
 }

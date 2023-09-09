@@ -1,2 +1,5 @@
-hello-world = Bonjour le monde!
-hello-world-feed = Bonjour le monde feed!
+# root
+root_hello-world = Bonjour le monde!
+
+# feed/root
+feed-root_hello-world = Bonjour le monde feed!

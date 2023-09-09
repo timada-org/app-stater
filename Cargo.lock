@@ -2257,6 +2257,7 @@ dependencies = [
  "anyhow",
  "axum",
  "config",
+ "http",
  "i18n-embed",
  "i18n-embed-fl",
  "leptos",
@@ -2264,6 +2265,7 @@ dependencies = [
  "once_cell",
  "rust-embed 8.0.0",
  "serde",
+ "starter-core",
  "tokio",
  "tower",
  "tracing",
@@ -2280,6 +2282,14 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "starter-core"
+version = "0.2.4"
+dependencies = [
+ "axum",
+ "http",
 ]
 
 [[package]]

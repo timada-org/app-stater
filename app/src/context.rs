@@ -23,5 +23,5 @@ impl AppContext {
 }
 
 pub fn use_app() -> AppContext {
-    use_context::<AppContext>().expect("AppContext not configured correctly")
+    use_context().expect("AppContext not configured correctly")
 }

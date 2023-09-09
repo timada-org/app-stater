@@ -1,8 +1,9 @@
-mod component;
+mod components;
 mod config;
 mod context;
+mod routes;
+mod state;
 mod i18n;
-mod router;
 
 use anyhow::Result;
 use axum::{
@@ -10,28 +11,34 @@ use axum::{
     http::{header, StatusCode, Uri},
     response::IntoResponse,
     routing::get,
-    Router,
+    Extension, Router,
 };
-use component::Page;
 use leptos::*;
-use router::AppState;
 use rust_embed::RustEmbed;
+use starter_core::axum_extra::{AcceptLanguageSource, QuerySource, UserLanguage};
 use tracing::info;
 
-use crate::config::Config;
+use crate::{config::Config, state::AppState};
 
 pub async fn serve() -> Result<()> {
     let config = Config::new()?;
+
     let app_state = AppState {
         config: config.app.clone(),
     };
 
-    let router = router::create_router();
+    let router = routes::create_router();
 
     let app = match config.app.base_url {
         Some(base_url) => Router::new().nest(&base_url, router),
         _ => router,
     }
+    .layer(Extension(
+        UserLanguage::config()
+            .add_source(QuerySource::new("lang"))
+            .add_source(AcceptLanguageSource)
+            .build(),
+    ))
     .fallback(get(static_handler))
     .with_state(app_state);
 
