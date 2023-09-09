@@ -5,6 +5,7 @@ edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
+#timada-starter-feed = { path = "../feed", version = "0.3.0" }
 starter-core = { path = "../core", version = "0.3.0" }
 axum = "0.6.20"
 anyhow = "1.0.75"
