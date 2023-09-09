@@ -1,13 +1,13 @@
 [package]
 name = "starter-api"
-version = "0.2.4"
+version = "0.3.0"
 edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
-starter-feed = { path = "../feed", features = ["proto"], version = "0.2.4" }
+starter-feed = { path = "../feed", features = ["proto"], version = "0.3.0" }
 anyhow = "1.0.75"
-tonic = { version = "0.10.0", features = ["tls"]}
+tonic = { version = "0.10.0", features = ["tls"] }
 prost = "0.12.0"
 tokio = "1.32.0"
 tower = { version = "0.4.13", features = ["util"] }
