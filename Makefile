@@ -21,7 +21,7 @@ test: #reset
 
 fmt:
 	cargo fmt -- --emit files
-	leptosfmt .
+	leptosfmt ./*/src/**/*.rs
 
 deny:
 	cargo deny check

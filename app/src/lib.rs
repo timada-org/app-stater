@@ -1,9 +1,9 @@
 mod components;
 mod config;
 mod context;
+mod i18n;
 mod routes;
 mod state;
-mod i18n;
 
 use anyhow::Result;
 use axum::{
