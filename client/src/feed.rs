@@ -1,6 +1,7 @@
-use crate::Client;
-use starter_feed::{feed_client::FeedClient, CreateFeedRequest, CreateFeedResponse};
+use timada_starter_feed::{feed_client::FeedClient, CreateFeedRequest, CreateFeedResponse};
 use tonic::Status;
+
+use crate::Client;
 
 impl Client {
     pub async fn create_feed(
