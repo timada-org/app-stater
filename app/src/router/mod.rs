@@ -8,7 +8,10 @@ use axum::{
     routing::get,
     Router,
 };
+use i18n_embed::fluent::FluentLanguageLoader;
+use i18n_embed_fl::fl;
 use leptos::*;
+use unic_langid::LanguageIdentifier;
 
 #[derive(Debug, Clone)]
 pub struct AppState {
@@ -37,11 +40,22 @@ impl AppState {
 
         Html(html.to_string())
     }
+
+    pub fn language_loader(&self, langs: &[String]) -> FluentLanguageLoader {
+        let langs = langs
+            .iter()
+            .map(|lang| lang.parse().unwrap())
+            .collect::<Vec<LanguageIdentifier>>();
+
+        crate::i18n::LANGUAGE_LOADER.select_languages(&langs)
+    }
 }
 
 async fn root(State(app): State<AppState>) -> impl IntoResponse {
+    let language_loader = app.language_loader(&["fr".to_owned()]);
+
     app.render_to_string(|| {
-        view! { <Page>"Hello"</Page> }
+        view! { <Page>{fl!(language_loader, "hello-world")}</Page> }
     })
 }
 

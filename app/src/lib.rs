@@ -1,6 +1,7 @@
 mod component;
 mod config;
 mod context;
+mod i18n;
 mod router;
 
 use anyhow::Result;
@@ -48,7 +49,7 @@ pub async fn serve() -> Result<()> {
 #[derive(RustEmbed)]
 #[folder = "public/"]
 #[prefix = "/static/"]
-struct Asset;
+struct Assets;
 
 async fn static_handler(uri: Uri, State(app): State<AppState>) -> impl IntoResponse {
     let uri = uri.to_string();
@@ -57,13 +58,16 @@ async fn static_handler(uri: Uri, State(app): State<AppState>) -> impl IntoRespo
         .base_url
         .map(|base_url| {
             let mut uri = uri.to_owned();
-            uri.replace_range(0..base_url.len(), "");
+
+            if uri.starts_with(&base_url) {
+                uri.replace_range(0..base_url.len(), "");
+            }
 
             uri
         })
         .unwrap_or(uri);
 
-    match Asset::get(path.as_str()) {
+    match Assets::get(path.as_str()) {
         Some(content) => {
             let mime = mime_guess::from_path(path).first_or_octet_stream();
             ([(header::CONTENT_TYPE, mime.as_ref())], content.data).into_response()
