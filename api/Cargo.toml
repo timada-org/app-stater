@@ -5,7 +5,7 @@ edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
-starter-feed = { path = "../feed", features = ["proto"], version = "0.3.0" }
+timada-starter-feed = { path = "../feed", features = ["proto"], version = "0.3.0" }
 anyhow = "1.0.75"
 tonic = { version = "0.10.0", features = ["tls"] }
 prost = "0.12.0"

@@ -2273,7 +2273,7 @@ dependencies = [
  "config",
  "prost",
  "serde",
- "starter-feed",
+ "timada-starter-feed",
  "tokio",
  "tonic",
  "tower",
@@ -2320,17 +2320,6 @@ version = "0.3.0"
 dependencies = [
  "axum",
  "http",
-]
-
-[[package]]
-name = "starter-feed"
-version = "0.3.0"
-dependencies = [
- "prost",
- "prost-derive",
- "prost-types",
- "tonic",
- "tonic-build",
 ]
 
 [[package]]
@@ -2427,8 +2416,19 @@ name = "timada-starter-client"
 version = "0.3.0"
 dependencies = [
  "http",
- "starter-feed",
+ "timada-starter-feed",
  "tonic",
+]
+
+[[package]]
+name = "timada-starter-feed"
+version = "0.3.0"
+dependencies = [
+ "prost",
+ "prost-derive",
+ "prost-types",
+ "tonic",
+ "tonic-build",
 ]
 
 [[package]]
