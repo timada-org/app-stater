@@ -2267,7 +2267,7 @@ checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
 name = "starter-api"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "config",
@@ -2282,7 +2282,7 @@ dependencies = [
 
 [[package]]
 name = "starter-app"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "anyhow",
  "axum",
@@ -2304,7 +2304,7 @@ dependencies = [
 
 [[package]]
 name = "starter-cli"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "clap",
  "starter-api",
@@ -2316,7 +2316,7 @@ dependencies = [
 
 [[package]]
 name = "starter-core"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "axum",
  "http",
@@ -2413,7 +2413,7 @@ dependencies = [
 
 [[package]]
 name = "timada-starter-client"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "http",
  "timada-starter-feed",
@@ -2422,7 +2422,7 @@ dependencies = [
 
 [[package]]
 name = "timada-starter-feed"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "prost",
  "prost-derive",
