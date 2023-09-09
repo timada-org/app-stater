@@ -25,10 +25,10 @@ impl UserLanguageSource for AcceptLanguageSource {
 }
 
 fn parse_quality_values(values: &str) -> Vec<(&str, f32)> {
-    let mut values = values.split(',');
+    let values = values.split(',');
     let mut quality_values = Vec::new();
 
-    while let Some(value) = values.next() {
+    for value in values {
         let mut value = value.trim().split(';');
         let (value, quality) = (value.next(), value.next());
 
