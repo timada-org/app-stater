@@ -13,20 +13,23 @@ use axum::{
     routing::get,
     Extension, Router,
 };
+use evento_store::PgEngine;
 use leptos::*;
 use rust_embed::RustEmbed;
+use sqlx::PgPool;
 use starter_core::axum_extra::{AcceptLanguageSource, QuerySource, UserLanguage};
 use tracing::info;
+use twa_jwks::JwksClient;
 
 use crate::{config::Config, state::AppState};
 
 pub async fn serve() -> Result<()> {
     let config = Config::new()?;
+    let state_config = config.app.clone();
 
-    let app_state = AppState {
-        config: config.app.clone(),
-    };
-
+    let jwks = JwksClient::build(config.app.jwks_url).await?;
+    let db = PgPool::connect(&config.dsn).await?;
+    let store = PgEngine::new(db);
     let router = routes::create_router();
 
     let app = match config.app.base_url {
@@ -39,8 +42,12 @@ pub async fn serve() -> Result<()> {
             .add_source(AcceptLanguageSource)
             .build(),
     ))
+    .layer(Extension(jwks))
     .fallback(get(static_handler))
-    .with_state(app_state);
+    .with_state(AppState {
+        config: state_config,
+        store,
+    });
 
     let addr = config.app.addr.parse()?;
 

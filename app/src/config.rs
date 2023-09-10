@@ -6,6 +6,7 @@ use std::env;
 pub struct AppConfig {
     pub addr: String,
     pub base_url: Option<String>,
+    pub jwks_url: Option<String>,
 }
 
 impl Default for AppConfig {
@@ -13,6 +14,9 @@ impl Default for AppConfig {
         Self {
             addr: "0.0.0.0:3000".to_string(),
             base_url: Some("/starter".to_owned()),
+            jwks_url: Some(
+                "http://127.0.0.1:4456/.well-known/jwks.json".to_owned(),
+            ),
         }
     }
 }
@@ -21,6 +25,13 @@ impl Default for AppConfig {
 pub struct Config {
     #[serde(default)]
     pub app: AppConfig,
+
+    #[serde(default = "default_dsn")]
+    pub dsn: String,
+}
+
+fn default_dsn() -> String {
+    "cockroach://starter@127.0.0.1:26257/starter?sslmode=disable".to_owned()
 }
 
 impl Config {

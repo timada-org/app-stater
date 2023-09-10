@@ -37,18 +37,15 @@ async fn main() {
             println!("Reset database...");
         }
         Some(("serve", _sub_matches)) => {
-            let res = tokio::join! {
+            let res = tokio::try_join! {
                 starter_api::serve(),
                 starter_app::serve()
             };
 
-            match res {
-                (_, Err(e)) | (Err(e), _) => {
-                    error!("{}", e);
-                    std::process::exit(1);
-                }
-                _ => {}
-            };
+            if let Err(e) = res {
+                error!("{}", e);
+                std::process::exit(1);
+            }
         }
         _ => unreachable!(),
     };

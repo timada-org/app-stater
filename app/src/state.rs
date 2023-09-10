@@ -1,12 +1,16 @@
-use crate::{config::AppConfig, context::AppContext};
 use axum::response::{Html, IntoResponse};
+use evento_store::{PgEngine, EventStore};
 use i18n_embed::fluent::FluentLanguageLoader;
 use leptos::*;
 use unic_langid::LanguageIdentifier;
+use serde::Deserialize;
 
-#[derive(Debug, Clone)]
+use crate::{config::AppConfig, context::AppContext};
+
+#[derive(Clone)]
 pub struct AppState {
     pub config: AppConfig,
+    pub store: EventStore<PgEngine>,
 }
 
 impl AppState {
@@ -40,4 +44,9 @@ impl AppState {
 
         crate::i18n::LANGUAGE_LOADER.select_languages(&langs)
     }
+}
+
+#[derive(Deserialize)]
+pub(crate) struct JwtClaims {
+    pub _sub: String,
 }
