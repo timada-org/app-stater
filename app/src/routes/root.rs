@@ -9,9 +9,9 @@ use crate::{components::*, state::JwtClaims};
 use super::AppState;
 
 pub(super) async fn root(State(app): State<AppState>, lang: UserLanguage, JwtPayload(_jwt): JwtPayload<JwtClaims>) -> impl IntoResponse {
-    let lang_loader = app.language_loader(lang.preferred_languages());
+    let fl_loader = app.language_loader(lang.preferred_languages());
 
     app.render_to_string(|| {
-        view! { <Page>{fl!(lang_loader, "root_hello-world")}</Page> }
+        view! { <Page>{fl!(fl_loader, "root_hello-world")}</Page> }
     })
 }
