@@ -13,7 +13,7 @@ use axum::{
     routing::get,
     Extension, Router,
 };
-use evento_store::PgEngine;
+use evento::PgEngine;
 use leptos::*;
 use rust_embed::RustEmbed;
 use sqlx::PgPool;
@@ -29,7 +29,13 @@ pub async fn serve() -> Result<()> {
 
     let jwks = JwksClient::build(config.app.jwks_url).await?;
     let db = PgPool::connect(&config.dsn).await?;
-    let store = PgEngine::new(db);
+
+    sqlx::migrate!().run(&db).await?;
+
+    let evento = PgEngine::new(db)
+        .name(&config.region)
+        .run(config.app.evento_delay.unwrap_or(30))
+        .await?;
     let router = routes::create_router();
 
     let app = match config.app.base_url {
@@ -46,7 +52,7 @@ pub async fn serve() -> Result<()> {
     .fallback(get(static_handler))
     .with_state(AppState {
         config: state_config,
-        store,
+        evento,
     });
 
     let addr = config.app.addr.parse()?;

@@ -1,3 +1,3 @@
-mod user_feeds;
+mod feeds;
 
-pub use user_feeds::*;
+pub use feeds::*;

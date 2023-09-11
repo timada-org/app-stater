@@ -23,6 +23,7 @@ unic-langid = "0.9.1"
 http = "0.2.9"
 twa-jwks = { version = "1.2.0", features = ["axum"] }
 sqlx = { version = "0.7.1", features = [ "runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "json" ] }
+evento = "0.6.3"
 evento-store = "0.6.3"
 evento-axum = "0.6.3"
 evento-query = "0.6.3"

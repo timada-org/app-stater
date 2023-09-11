@@ -4,6 +4,7 @@ use i18n_embed::{
 };
 use once_cell::sync::Lazy;
 use rust_embed::RustEmbed;
+use unic_langid::LanguageIdentifier;
 
 #[derive(RustEmbed)]
 #[folder = "i18n/"]
@@ -19,4 +20,10 @@ pub(crate) static LANGUAGE_LOADER: Lazy<FluentLanguageLoader> = Lazy::new(|| {
         .expect("Error while loading fallback language");
 
     loader
+});
+
+pub(crate) static LANGUAGES: Lazy<Vec<LanguageIdentifier>> = Lazy::new(|| {
+    LANGUAGE_LOADER
+        .available_languages(&Localizations)
+        .expect("Error while loading fallback language")
 });

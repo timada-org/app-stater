@@ -8,10 +8,15 @@ use crate::{components::*, state::JwtClaims};
 
 use super::AppState;
 
-pub(super) async fn root(State(app): State<AppState>, lang: UserLanguage, JwtPayload(_jwt): JwtPayload<JwtClaims>) -> impl IntoResponse {
-    let fl_loader = app.language_loader(lang.preferred_languages());
+pub(super) async fn root(
+    State(app): State<AppState>,
+    user_lang: UserLanguage,
+    JwtPayload(_jwt): JwtPayload<JwtClaims>,
+) -> impl IntoResponse {
+    let fl_loader = app.language_loader(user_lang.preferred_languages());
+    let lang = app.lang(&fl_loader);
 
-    app.render_to_string(|| {
-        view! { <Page>{fl!(fl_loader, "root_hello-world")}</Page> }
+    app.render_to_string(move || {
+        view! { <Page lang=lang>{fl!(fl_loader, "root_hello-world")}</Page> }
     })
 }

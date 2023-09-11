@@ -7,10 +7,11 @@ use crate::{components::Page, AppState};
 
 pub async fn root(State(app): State<AppState>, lang: UserLanguage) -> impl IntoResponse {
     let fl_loader = app.language_loader(lang.preferred_languages());
+    let lang = app.lang(&fl_loader);
 
     app.render_to_string(|| {
         view! {
-            <Page title="Feed">{fl!(fl_loader, "feed-root_hello-world")}</Page>
+            <Page lang=lang title="Feed">{fl!(fl_loader, "feed-root_hello-world")}</Page>
         }
     })
 }

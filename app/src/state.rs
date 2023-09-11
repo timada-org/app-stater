@@ -1,16 +1,21 @@
 use axum::response::{Html, IntoResponse};
-use evento_store::{PgEngine, EventStore};
-use i18n_embed::fluent::FluentLanguageLoader;
+use evento::Producer;
+use evento_store::PgEngine;
+use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
 use leptos::*;
-use unic_langid::LanguageIdentifier;
 use serde::Deserialize;
+use unic_langid::LanguageIdentifier;
 
-use crate::{config::AppConfig, context::AppContext};
+use crate::{
+    config::AppConfig,
+    context::AppContext,
+    i18n::{LANGUAGES, LANGUAGE_LOADER},
+};
 
 #[derive(Clone)]
 pub struct AppState {
     pub config: AppConfig,
-    pub store: EventStore<PgEngine>,
+    pub evento: Producer<PgEngine>,
 }
 
 impl AppState {
@@ -42,11 +47,26 @@ impl AppState {
             .map(|lang| lang.parse().unwrap())
             .collect::<Vec<LanguageIdentifier>>();
 
-        crate::i18n::LANGUAGE_LOADER.select_languages(&langs)
+        LANGUAGE_LOADER.select_languages(&langs)
+    }
+
+    pub fn lang(&self, loader: &FluentLanguageLoader) -> String {
+        loader
+            .current_languages()
+            .iter()
+            .find_map(|language| {
+                println!("{}", LANGUAGES.contains(&language));
+                if LANGUAGES.contains(&language) {
+                    Some(language.to_string())
+                } else {
+                    None
+                }
+            })
+            .unwrap_or(loader.fallback_language().to_string())
     }
 }
 
 #[derive(Deserialize)]
 pub(crate) struct JwtClaims {
-    pub _sub: String,
+    pub sub: String,
 }

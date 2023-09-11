@@ -2983,6 +2983,7 @@ dependencies = [
  "anyhow",
  "axum",
  "config",
+ "evento",
  "evento-axum",
  "evento-query",
  "evento-store",
