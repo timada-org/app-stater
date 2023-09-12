@@ -1360,6 +1360,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "if_chain"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cb56e1aa765b4b4f3aadfab769793b7087bb03a4ea4920644a6d238e2df5b9ed"
+
+[[package]]
 name = "indexmap"
 version = "1.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1875,6 +1881,32 @@ dependencies = [
  "redox_syscall",
  "smallvec",
  "windows-targets",
+]
+
+[[package]]
+name = "parse-display"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c6509d08722b53e8dafe97f2027b22ccbe3a5db83cb352931e9716b0aa44bc5c"
+dependencies = [
+ "once_cell",
+ "parse-display-derive",
+ "regex",
+]
+
+[[package]]
+name = "parse-display-derive"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "68517892c8daf78da08c0db777fcc17e07f2f63ef70041718f8a7630ad84f341"
+dependencies = [
+ "once_cell",
+ "proc-macro2",
+ "quote",
+ "regex",
+ "regex-syntax",
+ "structmeta",
+ "syn 2.0.31",
 ]
 
 [[package]]
@@ -2986,7 +3018,6 @@ dependencies = [
  "evento",
  "evento-axum",
  "evento-query",
- "evento-store",
  "http",
  "i18n-embed",
  "i18n-embed-fl",
@@ -2997,11 +3028,13 @@ dependencies = [
  "serde",
  "sqlx",
  "starter-core",
+ "timada-starter-feed",
  "tokio",
  "tower",
  "tracing",
  "twa-jwks",
  "unic-langid",
+ "validator",
 ]
 
 [[package]]
@@ -3040,6 +3073,29 @@ name = "strsim"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
+
+[[package]]
+name = "structmeta"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "78ad9e09554f0456d67a69c1584c9798ba733a5b50349a6c0d0948710523922d"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "structmeta-derive",
+ "syn 2.0.31",
+]
+
+[[package]]
+name = "structmeta-derive"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a60bcaff7397072dca0017d1db428e30d5002e00b6847703e2e42005c95fbe00"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.31",
+]
 
 [[package]]
 name = "subtle"
@@ -3143,11 +3199,18 @@ dependencies = [
 name = "timada-starter-feed"
 version = "0.3.1"
 dependencies = [
+ "anyhow",
+ "evento",
+ "parse-display",
  "prost",
  "prost-derive",
  "prost-types",
+ "serde",
  "tonic",
  "tonic-build",
+ "tracing",
+ "ulid",
+ "validator",
 ]
 
 [[package]]
@@ -3489,6 +3552,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed646292ffc8188ef8ea4d1e0e0150fb15a5c2e12ad9b8fc191ae7a8a7f3c4b9"
 
 [[package]]
+name = "ulid"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7e37c4b6cbcc59a8dcd09a6429fbc7890286bcbb79215cea7b38a3c4c0921d93"
+dependencies = [
+ "rand",
+]
+
+[[package]]
 name = "unic-langid"
 version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3623,6 +3695,48 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.31",
+]
+
+[[package]]
+name = "validator"
+version = "0.16.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b92f40481c04ff1f4f61f304d61793c7b56ff76ac1469f1beb199b1445b253bd"
+dependencies = [
+ "idna",
+ "lazy_static",
+ "regex",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "validator_derive",
+]
+
+[[package]]
+name = "validator_derive"
+version = "0.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc44ca3088bb3ba384d9aecf40c6a23a676ce23e09bdaca2073d99c207f864af"
+dependencies = [
+ "if_chain",
+ "lazy_static",
+ "proc-macro-error",
+ "proc-macro2",
+ "quote",
+ "regex",
+ "syn 1.0.109",
+ "validator_types",
+]
+
+[[package]]
+name = "validator_types"
+version = "0.16.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "111abfe30072511849c5910134e8baf8dc05de4c0e5903d681cbd5c9c4d611e3"
+dependencies = [
+ "proc-macro2",
+ "syn 1.0.109",
 ]
 
 [[package]]

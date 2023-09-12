@@ -14,6 +14,13 @@ tonic = { version = "0.10.0", features = ["tls"] }
 prost = "0.12.0"
 prost-types = "0.12.0"
 prost-derive = "0.12.0"
+evento = "0.6.3"
+anyhow = "1.0.75"
+ulid = "1.1.0"
+parse-display = "0.8.2"
+serde = "1.0.188"
+validator = { version = "0.16.1", features = ["derive"] }
+tracing = "0.1.37"
 
 [build-dependencies]
 tonic-build = { version = "0.10.0", features = ["prost"] }

@@ -1,3 +1,6 @@
+# http-error
+http-errors_500 = Internal Server Error
+
 # root
 root_hello-world = Hello World!
 

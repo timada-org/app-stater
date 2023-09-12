@@ -1,6 +1,6 @@
 use axum::response::{Html, IntoResponse};
-use evento::Producer;
-use evento_store::PgEngine;
+use evento::PgProducer;
+use http::StatusCode;
 use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
 use leptos::*;
 use serde::Deserialize;
@@ -15,7 +15,7 @@ use crate::{
 #[derive(Clone)]
 pub struct AppState {
     pub config: AppConfig,
-    pub evento: Producer<PgEngine>,
+    pub evento: PgProducer,
 }
 
 impl AppState {
@@ -25,7 +25,7 @@ impl AppState {
         }
     }
 
-    pub fn render_to_string<F, N>(&self, f: F) -> impl IntoResponse
+    pub fn html<F, N>(&self, f: F) -> impl IntoResponse
     where
         F: FnOnce() -> N + 'static,
         N: IntoView,
@@ -39,6 +39,22 @@ impl AppState {
         });
 
         Html(html.to_string())
+    }
+
+    pub fn internal_server_error<F, N>(&self, f: F) -> impl IntoResponse
+    where
+        F: FnOnce() -> N + 'static,
+        N: IntoView,
+    {
+        (StatusCode::INTERNAL_SERVER_ERROR, self.html(f))
+    }
+
+    pub fn bad_request<F, N>(&self, f: F) -> impl IntoResponse
+    where
+        F: FnOnce() -> N + 'static,
+        N: IntoView,
+    {
+        (StatusCode::BAD_REQUEST, self.html(f))
     }
 
     pub fn language_loader(&self, langs: &[String]) -> FluentLanguageLoader {

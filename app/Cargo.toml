@@ -6,6 +6,7 @@ license = "AGPL-3.0"
 
 [dependencies]
 starter-core = { path = "../core", version = "0.3.1" }
+timada-starter-feed = { path = "../feed", version = "0.3.1" }
 axum = "0.6.20"
 anyhow = "1.0.75"
 leptos = "0.5.0-beta2"
@@ -24,6 +25,6 @@ http = "0.2.9"
 twa-jwks = { version = "1.2.0", features = ["axum"] }
 sqlx = { version = "0.7.1", features = [ "runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "json" ] }
 evento = "0.6.3"
-evento-store = "0.6.3"
 evento-axum = "0.6.3"
 evento-query = "0.6.3"
+validator = { version = "0.16.1", features = ["derive"] }

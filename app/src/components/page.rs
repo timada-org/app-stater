@@ -26,11 +26,13 @@ pub fn Page(
                 />
 
                 <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+                <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"></script>
+                <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
 
                 {head.map(|head| head())}
             </head>
 
-            <body>{children()}</body>
+            <body hx-ext="response-targets">{children()}</body>
         </html>
     }
 }

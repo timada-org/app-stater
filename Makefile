@@ -8,15 +8,15 @@ down:
 	docker compose down -v --remove-orphans
 
 dev:
-	COBASE_LOG=debug cargo run serve -c configs/default.yml
+	cargo watch -x 'run -- --log debug serve'
 
 lint:
 	cargo clippy --fix --all-features -- -D warnings
 
-sqlx.reset:
+db.reset:
 	sqlx database reset
 
-test: #reset
+test:
 	cargo test
 
 fmt:

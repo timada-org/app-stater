@@ -14,7 +14,6 @@ async fn main() {
                 .value_parser(value_parser!(String))
                 .action(ArgAction::Set),
         )
-        .subcommand(Command::new("migrate").about("Migrate database schema to latest"))
         .subcommand(Command::new("serve").about("Start starter server using bin"))
         .get_matches();
 
@@ -30,12 +29,6 @@ async fn main() {
     tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
 
     match matches.subcommand() {
-        Some(("migrate", _sub_matches)) => {
-            println!("Migration database...");
-        }
-        Some(("reset", _sub_matches)) => {
-            println!("Reset database...");
-        }
         Some(("serve", _sub_matches)) => {
             let res = tokio::try_join! {
                 starter_api::serve(),

@@ -9,7 +9,7 @@ pub async fn root(State(app): State<AppState>, lang: UserLanguage) -> impl IntoR
     let fl_loader = app.language_loader(lang.preferred_languages());
     let lang = app.lang(&fl_loader);
 
-    app.render_to_string(|| {
+    app.html(|| {
         view! {
             <Page lang=lang title="Feed">{fl!(fl_loader, "feed-root_hello-world")}</Page>
         }

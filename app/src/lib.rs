@@ -30,7 +30,7 @@ pub async fn serve() -> Result<()> {
     let jwks = JwksClient::build(config.app.jwks_url).await?;
     let db = PgPool::connect(&config.dsn).await?;
 
-    sqlx::migrate!().run(&db).await?;
+    sqlx::migrate!("../migrations").set_locking(false).run(&db).await?;
 
     let evento = PgEngine::new(db)
         .name(&config.region)
