@@ -1,32 +1,26 @@
-use axum::{extract::State, response::IntoResponse, Form};
-use http::{header, HeaderValue, StatusCode};
+use axum::{response::IntoResponse, Form};
 use i18n_embed_fl::fl;
 use leptos::*;
-use starter_core::axum_extra::UserLanguage;
-use timada_starter_feed::{create_feed, CreateFeedInput};
-use twa_jwks::axum::JwtPayload;
+use timada_starter_feed::CreateFeedInput;
 use validator::Validate;
+use tracing::error;
 
-use crate::{components::*, context::use_app, state::JwtClaims};
+use crate::{
+    components::*,
+    state::{use_app, AppContext},
+};
 
-use super::AppState;
-
-pub(super) async fn root(
-    State(app): State<AppState>,
-    user_lang: UserLanguage,
-    JwtPayload(_jwt): JwtPayload<JwtClaims>,
-) -> impl IntoResponse {
-    let fl_loader = app.language_loader(user_lang.preferred_languages());
-    let lang = app.lang(&fl_loader);
-
-    app.html(move || {
+pub(super) async fn root(ctx: AppContext) -> impl IntoResponse {
+    ctx.html(move || {
         let app = use_app();
+
         view! {
-            <Page lang=lang>
-                {fl!(fl_loader, "root_hello-world")}
+            <Page>
+                {fl!(app.fl_loader, "root_hello-world")}
                 <div id="form-errors"></div>
                 <form
                     hx-post=app.create_url("/_create-feed")
+                    hx-ext="response-targets"
                     hx-swap="beforeend"
                     hx-target="#list-feeds"
                     hx-target-4xx="#form-errors"
@@ -43,35 +37,31 @@ pub(super) async fn root(
 }
 
 pub(super) async fn root_create_feed(
-    State(app): State<AppState>,
-    user_lang: UserLanguage,
-    JwtPayload(_jwt): JwtPayload<JwtClaims>,
+    ctx: AppContext,
     Form(input): Form<CreateFeedInput>,
 ) -> impl IntoResponse {
-    let fl_loader = app.language_loader(user_lang.preferred_languages());
-
     if let Err(e) = input.validate() {
-        return app
+        return ctx
             .bad_request(move || {
                 view! { <div _="init wait 3s remove me">{e.to_string()}</div> }
             })
             .into_response();
     }
 
-    let id = match create_feed(&app.evento, &input).await {
+    let id = match ctx.feed.create(&input).await {
         Ok(events) => events[0].aggregate_id.to_owned(),
         Err(e) => {
             error!("{e}");
 
-            return app
-                .internal_server_error(move || {
-                    view! { <div _="init wait 3s remove me">{fl!(fl_loader, "http-errors_500")}</div> }
-                })
-                .into_response();
+            return ctx
+                .internal_server_error( move || {
+                    let app = use_app();
+                    view! { <div _="init wait 3s remove me">{fl!(app.fl_loader, "http-errors_500")}</div> }
+                }).into_response();
         }
     };
 
-    app.html(move || {
+    ctx.html(move || {
         view! { <li id=id>{input.title}</li> }
     })
     .into_response()

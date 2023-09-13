@@ -1,14 +1,23 @@
-use axum::response::{Html, IntoResponse};
+use axum::{
+    async_trait,
+    extract::FromRequestParts,
+    response::{Html, IntoResponse},
+    Extension, RequestPartsExt,
+};
 use evento::PgProducer;
-use http::StatusCode;
+use http::{request::Parts, StatusCode};
 use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
 use leptos::*;
 use serde::Deserialize;
+use starter_core::axum_extra::UserLanguage;
+use std::sync::Arc;
+use timada_starter_feed::FeedCommand;
+use twa_jwks::axum::JwtPayload;
+use ulid::Ulid;
 use unic_langid::LanguageIdentifier;
 
 use crate::{
     config::AppConfig,
-    context::AppContext,
     i18n::{LANGUAGES, LANGUAGE_LOADER},
 };
 
@@ -18,27 +27,29 @@ pub struct AppState {
     pub evento: PgProducer,
 }
 
-impl AppState {
-    pub fn to_context(&self) -> AppContext {
-        AppContext {
-            config: self.config.clone(),
-        }
-    }
+#[derive(Clone)]
+pub struct AppContext {
+    pub config: AppConfig,
+    pub lang: String,
+    pub fl_loader: Arc<FluentLanguageLoader>,
+    pub jwt_claims: JwtClaims,
+    pub feed: FeedCommand,
+}
 
+impl AppContext {
     pub fn html<F, N>(&self, f: F) -> impl IntoResponse
     where
         F: FnOnce() -> N + 'static,
         N: IntoView,
     {
-        let ctx = self.to_context();
-
+        let ctx = self.clone();
         let html = ssr::render_to_string(move || {
             provide_context(ctx);
 
             f()
         });
 
-        Html(html.to_string())
+        (StatusCode::OK, Html(html.to_string()))
     }
 
     pub fn internal_server_error<F, N>(&self, f: F) -> impl IntoResponse
@@ -57,8 +68,22 @@ impl AppState {
         (StatusCode::BAD_REQUEST, self.html(f))
     }
 
-    pub fn language_loader(&self, langs: &[String]) -> FluentLanguageLoader {
-        let langs = langs
+    pub fn create_url(&self, uri: impl Into<String>) -> String {
+        let uri = uri.into();
+        self.config
+            .base_url
+            .as_ref()
+            .map(|base_url| format!("{base_url}{}", uri))
+            .unwrap_or(uri)
+    }
+
+    pub fn create_static_url(&self, uri: impl Into<String>) -> String {
+        self.create_url(format!("/static/{}", uri.into()))
+    }
+
+    fn fl_loader(user_lang: UserLanguage) -> FluentLanguageLoader {
+        let langs = user_lang
+            .preferred_languages()
             .iter()
             .map(|lang| lang.parse().unwrap())
             .collect::<Vec<LanguageIdentifier>>();
@@ -66,7 +91,7 @@ impl AppState {
         LANGUAGE_LOADER.select_languages(&langs)
     }
 
-    pub fn lang(&self, loader: &FluentLanguageLoader) -> String {
+    fn lang(loader: &FluentLanguageLoader) -> String {
         loader
             .current_languages()
             .iter()
@@ -82,7 +107,48 @@ impl AppState {
     }
 }
 
-#[derive(Deserialize)]
-pub(crate) struct JwtClaims {
+#[async_trait]
+impl<S> FromRequestParts<S> for AppContext
+where
+    S: Send + Sync,
+{
+    type Rejection = (StatusCode, Html<&'static str>);
+
+    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+        let JwtPayload(jwt_claims) =
+            JwtPayload::<JwtClaims>::from_request_parts(parts, state).await?;
+
+        let Ok(user_lang) = UserLanguage::from_request_parts(parts, state).await else {
+            return Err((StatusCode::BAD_REQUEST, Html("Bad Request")));
+        };
+
+        let fl_loader = Self::fl_loader(user_lang);
+        let lang = Self::lang(&fl_loader);
+
+        let Extension(state) = parts
+            .extract::<Extension<AppState>>()
+            .await
+            .expect("AppState not configured correctly");
+
+        Ok(Self {
+            config: state.config,
+            fl_loader: Arc::new(fl_loader),
+            lang,
+            feed: FeedCommand {
+                producer: state.evento,
+                user_id: jwt_claims.sub.to_owned(),
+                request_id: Ulid::new().to_string(),
+            },
+            jwt_claims,
+        })
+    }
+}
+
+pub fn use_app() -> AppContext {
+    use_context().expect("AppContext not configured correctly")
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct JwtClaims {
     pub sub: String,
 }

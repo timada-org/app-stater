@@ -1,6 +1,5 @@
 mod components;
 mod config;
-mod context;
 mod i18n;
 mod routes;
 mod state;
@@ -30,7 +29,10 @@ pub async fn serve() -> Result<()> {
     let jwks = JwksClient::build(config.app.jwks_url).await?;
     let db = PgPool::connect(&config.dsn).await?;
 
-    sqlx::migrate!("../migrations").set_locking(false).run(&db).await?;
+    sqlx::migrate!("../migrations")
+        .set_locking(false)
+        .run(&db)
+        .await?;
 
     let evento = PgEngine::new(db)
         .name(&config.region)
@@ -49,11 +51,11 @@ pub async fn serve() -> Result<()> {
             .build(),
     ))
     .layer(Extension(jwks))
-    .fallback(get(static_handler))
-    .with_state(AppState {
+    .layer(Extension(AppState {
         config: state_config,
         evento,
-    });
+    }))
+    .fallback(get(static_handler));
 
     let addr = config.app.addr.parse()?;
 
@@ -71,7 +73,10 @@ pub async fn serve() -> Result<()> {
 #[prefix = "/static/"]
 struct Assets;
 
-async fn static_handler(uri: Uri, State(app): State<AppState>) -> impl IntoResponse {
+async fn static_handler(
+    uri: Uri,
+    Extension(State(app)): Extension<State<AppState>>,
+) -> impl IntoResponse {
     let uri = uri.to_string();
     let path = app
         .config

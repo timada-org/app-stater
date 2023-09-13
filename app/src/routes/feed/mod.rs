@@ -1,21 +1,22 @@
-use axum::{body::Body, extract::State, response::IntoResponse, routing::get, Router};
+use axum::{body::Body, response::IntoResponse, routing::get, Router};
 use i18n_embed_fl::fl;
 use leptos::*;
-use starter_core::axum_extra::UserLanguage;
 
-use crate::{components::Page, AppState};
+use crate::{
+    components::Page,
+    state::{use_app, AppContext},
+};
 
-pub async fn root(State(app): State<AppState>, lang: UserLanguage) -> impl IntoResponse {
-    let fl_loader = app.language_loader(lang.preferred_languages());
-    let lang = app.lang(&fl_loader);
+pub async fn root(ctx: AppContext) -> impl IntoResponse {
+    ctx.html(|| {
+        let app = use_app();
 
-    app.html(|| {
         view! {
-            <Page lang=lang title="Feed">{fl!(fl_loader, "feed-root_hello-world")}</Page>
+            <Page title="Feed">{fl!(app.fl_loader, "feed-root_hello-world")}</Page>
         }
     })
 }
 
-pub fn create_router() -> Router<AppState, Body> {
+pub fn create_router() -> Router<(), Body> {
     Router::new().route("/", get(root))
 }
