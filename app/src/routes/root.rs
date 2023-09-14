@@ -1,9 +1,10 @@
 use axum::{response::IntoResponse, Form};
+use evento_query::QueryArgs;
 use i18n_embed_fl::fl;
 use leptos::*;
-use timada_starter_feed::CreateFeedInput;
-use validator::Validate;
+use timada_starter_feed::{CreateFeedInput, ListFeedsInput, UserFeed};
 use tracing::error;
+use validator::Validate;
 
 use crate::{
     components::*,
@@ -11,6 +12,15 @@ use crate::{
 };
 
 pub(super) async fn root(ctx: AppContext) -> impl IntoResponse {
+    let feeds = ctx
+        .feed_query
+        .list_feeds(ListFeedsInput {
+            args: QueryArgs::forward::<String>(20, None),
+            tag: None,
+        })
+        .await
+        .unwrap();
+
     ctx.html(move || {
         let app = use_app();
 
@@ -29,7 +39,9 @@ pub(super) async fn root(ctx: AppContext) -> impl IntoResponse {
                     <input name="title" minlength="3" maxlength="100" required />
                 </form>
                 <ul id="list-feeds">
-
+                    {feeds.edges.into_iter().map(|feed| view! {
+                        <Feed feed=feed.node />
+                    }).collect_view()}
                 </ul>
             </Page>
         }
@@ -48,7 +60,7 @@ pub(super) async fn root_create_feed(
             .into_response();
     }
 
-    let id = match ctx.feed.create(&input).await {
+    let id = match ctx.feed_cmd.create(&input).await {
         Ok(events) => events[0].aggregate_id.to_owned(),
         Err(e) => {
             error!("{e}");
@@ -65,4 +77,11 @@ pub(super) async fn root_create_feed(
         view! { <li id=id>{input.title}</li> }
     })
     .into_response()
+}
+
+#[component]
+fn Feed(feed: UserFeed) -> impl IntoView {
+    view! {
+        <li id=format!("feed-{}", feed.id)>{feed.content}</li>
+    }
 }

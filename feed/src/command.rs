@@ -1,15 +1,18 @@
+use std::str::FromStr;
+
 use anyhow::Result;
 use evento::{Event, PgProducer};
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;
+use uuid::Uuid;
 use validator::Validate;
 
 use crate::{Created, Feed, FeedEvent};
 
 #[derive(Deserialize, Serialize)]
 pub struct CommandMetadata {
-    pub request_id: String,
-    pub user_id: String,
+    pub req_id: String,
+    pub req_user: Uuid,
 }
 
 #[derive(Clone)]
@@ -36,8 +39,8 @@ impl FeedCommand {
                         title: input.title.to_owned(),
                     })?
                     .metadata(CommandMetadata {
-                        user_id: self.user_id.to_owned(),
-                        request_id: self.request_id.to_owned(),
+                        req_user: Uuid::from_str(self.user_id.as_str())?,
+                        req_id: self.request_id.to_owned(),
                     })?],
                 0,
             )

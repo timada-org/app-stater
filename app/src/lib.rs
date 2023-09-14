@@ -34,10 +34,13 @@ pub async fn serve() -> Result<()> {
         .run(&db)
         .await?;
 
-    let evento = PgEngine::new(db)
+    let evento = PgEngine::new(db.clone())
         .name(&config.region)
+        .data(db.clone())
+        .subscribe(timada_starter_feed::feeds_subscriber())
         .run(config.app.evento_delay.unwrap_or(30))
         .await?;
+
     let router = routes::create_router();
 
     let app = match config.app.base_url {
@@ -54,6 +57,7 @@ pub async fn serve() -> Result<()> {
     .layer(Extension(AppState {
         config: state_config,
         evento,
+        db
     }))
     .fallback(get(static_handler));
 

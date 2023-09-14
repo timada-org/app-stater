@@ -9,9 +9,10 @@ use http::{request::Parts, StatusCode};
 use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
 use leptos::*;
 use serde::Deserialize;
+use sqlx::PgPool;
 use starter_core::axum_extra::UserLanguage;
 use std::sync::Arc;
-use timada_starter_feed::FeedCommand;
+use timada_starter_feed::{FeedCommand, FeedQuery};
 use twa_jwks::axum::JwtPayload;
 use ulid::Ulid;
 use unic_langid::LanguageIdentifier;
@@ -25,6 +26,7 @@ use crate::{
 pub struct AppState {
     pub config: AppConfig,
     pub evento: PgProducer,
+    pub db: PgPool,
 }
 
 #[derive(Clone)]
@@ -33,7 +35,8 @@ pub struct AppContext {
     pub lang: String,
     pub fl_loader: Arc<FluentLanguageLoader>,
     pub jwt_claims: JwtClaims,
-    pub feed: FeedCommand,
+    pub feed_cmd: FeedCommand,
+    pub feed_query: FeedQuery,
 }
 
 impl AppContext {
@@ -96,7 +99,6 @@ impl AppContext {
             .current_languages()
             .iter()
             .find_map(|language| {
-                println!("{}", LANGUAGES.contains(&language));
                 if LANGUAGES.contains(&language) {
                     Some(language.to_string())
                 } else {
@@ -134,10 +136,14 @@ where
             config: state.config,
             fl_loader: Arc::new(fl_loader),
             lang,
-            feed: FeedCommand {
+            feed_cmd: FeedCommand {
                 producer: state.evento,
                 user_id: jwt_claims.sub.to_owned(),
                 request_id: Ulid::new().to_string(),
+            },
+            feed_query: FeedQuery {
+                user_id: jwt_claims.sub.to_owned(),
+                db: state.db,
             },
             jwt_claims,
         })

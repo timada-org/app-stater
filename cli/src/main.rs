@@ -1,6 +1,7 @@
 use clap::{value_parser, Arg, ArgAction, Command};
 use std::str::FromStr;
-use tracing::{error, Level};
+use tracing::error;
+use tracing_subscriber::{prelude::*, EnvFilter};
 
 #[tokio::main]
 async fn main() {
@@ -17,16 +18,20 @@ async fn main() {
         .subcommand(Command::new("serve").about("Start starter server using bin"))
         .get_matches();
 
-    let subscriber = tracing_subscriber::FmtSubscriber::builder()
-        .with_max_level(
-            matches
-                .get_one::<String>("log")
-                .map(|log| Level::from_str(log).expect("failed to deserialize log"))
-                .unwrap_or(Level::ERROR),
-        )
-        .finish();
+    let log = matches
+        .get_one::<String>("log")
+        .map(|s| s.to_owned())
+        .unwrap_or("error".to_owned());
 
-    tracing::subscriber::set_global_default(subscriber).expect("setting default subscriber failed");
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::fmt::layer())
+        .with(
+            EnvFilter::from_str(&format!(
+                "evento={log},starter_app={log},starter_api={log},timada_starter_feed={log}"
+            ))
+            .unwrap(),
+        )
+        .init();
 
     match matches.subcommand() {
         Some(("serve", _sub_matches)) => {
