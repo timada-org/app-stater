@@ -6,7 +6,6 @@ mod state;
 
 use anyhow::Result;
 use axum::{
-    extract::State,
     http::{header, StatusCode, Uri},
     response::IntoResponse,
     routing::get,
@@ -38,6 +37,7 @@ pub async fn serve() -> Result<()> {
         .name(&config.region)
         .data(db.clone())
         .subscribe(timada_starter_feed::feeds_subscriber())
+        .subscribe(timada_starter_feed::tags_count_subscriber())
         .run(config.app.evento_delay.unwrap_or(30))
         .await?;
 
@@ -47,6 +47,7 @@ pub async fn serve() -> Result<()> {
         Some(base_url) => Router::new().nest(&base_url, router),
         _ => router,
     }
+    .fallback(get(static_handler))
     .layer(Extension(
         UserLanguage::config()
             .add_source(QuerySource::new("lang"))
@@ -57,9 +58,8 @@ pub async fn serve() -> Result<()> {
     .layer(Extension(AppState {
         config: state_config,
         evento,
-        db
-    }))
-    .fallback(get(static_handler));
+        db,
+    }));
 
     let addr = config.app.addr.parse()?;
 
@@ -77,10 +77,7 @@ pub async fn serve() -> Result<()> {
 #[prefix = "/static/"]
 struct Assets;
 
-async fn static_handler(
-    uri: Uri,
-    Extension(State(app)): Extension<State<AppState>>,
-) -> impl IntoResponse {
+async fn static_handler(uri: Uri, Extension(app): Extension<AppState>) -> impl IntoResponse {
     let uri = uri.to_string();
     let path = app
         .config

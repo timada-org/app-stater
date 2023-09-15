@@ -16,4 +16,6 @@ impl From<FeedEvent> for String {
 #[derive(Serialize, Deserialize)]
 pub struct Created {
     pub title: String,
+    pub content: String,
+    pub tags: Vec<String>,
 }

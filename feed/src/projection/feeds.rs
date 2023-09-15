@@ -2,13 +2,7 @@ use anyhow::Result;
 use chrono::{DateTime, Utc};
 use evento::{Aggregate, Subscriber};
 use evento_query::{Cursor, CursorError, Query, QueryArgs, QueryResult};
-use fake::{
-    faker::{
-        lorem::en::{Paragraph, Words},
-        name::en::Name,
-    },
-    Fake,
-};
+use fake::{faker::name::en::Name, Fake};
 use futures::FutureExt;
 use serde::{Deserialize, Serialize};
 use sqlx::{postgres::PgArguments, query::QueryAs, FromRow, PgPool, Postgres};
@@ -90,15 +84,15 @@ pub fn feeds_subscriber() -> Subscriber {
                             user_id: metadata.req_user,
                             title: data.title,
                             author: Name().fake(),
-                            content: Paragraph(2..3).fake(),
+                            content: data.content,
                             total_likes: 0,
-                            tags: Words(1..4).fake(),
+                            tags: data.tags,
                             created_at: event.created_at,
                         };
 
                         sqlx::query!(
                             r#"
-                            INSERT INTO feeds (id, user_id, title, author, content, total_likes, tags, created_at)
+                            INSERT INTO feed_feeds (id, user_id, title, author, content, total_likes, tags, created_at)
                             VALUES ( $1, $2, $3, $4, $5, $6, $7, $8 )
                             "#,
                             feed.id,
@@ -112,7 +106,7 @@ pub fn feeds_subscriber() -> Subscriber {
                         ).execute(&db)
                         .await?;
                     }
-                }
+                };
                 Ok(())
             }
             .boxed()
@@ -128,8 +122,10 @@ pub struct ListFeedsInput {
 impl FeedQuery {
     pub async fn list_feeds(&self, input: ListFeedsInput) -> Result<QueryResult<UserFeed>> {
         let query = match input.tag {
-            Some(tag) => Query::<UserFeed>::new("SELECT * FROM feeds WHERE tags @> ARRAY[$1]").bind(tag),
-            None => Query::<UserFeed>::new("SELECT * FROM feeds"),
+            Some(tag) => {
+                Query::<UserFeed>::new("SELECT * FROM feed_feeds WHERE tags @> ARRAY[$1]").bind(tag)
+            }
+            None => Query::<UserFeed>::new("SELECT * FROM feed_feeds"),
         };
 
         Ok(query.build(input.args).fetch_all(&self.db).await?)

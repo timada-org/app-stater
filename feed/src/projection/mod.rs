@@ -1,6 +1,8 @@
 mod feeds;
+mod tags_count;
 
 pub use feeds::*;
+pub use tags_count::*;
 
 use sqlx::PgPool;
 

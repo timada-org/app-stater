@@ -1,7 +1,11 @@
-use std::str::FromStr;
+use std::{collections::HashSet, str::FromStr};
 
 use anyhow::Result;
 use evento::{Event, PgProducer};
+use fake::{
+    faker::company::en::Buzzword, faker::lorem::en::{Paragraph, Sentence}, Fake,
+};
+use rand::{seq::SliceRandom, Rng};
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;
 use uuid::Uuid;
@@ -29,14 +33,29 @@ pub struct CreateFeedInput {
 }
 
 impl FeedCommand {
-    pub async fn create(&self, input: &CreateFeedInput) -> Result<Vec<Event>> {
+    pub async fn create(&self, _input: &CreateFeedInput) -> Result<Vec<Event>> {
+        let tags: Vec<String> = vec![
+            Buzzword().fake(),
+            Buzzword().fake(),
+            Buzzword().fake(),
+            Buzzword().fake(),
+            Buzzword().fake(),
+        ]
+        .choose_multiple(&mut rand::thread_rng(), rand::thread_rng().gen_range(1..6))
+        .cloned()
+        .collect::<HashSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+
         let events = self
             .producer
             .publish::<Feed, _>(
                 Ulid::new(),
                 vec![Event::new(FeedEvent::Created)
                     .data(Created {
-                        title: input.title.to_owned(),
+                        title: Sentence(5..10).fake(),
+                        content: Paragraph(20..30).fake(),
+                        tags,
                     })?
                     .metadata(CommandMetadata {
                         req_user: Uuid::from_str(self.user_id.as_str())?,

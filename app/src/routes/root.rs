@@ -1,4 +1,4 @@
-use axum::{response::IntoResponse, Form};
+use axum::{extract::Query, response::IntoResponse, Form};
 use evento_query::QueryArgs;
 use i18n_embed_fl::fl;
 use leptos::*;
@@ -11,15 +11,52 @@ use crate::{
     state::{use_app, AppContext},
 };
 
-pub(super) async fn root(ctx: AppContext) -> impl IntoResponse {
+pub(super) async fn root(ctx: AppContext, Query(args): Query<QueryArgs>) -> impl IntoResponse {
+    let display_page = args.first.is_none()
+        && args.after.is_none()
+        && args.before.is_none()
+        && args.last.is_none();
+
+    let args = if display_page {
+        QueryArgs::forward::<String>(20, None)
+    } else {
+        args
+    };
+
     let feeds = ctx
         .feed_query
-        .list_feeds(ListFeedsInput {
-            args: QueryArgs::forward::<String>(20, None),
-            tag: None,
-        })
+        .list_feeds(ListFeedsInput { args, tag: None })
         .await
         .unwrap();
+
+    let list_feeds_view = move || {
+        view! {
+            <>
+                {feeds
+                    .edges
+                    .into_iter()
+                    .map(|feed| {
+                        view! {
+                            <Feed
+                                feed=feed.node
+                                cursor=feeds
+                                    .page_info
+                                    .end_cursor
+                                    .to_owned()
+                                    .and_then(|cursor| {
+                                        if cursor == feed.cursor { Some(cursor) } else { None }
+                                    })
+                            />
+                        }
+                    })
+                    .collect_view()}
+            </>
+        }
+    };
+
+    if !display_page {
+        return ctx.html(move || list_feeds_view()).into_response();
+    }
 
     ctx.html(move || {
         let app = use_app();
@@ -38,14 +75,13 @@ pub(super) async fn root(ctx: AppContext) -> impl IntoResponse {
                 >
                     <input name="title" minlength="3" maxlength="100" required />
                 </form>
-                <ul id="list-feeds">
-                    {feeds.edges.into_iter().map(|feed| view! {
-                        <Feed feed=feed.node />
-                    }).collect_view()}
-                </ul>
+                <div id="list-feeds">
+                    {list_feeds_view()}
+                </div>
             </Page>
         }
     })
+    .into_response()
 }
 
 pub(super) async fn root_create_feed(
@@ -74,14 +110,35 @@ pub(super) async fn root_create_feed(
     };
 
     ctx.html(move || {
-        view! { <li id=id>{input.title}</li> }
+        view! { <div id=id>"Creating '" {input.title} "' ..."</div> }
     })
     .into_response()
 }
 
 #[component]
-fn Feed(feed: UserFeed) -> impl IntoView {
+fn Feed(feed: UserFeed, cursor: Option<String>) -> impl IntoView {
+    let app = use_app();
+
+    let (hx_get, hx_trigger, hx_swap) = if let Some(cursor) = cursor {
+        (
+            Some(app.create_url(format!("?first=20&after={cursor}"))),
+            Some("revealed"),
+            Some("afterend"),
+        )
+    } else {
+        (None, None, None)
+    };
+
     view! {
-        <li id=format!("feed-{}", feed.id)>{feed.content}</li>
+        <div id=format!("feed-{}", feed.id) hx-get=hx_get hx-trigger=hx_trigger hx-swap=hx_swap>
+            <div>
+                <div>{feed.author}</div>
+                <div>{feed.total_likes}</div>
+            </div>
+            <article>
+                <h2>{feed.title}</h2>
+                <p>{feed.content}</p>
+            </article>
+        </div>
     }
 }

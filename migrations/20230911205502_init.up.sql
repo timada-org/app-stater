@@ -37,17 +37,25 @@ CREATE TABLE IF NOT EXISTS _evento_subscriptions
 
 CREATE UNIQUE INDEX ON _evento_subscriptions (key);
 
-CREATE TABLE IF NOT EXISTS feeds
+CREATE TABLE IF NOT EXISTS feed_feeds
 (
     id VARCHAR(26) NOT NULL PRIMARY KEY,
     title VARCHAR(50) NOT NULL,
     author VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
     total_likes int4 NULL,
-    tags VARCHAR(15)[] NULL,
+    tags VARCHAR(30)[] NULL,
     user_id UUID NOT NULL,
     created_at timestamptz NOT NULL
 );
 
-CREATE INDEX ON feeds (user_id);
-CREATE INDEX ON feeds USING GIN (tags array_ops);
+CREATE INDEX ON feed_feeds (user_id);
+CREATE INDEX ON feed_feeds USING GIN (tags array_ops);
+
+CREATE TABLE IF NOT EXISTS feed_tags_count
+(
+    tag VARCHAR(30) NOT NULL PRIMARY KEY,
+    total_count int4 NOT NULL DEFAULT 0
+);
+
+CREATE INDEX ON feed_tags_count (total_count);

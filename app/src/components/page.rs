@@ -26,8 +26,14 @@ pub fn Page(
                 />
 
                 <script src="https://unpkg.com/htmx.org@1.9.5" crossorigin="anonymous"></script>
-                <script src="https://unpkg.com/htmx.org/dist/ext/response-targets.js" crossorigin="anonymous"></script>
-                <script src="https://unpkg.com/hyperscript.org@0.9.11" crossorigin="anonymous"></script>
+                <script
+                    src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"
+                    crossorigin="anonymous"
+                ></script>
+                <script
+                    src="https://unpkg.com/hyperscript.org@0.9.11"
+                    crossorigin="anonymous"
+                ></script>
 
                 {head.map(|head| head())}
             </head>
