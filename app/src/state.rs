@@ -71,6 +71,14 @@ impl AppContext {
         (StatusCode::BAD_REQUEST, self.html(f))
     }
 
+    pub fn not_found<F, N>(&self, f: F) -> impl IntoResponse
+    where
+        F: FnOnce() -> N + 'static,
+        N: IntoView,
+    {
+        (StatusCode::NOT_FOUND, self.html(f))
+    }
+
     pub fn create_url(&self, uri: impl Into<String>) -> String {
         let uri = uri.into();
         self.config

@@ -17,6 +17,7 @@ pub struct UserFeed {
     pub title: String,
     pub author: String,
     pub content: String,
+    pub content_short: String,
     pub total_likes: i32,
     pub tags: Vec<String>,
     pub user_id: Uuid,
@@ -84,6 +85,7 @@ pub fn feeds_subscriber() -> Subscriber {
                             user_id: metadata.req_user,
                             title: data.title,
                             author: Name().fake(),
+                            content_short: data.content.chars().take(250).collect(),
                             content: data.content,
                             total_likes: 0,
                             tags: data.tags,
@@ -92,7 +94,7 @@ pub fn feeds_subscriber() -> Subscriber {
 
                         sqlx::query!(
                             r#"
-                            INSERT INTO feed_feeds (id, user_id, title, author, content, total_likes, tags, created_at)
+                            INSERT INTO feed_feeds (id, user_id, title, author, content, content_short, tags, created_at)
                             VALUES ( $1, $2, $3, $4, $5, $6, $7, $8 )
                             "#,
                             feed.id,
@@ -100,7 +102,7 @@ pub fn feeds_subscriber() -> Subscriber {
                             feed.title,
                             feed.author,
                             feed.content,
-                            feed.total_likes,
+                            feed.content_short,
                             &feed.tags,
                             feed.created_at,
                         ).execute(&db)
@@ -129,5 +131,13 @@ impl FeedQuery {
         };
 
         Ok(query.build(input.args).fetch_all(&self.db).await?)
+    }
+
+    pub async fn get_feed(&self, id: String) -> Result<Option<UserFeed>> {
+        Ok(
+            sqlx::query_as!(UserFeed, "SELECT * FROM feed_feeds where id = $1", id)
+                .fetch_optional(&self.db)
+                .await?,
+        )
     }
 }

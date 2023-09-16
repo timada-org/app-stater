@@ -3,7 +3,9 @@ use std::{collections::HashSet, str::FromStr};
 use anyhow::Result;
 use evento::{Event, PgProducer};
 use fake::{
-    faker::company::en::Buzzword, faker::lorem::en::{Paragraph, Sentence}, Fake,
+    faker::company::en::Buzzword,
+    faker::lorem::en::{Paragraph, Sentence},
+    Fake,
 };
 use rand::{seq::SliceRandom, Rng};
 use serde::{Deserialize, Serialize};
@@ -54,7 +56,7 @@ impl FeedCommand {
                 vec![Event::new(FeedEvent::Created)
                     .data(Created {
                         title: Sentence(5..10).fake(),
-                        content: Paragraph(20..30).fake(),
+                        content: Paragraph(50..100).fake(),
                         tags,
                     })?
                     .metadata(CommandMetadata {

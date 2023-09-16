@@ -11,5 +11,5 @@ pub fn create_router() -> Router<(), Body> {
     Router::new()
         .route("/", get(root::root))
         .route("/_create-feed", post(root::root_create_feed))
-        .nest("/feed", feed::create_router())
+        .nest("/feed/:id", feed::create_router())
 }

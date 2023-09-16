@@ -40,11 +40,12 @@ CREATE UNIQUE INDEX ON _evento_subscriptions (key);
 CREATE TABLE IF NOT EXISTS feed_feeds
 (
     id VARCHAR(26) NOT NULL PRIMARY KEY,
-    title VARCHAR(50) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     author VARCHAR(100) NOT NULL,
     content TEXT NOT NULL,
-    total_likes int4 NULL,
-    tags VARCHAR(30)[] NULL,
+    content_short VARCHAR(250) NOT NULL,
+    total_likes int4 NOT NULL DEFAULT 0,
+    tags VARCHAR(30)[] NOT NULL,
     user_id UUID NOT NULL,
     created_at timestamptz NOT NULL
 );

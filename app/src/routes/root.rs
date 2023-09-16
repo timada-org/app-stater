@@ -2,6 +2,7 @@ use axum::{extract::Query, response::IntoResponse, Form};
 use evento_query::QueryArgs;
 use i18n_embed_fl::fl;
 use leptos::*;
+use serde::Deserialize;
 use timada_starter_feed::{CreateFeedInput, ListFeedsInput, UserFeed};
 use tracing::error;
 use validator::Validate;
@@ -11,7 +12,16 @@ use crate::{
     state::{use_app, AppContext},
 };
 
-pub(super) async fn root(ctx: AppContext, Query(args): Query<QueryArgs>) -> impl IntoResponse {
+#[derive(Deserialize)]
+pub struct TagQuery {
+    tag: Option<String>,
+}
+
+pub(super) async fn root(
+    ctx: AppContext,
+    Query(args): Query<QueryArgs>,
+    Query(tag_arg): Query<TagQuery>,
+) -> impl IntoResponse {
     let display_page = args.first.is_none()
         && args.after.is_none()
         && args.before.is_none()
@@ -25,7 +35,10 @@ pub(super) async fn root(ctx: AppContext, Query(args): Query<QueryArgs>) -> impl
 
     let feeds = ctx
         .feed_query
-        .list_feeds(ListFeedsInput { args, tag: None })
+        .list_feeds(ListFeedsInput {
+            args,
+            tag: tag_arg.tag.to_owned(),
+        })
         .await
         .unwrap();
 
@@ -38,6 +51,7 @@ pub(super) async fn root(ctx: AppContext, Query(args): Query<QueryArgs>) -> impl
                     .map(|feed| {
                         view! {
                             <Feed
+                                tag=tag_arg.tag.to_owned()
                                 feed=feed.node
                                 cursor=feeds
                                     .page_info
@@ -58,6 +72,8 @@ pub(super) async fn root(ctx: AppContext, Query(args): Query<QueryArgs>) -> impl
         return ctx.html(move || list_feeds_view()).into_response();
     }
 
+    let popular_tags = ctx.feed_query.list_popular_tags().await.unwrap();
+
     ctx.html(move || {
         let app = use_app();
 
@@ -75,6 +91,14 @@ pub(super) async fn root(ctx: AppContext, Query(args): Query<QueryArgs>) -> impl
                 >
                     <input name="title" minlength="3" maxlength="100" required />
                 </form>
+                <div hx-boost="true">
+                    {popular_tags.iter().map(|tag| view! {
+                        <a href=app.create_url(format!("?tag={}", &tag.tag))>{&tag.tag}</a>
+                    }).collect_view()}
+                </div>
+                <div hx-boost="true">
+                    <a href=app.create_url("")>Global</a>
+                </div>
                 <div id="list-feeds">
                     {list_feeds_view()}
                 </div>
@@ -116,12 +140,15 @@ pub(super) async fn root_create_feed(
 }
 
 #[component]
-fn Feed(feed: UserFeed, cursor: Option<String>) -> impl IntoView {
+fn Feed(feed: UserFeed, cursor: Option<String>, tag: Option<String>) -> impl IntoView {
     let app = use_app();
 
     let (hx_get, hx_trigger, hx_swap) = if let Some(cursor) = cursor {
+        let tag = tag
+            .map(|tag| format!("&tag={tag}"))
+            .unwrap_or("".to_owned());
         (
-            Some(app.create_url(format!("?first=20&after={cursor}"))),
+            Some(app.create_url(format!("?first=20&after={cursor}{tag}"))),
             Some("revealed"),
             Some("afterend"),
         )
@@ -137,8 +164,14 @@ fn Feed(feed: UserFeed, cursor: Option<String>) -> impl IntoView {
             </div>
             <article>
                 <h2>{feed.title}</h2>
-                <p>{feed.content}</p>
+                <p>
+                    {feed.content_short} ...
+                    <a hx-boost="true" href=app.create_url(format!("/feed/{}", & feed.id))>
+                        "Read more"
+                    </a>
+                </p>
             </article>
+            <div>{feed.tags.iter().map(|tag| view! { <span>{tag}</span> }).collect_view()}</div>
         </div>
     }
 }
