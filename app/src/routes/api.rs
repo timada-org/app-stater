@@ -1,13 +1,11 @@
 use axum::{extract::Query, response::IntoResponse, Form};
 use evento_query::QueryArgs;
-use i18n_embed_fl::fl;
 use leptos::*;
 use serde::Deserialize;
 use timada_starter_feed::{CreateFeedInput, ListFeedsInput};
-use tracing::error;
 use validator::Validate;
 
-use crate::state::{use_app, AppContext};
+use crate::state::AppContext;
 
 use super::component::Feeds;
 
@@ -39,25 +37,13 @@ pub(super) async fn create_feed(
     ctx: AppContext,
     Form(input): Form<CreateFeedInput>,
 ) -> impl IntoResponse {
-    if let Err(e) = input.validate() {
-        return ctx
-            .bad_request(move || {
-                view! { <div _="init wait 3s remove me">{e.to_string()}</div> }
-            })
-            .into_response();
+    if let Err(errors) = input.validate() {
+        return ctx.unprocessable_entity(errors).into_response();
     }
 
     let id = match ctx.feed_cmd.create(&input).await {
         Ok(events) => events[0].aggregate_id.to_owned(),
-        Err(e) => {
-            error!("{e}");
-
-            return ctx
-                .internal_server_error( move || {
-                    let app = use_app();
-                    view! { <div _="init wait 3s remove me">{fl!(app.fl_loader, "http-errors_500")}</div> }
-                }).into_response();
-        }
+        Err(e) => return ctx.internal_server_error(e).into_response(),
     };
 
     ctx.html(move || {

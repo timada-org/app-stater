@@ -12,14 +12,21 @@ use leptos::*;
 use serde::Deserialize;
 use sqlx::PgPool;
 use starter_core::axum_extra::UserLanguage;
-use std::{fmt, sync::Arc};
+use std::{
+    fmt::{self, Display},
+    sync::Arc,
+};
 use timada_starter_feed::{FeedCommand, FeedQuery};
-use tracing::warn;
+use tracing::{error, warn};
 use twa_jwks::axum::JwtPayload;
 use ulid::Ulid;
 use unic_langid::LanguageIdentifier;
+use validator::ValidationErrors;
 
 use crate::{
+    components::{
+        InternalServerErrorAlert, InternalServerErrorPage, NotFoundPage, UnprocessableEntityAlert,
+    },
     config::AppConfig,
     i18n::{LANGUAGES, LANGUAGE_LOADER},
 };
@@ -57,28 +64,44 @@ impl AppContext {
         (StatusCode::OK, Html(html.to_string()))
     }
 
-    pub fn internal_server_error<F, N>(&self, f: F) -> impl IntoResponse
-    where
-        F: FnOnce() -> N + 'static,
-        N: IntoView,
-    {
-        (StatusCode::INTERNAL_SERVER_ERROR, self.html(f))
+    pub fn internal_server_error<E: Display>(&self, err: E) -> impl IntoResponse {
+        error!("{err}");
+
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            self.html(move || {
+                view! { <InternalServerErrorAlert /> }
+            }),
+        )
     }
 
-    pub fn bad_request<F, N>(&self, f: F) -> impl IntoResponse
-    where
-        F: FnOnce() -> N + 'static,
-        N: IntoView,
-    {
-        (StatusCode::BAD_REQUEST, self.html(f))
+    pub fn internal_server_error_page<E: Display>(&self, err: E) -> impl IntoResponse {
+        error!("{err}");
+
+        (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            self.html(move || {
+                view! { <InternalServerErrorPage /> }
+            }),
+        )
     }
 
-    pub fn not_found<F, N>(&self, f: F) -> impl IntoResponse
-    where
-        F: FnOnce() -> N + 'static,
-        N: IntoView,
-    {
-        (StatusCode::NOT_FOUND, self.html(f))
+    pub fn unprocessable_entity(&self, errors: ValidationErrors) -> impl IntoResponse {
+        (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            self.html(move || {
+                view! { <UnprocessableEntityAlert errors=errors/> }
+            }),
+        )
+    }
+
+    pub fn not_found_page(&self) -> impl IntoResponse {
+        (
+            StatusCode::NOT_FOUND,
+            self.html(move || {
+                view! { <NotFoundPage /> }
+            }),
+        )
     }
 
     pub fn create_url(&self, uri: impl Into<String>) -> String {

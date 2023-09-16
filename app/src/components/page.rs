@@ -1,3 +1,4 @@
+use i18n_embed_fl::fl;
 use leptos::*;
 
 use crate::state::use_app;
@@ -40,5 +41,35 @@ pub fn Page(
 
             <body>{children()}</body>
         </html>
+    }
+}
+
+#[component]
+pub fn NotFoundPage() -> impl IntoView {
+    let app = use_app();
+
+    view! {
+        <Page title="404 Not Found">
+            <h1>{fl!(app.fl_loader, "components_page_not-found_title")}</h1>
+            <p>{fl!(app.fl_loader, "components_page_not-found_content")}</p>
+            <a href=app
+                .create_url("")>{fl!(app.fl_loader, "components_page_not-found_return_home")}</a>
+        </Page>
+    }
+}
+
+#[component]
+pub fn InternalServerErrorPage() -> impl IntoView {
+    let app = use_app();
+
+    view! {
+        <Page title="500 Internal Server Error">
+            <h1>{fl!(app.fl_loader, "components_page_internal-server-error_title")}</h1>
+            <p>{fl!(app.fl_loader, "components_page_internal-server-error_content")}</p>
+            <a href=app
+                .create_url(
+                    "",
+                )>{fl!(app.fl_loader, "components_page_internal-server-error_return_home")}</a>
+        </Page>
     }
 }

@@ -18,16 +18,18 @@ pub struct TagQuery {
 }
 
 pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> impl IntoResponse {
-    let feeds = ctx
-        .feed_query
-        .list_feeds(ListFeedsInput {
-            args: QueryArgs::forward::<String>(20, None),
-            tag: tag_query.tag.to_owned(),
-        })
-        .await
-        .unwrap();
+    let input = ListFeedsInput {
+        args: QueryArgs::forward::<String>(20, None),
+        tag: tag_query.tag.to_owned(),
+    };
 
-    let popular_tags = ctx.feed_query.list_popular_tags().await.unwrap();
+    let (feeds, popular_tags) = match tokio::try_join!(
+        ctx.feed_query.list_feeds(input),
+        ctx.feed_query.list_popular_tags()
+    ) {
+        Ok(res) => res,
+        Err(e) => return ctx.internal_server_error(e).into_response(),
+    };
 
     ctx.html(move || {
         let app = use_app();
@@ -53,6 +55,7 @@ pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> 
                 </div>
                 <div hx-boost="true">
                     <a href=app.create_url("")>Global feed</a>
+                    {tag_query.tag.as_ref().map(|tag| view! {<span>"#"{tag}</span>})}
                 </div>
                 <div id="list-feeds">
                     <Feeds tag=tag_query.tag query=feeds />
