@@ -1,5 +1,7 @@
+mod api;
+mod component;
 mod feed;
-mod root;
+mod page;
 
 use axum::{
     body::Body,
@@ -9,7 +11,8 @@ use axum::{
 
 pub fn create_router() -> Router<(), Body> {
     Router::new()
-        .route("/", get(root::root))
-        .route("/_create-feed", post(root::root_create_feed))
+        .route("/", get(page::root))
+        .route("/_load-more", get(api::load_more))
+        .route("/_create-feed", post(api::create_feed))
         .nest("/feed/:id", feed::create_router())
 }
