@@ -370,8 +370,11 @@ checksum = "defd4e7873dbddba6c7c91e199c7fcb946abc4a6a4ac3195400bcfb01b5de877"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
+ "js-sys",
  "num-traits",
+ "pure-rust-locales",
  "serde",
+ "wasm-bindgen",
  "windows-targets",
 ]
 
@@ -2160,6 +2163,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "pure-rust-locales"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4b856d7d028ebb0011d78eded5bc9185932412f36c12c67930f222d6b407526b"
+
+[[package]]
 name = "quote"
 version = "1.0.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3011,6 +3020,7 @@ version = "0.3.1"
 dependencies = [
  "anyhow",
  "axum",
+ "chrono",
  "config",
  "evento",
  "evento-axum",

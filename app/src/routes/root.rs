@@ -97,7 +97,7 @@ pub(super) async fn root(
                     }).collect_view()}
                 </div>
                 <div hx-boost="true">
-                    <a href=app.create_url("")>Global</a>
+                    <a href=app.create_url("")>Global feed</a>
                 </div>
                 <div id="list-feeds">
                     {list_feeds_view()}
@@ -159,7 +159,7 @@ fn Feed(feed: UserFeed, cursor: Option<String>, tag: Option<String>) -> impl Int
     view! {
         <div id=format!("feed-{}", feed.id) hx-get=hx_get hx-trigger=hx_trigger hx-swap=hx_swap>
             <div>
-                <div>{feed.author}</div>
+                <div>{feed.author} - {app.format_localized(&feed.created_at, "%A %e %B %Y, %T")}</div>
                 <div>{feed.total_likes}</div>
             </div>
             <article>

@@ -4,6 +4,7 @@ use axum::{
     response::{Html, IntoResponse},
     Extension, RequestPartsExt,
 };
+use chrono::{DateTime, Locale, TimeZone};
 use evento::PgProducer;
 use http::{request::Parts, StatusCode};
 use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
@@ -11,8 +12,9 @@ use leptos::*;
 use serde::Deserialize;
 use sqlx::PgPool;
 use starter_core::axum_extra::UserLanguage;
-use std::sync::Arc;
+use std::{fmt, sync::Arc};
 use timada_starter_feed::{FeedCommand, FeedQuery};
+use tracing::warn;
 use twa_jwks::axum::JwtPayload;
 use ulid::Ulid;
 use unic_langid::LanguageIdentifier;
@@ -114,6 +116,23 @@ impl AppContext {
                 }
             })
             .unwrap_or(loader.fallback_language().to_string())
+    }
+
+    pub fn format_localized<'a, Tz: TimeZone>(&self, dt: &'a DateTime<Tz>, fmt: &'a str) -> String
+    where
+        Tz::Offset: fmt::Display,
+    {
+        let locale = match self.lang.as_str() {
+            "en" => Locale::en_US,
+            "fr" => Locale::fr_FR,
+            locale => {
+                warn!("{locale} not handle in AppContext.format_localized");
+
+                Locale::en_US
+            }
+        };
+
+        dt.format_localized(fmt, locale).to_string()
     }
 }
 
