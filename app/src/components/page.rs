@@ -39,7 +39,7 @@ pub fn Page(
                 {head.map(|head| head())}
             </head>
 
-            <body>{children()}</body>
+            <body hx-ext="response-targets">{children()}</body>
         </html>
     }
 }

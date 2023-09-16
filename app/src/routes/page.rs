@@ -37,17 +37,16 @@ pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> 
         view! {
             <Page>
                 {fl!(app.fl_loader, "root_hello-world")}
-                <div id="form-errors"></div>
                 <form
                     hx-post=app.create_url("/_create-feed")
-                    hx-ext="response-targets"
-                    hx-swap="beforeend"
-                    hx-target="#list-feeds"
-                    hx-target-4xx="#form-errors"
-                    hx-target-5xx="#form-errors"
+                    hx-swap="innerHTML"
+                    hx-target="#form-response"
+                    hx-target-4xx="#form-response"
+                    hx-target-5xx="#form-response"
                 >
                     <input name="title" minlength="3" maxlength="100" required />
                 </form>
+                <div id="form-response"></div>
                 <div hx-boost="true">
                     {popular_tags.iter().map(|tag| view! {
                         <a href=app.create_url(format!("?tag={}", &tag.tag))>{&tag.tag}</a>
