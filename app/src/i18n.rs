@@ -1,23 +1,14 @@
 use i18n_embed::{
     fluent::{fluent_language_loader, FluentLanguageLoader},
-    I18nAssets, LanguageLoader,
+    LanguageLoader,
 };
 use once_cell::sync::Lazy;
 use rust_embed::RustEmbed;
+use unic_langid::LanguageIdentifier;
 
 #[derive(RustEmbed)]
 #[folder = "i18n/"]
 pub(crate) struct Localizations;
-
-impl I18nAssets for Localizations {
-    fn get_file(&self, file_path: &str) -> Option<std::borrow::Cow<'_, [u8]>> {
-        Localizations::get(file_path).map(|f| f.data)
-    }
-
-    fn filenames_iter(&self) -> Box<dyn Iterator<Item = String>> {
-        Box::new(Localizations::iter().map(|f| f.to_string()))
-    }
-}
 
 pub(crate) static LANGUAGE_LOADER: Lazy<FluentLanguageLoader> = Lazy::new(|| {
     let loader: FluentLanguageLoader = fluent_language_loader!();
@@ -29,4 +20,10 @@ pub(crate) static LANGUAGE_LOADER: Lazy<FluentLanguageLoader> = Lazy::new(|| {
         .expect("Error while loading fallback language");
 
     loader
+});
+
+pub(crate) static LANGUAGES: Lazy<Vec<LanguageIdentifier>> = Lazy::new(|| {
+    LANGUAGE_LOADER
+        .available_languages(&Localizations)
+        .expect("Error while loading fallback language")
 });

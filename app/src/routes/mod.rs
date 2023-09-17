@@ -1,12 +1,18 @@
+mod api;
+mod component;
 mod feed;
-mod root;
+mod page;
 
-use axum::{body::Body, routing::get, Router};
+use axum::{
+    body::Body,
+    routing::{get, post},
+    Router,
+};
 
-use crate::state::AppState;
-
-pub fn create_router() -> Router<AppState, Body> {
+pub fn create_router() -> Router<(), Body> {
     Router::new()
-        .route("/", get(root::root))
-        .nest("/feed", feed::create_router())
+        .route("/", get(page::root))
+        .route("/_load-more", get(api::load_more))
+        .route("/_create-feed", post(api::create_feed))
+        .nest("/feed/:id", feed::create_router())
 }

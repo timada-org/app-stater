@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT * FROM feed_tags_count ORDER BY total_count DESC LIMIT 5",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "tag",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 1,
+        "name": "total_count",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false
+    ]
+  },
+  "hash": "2ca3762f8c3c56be84582257745d294bc303ad5dfccad55f6eba380cc86fd95d"
+}

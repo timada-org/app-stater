@@ -1,31 +1,45 @@
 mod components;
 mod config;
-mod context;
 mod i18n;
 mod routes;
 mod state;
 
 use anyhow::Result;
 use axum::{
-    extract::State,
     http::{header, StatusCode, Uri},
     response::IntoResponse,
     routing::get,
     Extension, Router,
 };
+use evento::PgEngine;
 use leptos::*;
 use rust_embed::RustEmbed;
+use sqlx::PgPool;
 use starter_core::axum_extra::{AcceptLanguageSource, QuerySource, UserLanguage};
 use tracing::info;
+use twa_jwks::JwksClient;
 
 use crate::{config::Config, state::AppState};
 
 pub async fn serve() -> Result<()> {
     let config = Config::new()?;
+    let state_config = config.app.clone();
 
-    let app_state = AppState {
-        config: config.app.clone(),
-    };
+    let jwks = JwksClient::build(config.app.jwks_url).await?;
+    let db = PgPool::connect(&config.dsn).await?;
+
+    sqlx::migrate!("../migrations")
+        .set_locking(false)
+        .run(&db)
+        .await?;
+
+    let evento = PgEngine::new(db.clone())
+        .name(&config.region)
+        .data(db.clone())
+        .subscribe(timada_starter_feed::feeds_subscriber())
+        .subscribe(timada_starter_feed::tags_count_subscriber())
+        .run(config.app.evento_delay.unwrap_or(30))
+        .await?;
 
     let router = routes::create_router();
 
@@ -33,14 +47,19 @@ pub async fn serve() -> Result<()> {
         Some(base_url) => Router::new().nest(&base_url, router),
         _ => router,
     }
+    .fallback(get(static_handler))
     .layer(Extension(
         UserLanguage::config()
             .add_source(QuerySource::new("lang"))
             .add_source(AcceptLanguageSource)
             .build(),
     ))
-    .fallback(get(static_handler))
-    .with_state(app_state);
+    .layer(Extension(jwks))
+    .layer(Extension(AppState {
+        config: state_config,
+        evento,
+        db,
+    }));
 
     let addr = config.app.addr.parse()?;
 
@@ -58,7 +77,7 @@ pub async fn serve() -> Result<()> {
 #[prefix = "/static/"]
 struct Assets;
 
-async fn static_handler(uri: Uri, State(app): State<AppState>) -> impl IntoResponse {
+async fn static_handler(uri: Uri, Extension(app): Extension<AppState>) -> impl IntoResponse {
     let uri = uri.to_string();
     let path = app
         .config
