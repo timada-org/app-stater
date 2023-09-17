@@ -36,13 +36,11 @@ pub struct CreateFeedInput {
 
 impl FeedCommand {
     pub async fn create(&self, _input: &CreateFeedInput) -> Result<Vec<Event>> {
-        let tags: Vec<String> = vec![
+        let tags: Vec<String> = [Buzzword().fake(),
             Buzzword().fake(),
             Buzzword().fake(),
             Buzzword().fake(),
-            Buzzword().fake(),
-            Buzzword().fake(),
-        ]
+            Buzzword().fake()]
         .choose_multiple(&mut rand::thread_rng(), rand::thread_rng().gen_range(1..6))
         .cloned()
         .collect::<HashSet<_>>()

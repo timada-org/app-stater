@@ -132,7 +132,7 @@ impl AppContext {
             .current_languages()
             .iter()
             .find_map(|language| {
-                if LANGUAGES.contains(&language) {
+                if LANGUAGES.contains(language) {
                     Some(language.to_string())
                 } else {
                     None
