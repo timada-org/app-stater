@@ -724,18 +724,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "evento-axum"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab6beea6e66c6de1566d5a50569b517389f8ac0a57d6b3338fe0700f8155c842"
-dependencies = [
- "anyhow",
- "axum",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "evento-query"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3023,7 +3011,6 @@ dependencies = [
  "chrono",
  "config",
  "evento",
- "evento-axum",
  "evento-query",
  "http",
  "i18n-embed",

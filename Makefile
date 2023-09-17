@@ -16,6 +16,9 @@ lint:
 db.reset:
 	sqlx database reset -y
 
+db.prepare:
+	cargo sqlx prepare --workspace
+
 test:
 	cargo test
 
