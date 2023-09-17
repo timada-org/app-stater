@@ -35,7 +35,7 @@ fn display_error(err: &ValidationError) -> impl IntoView {
     let app = use_app();
 
     if let Some(msg) = err.message.as_ref() {
-        return view! { <span>{msg.to_owned()}</span> };
+        return view! { <span>{msg.clone()}</span> };
     }
 
     let message = match err.code.to_string().as_str() {
