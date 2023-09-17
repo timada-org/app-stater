@@ -289,9 +289,9 @@ checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
 
 [[package]]
 name = "base64"
-version = "0.21.3"
+version = "0.21.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "414dcefbc63d77c526a76b3afcf6fbb9b5e2791c19c3aa2297733208750c6e53"
+checksum = "9ba43ea6f343b788c8764558649e08df62f86c6ef251fdaeb1ffd010a9ae50a2"
 
 [[package]]
 name = "base64ct"
@@ -364,9 +364,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "chrono"
-version = "0.4.30"
+version = "0.4.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "defd4e7873dbddba6c7c91e199c7fcb946abc4a6a4ac3195400bcfb01b5de877"
+checksum = "7f2c685bad3eb3d45a01354cedb7d5faa66194d1d58ba6e267a8de788f79db38"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
@@ -706,9 +706,9 @@ checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 
 [[package]]
 name = "evento"
-version = "0.6.3"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "697f13958a01a74924a07787b205320aec00799838e7c53209759b66d28f0199"
+checksum = "01d5dbe83e0e1c7d636d23a297e3f3f9b90db06665b5af0cd34dc5d192f19f0b"
 dependencies = [
  "chrono",
  "evento-store",
@@ -725,9 +725,9 @@ dependencies = [
 
 [[package]]
 name = "evento-axum"
-version = "0.6.3"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1444a6ec21b213da81cb0589784499282c0a05a0c9964f317cbd97cfcb1df9e"
+checksum = "ab6beea6e66c6de1566d5a50569b517389f8ac0a57d6b3338fe0700f8155c842"
 dependencies = [
  "anyhow",
  "axum",
@@ -737,11 +737,11 @@ dependencies = [
 
 [[package]]
 name = "evento-query"
-version = "0.6.3"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f731eb8b0e613b0fada5060c51bbd219a516e3a9e196203489a7039cf6d52e3d"
+checksum = "2c4d54641c165635ebf5174d3660451a8b51d8afbd9332fa5555d4a8c48dc879"
 dependencies = [
- "base64 0.21.3",
+ "base64 0.21.4",
  "chrono",
  "evento",
  "futures-util",
@@ -759,9 +759,9 @@ dependencies = [
 
 [[package]]
 name = "evento-store"
-version = "0.6.3"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10a84aebb0587591f4318314d1e27e0aedff94bbffd64d0f5577aca3e52d911f"
+checksum = "18bffa189ed74895ed67a91358b96f7082bf1d26ff96fb8585a1eaf5992c92b5"
 dependencies = [
  "chrono",
  "futures-util",
@@ -1571,7 +1571,7 @@ version = "0.5.0-rc1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4382426f6e79d209408e362883b9542f934bafb3b98cc957f94e085f707508a0"
 dependencies = [
- "base64 0.21.3",
+ "base64 0.21.4",
  "cfg-if",
  "futures",
  "indexmap 2.0.0",
@@ -2164,9 +2164,9 @@ dependencies = [
 
 [[package]]
 name = "pure-rust-locales"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4b856d7d028ebb0011d78eded5bc9185932412f36c12c67930f222d6b407526b"
+checksum = "ed02a829e62dc2715ceb8afb4f80e298148e1345749ceb369540fe0eb3368432"
 
 [[package]]
 name = "quote"
@@ -2289,7 +2289,7 @@ version = "0.11.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3e9ad3fe7488d7e34558a2033d45a0c90b72d97b4f80705666fea71472e2e6a1"
 dependencies = [
- "base64 0.21.3",
+ "base64 0.21.4",
  "bytes",
  "encoding_rs",
  "futures-core",
@@ -2466,7 +2466,7 @@ version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2d3987094b1d07b653b7dfdc3f70ce9a1da9c51ac18c1b06b662e4f9a0e9f4b2"
 dependencies = [
- "base64 0.21.3",
+ "base64 0.21.4",
 ]
 
 [[package]]
@@ -2897,7 +2897,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ca69bf415b93b60b80dc8fda3cb4ef52b2336614d8da2de5456cc942a110482"
 dependencies = [
  "atoi",
- "base64 0.21.3",
+ "base64 0.21.4",
  "bitflags 2.4.0",
  "byteorder",
  "bytes",
@@ -2941,7 +2941,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a0db2df1b8731c3651e204629dd55e52adbae0462fa1bdcbed56a2302c18181e"
 dependencies = [
  "atoi",
- "base64 0.21.3",
+ "base64 0.21.4",
  "bitflags 2.4.0",
  "byteorder",
  "chrono",
@@ -3378,7 +3378,7 @@ dependencies = [
  "async-stream",
  "async-trait",
  "axum",
- "base64 0.21.3",
+ "base64 0.21.4",
  "bytes",
  "h2",
  "http",
@@ -3519,7 +3519,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f4fea0550a9a4fbae169f3475a5fd16b68b474843e89d831180ad92a6b27b3b4"
 dependencies = [
  "axum",
- "base64 0.21.3",
+ "base64 0.21.4",
  "regex",
  "ring",
  "serde",
@@ -3665,7 +3665,7 @@ version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b11c96ac7ee530603dcdf68ed1557050f374ce55a5a07193ebf8cbc9f8927e9"
 dependencies = [
- "base64 0.21.3",
+ "base64 0.21.4",
  "flate2",
  "log",
  "once_cell",

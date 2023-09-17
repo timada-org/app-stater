@@ -14,7 +14,7 @@ lint:
 	cargo clippy --fix --all-features -- -D warnings
 
 db.reset:
-	sqlx database reset
+	sqlx database reset -y
 
 test:
 	cargo test

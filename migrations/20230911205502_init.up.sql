@@ -1,5 +1,5 @@
 -- Add up migration script here
-CREATE TABLE IF NOT EXISTS _evento_events
+CREATE TABLE IF NOT EXISTS evento_events
 (
     id uuid NOT NULL PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS _evento_events
     created_at timestamptz NOT NULL
 );
 
-CREATE INDEX ON _evento_events (aggregate_id);
-CREATE INDEX ON _evento_events USING GIN (metadata jsonb_ops);
+CREATE INDEX ON evento_events (aggregate_id);
+CREATE INDEX ON evento_events USING GIN (metadata jsonb_ops);
 
-CREATE TABLE IF NOT EXISTS _evento_deadletters
+CREATE TABLE IF NOT EXISTS evento_deadletters
 (
     id uuid NOT NULL PRIMARY KEY,
     name varchar(255) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS _evento_deadletters
     created_at timestamptz NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS _evento_subscriptions
+CREATE TABLE IF NOT EXISTS evento_subscriptions
 (
     id uuid NOT NULL PRIMARY KEY,
     consumer_id uuid NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS _evento_subscriptions
     created_at timestamptz NOT NULL
 );
 
-CREATE UNIQUE INDEX ON _evento_subscriptions (key);
+CREATE UNIQUE INDEX ON evento_subscriptions (key);
 
 CREATE TABLE IF NOT EXISTS feed_feeds
 (

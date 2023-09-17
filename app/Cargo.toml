@@ -24,9 +24,9 @@ unic-langid = "0.9.1"
 http = "0.2.9"
 twa-jwks = { version = "1.2.0", features = ["axum"] }
 sqlx = { version = "0.7.1", features = [ "runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "json" ] }
-evento = "0.6.3"
-evento-axum = "0.6.3"
-evento-query = "0.6.3"
+evento = "0.7.0"
+evento-axum = "0.7.0"
+evento-query = "0.7.0"
 validator = { version = "0.16.1", features = ["derive"] }
 ulid = "1.1.0"
 chrono = { version = "0.4.30", features = ["unstable-locales"] }

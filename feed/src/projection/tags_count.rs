@@ -27,7 +27,7 @@ pub fn tags_count_subscriber() -> Subscriber {
                     return Ok(());
                 };
 
-                let db = ctx.0.read().extract::<PgPool>().clone();
+                let db = ctx.extract::<PgPool>();
 
                 match feed_event {
                     FeedEvent::Created => {
