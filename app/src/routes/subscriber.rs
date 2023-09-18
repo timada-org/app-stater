@@ -35,7 +35,7 @@ pub fn subscriber() -> Subscriber {
                             event: event.name,
                             data: view! {
                                 // <Feed feed=data />
-                                <div _=format!("init then remove #creating-{} then remove @disabled from #form-title then call #form-title.focus()", data.id)>{data.content_short}</div>
+                                <div _=format!("init remove #creating-{} then remove @disabled from #form-title then call #form-title.focus()", data.id)>{data.content_short}</div>
                             }
                             .into_view()
                             .render_to_string()
