@@ -65,7 +65,7 @@ pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> 
                     <a href=app.create_url("")>Global feed</a>
                     {tag_query.tag.as_ref().map(|tag| view! {<span>"#"{tag}</span>})}
                 </div>
-                <div hx-ext="sse" sse-connect=app.create_sse_url("/*")>
+                <div hx-ext="sse" sse-connect=app.create_sse_url("/root")>
                     <div sse-swap="created" hx-target="#list-feeds" hx-swap="beforeend"></div>
                 </div>
                 <div id="list-feeds">
