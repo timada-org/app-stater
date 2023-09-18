@@ -15,7 +15,7 @@ pub async fn root(ctx: AppContext, Path((id,)): Path<(String,)>) -> impl IntoRes
 
     ctx.html(move || {
         view! {
-            <Page title=&feed.title>
+            <Page head=|| () title=&feed.title>
             <div>
                 <div>{feed.author}</div>
                 <div>{feed.total_likes}</div>

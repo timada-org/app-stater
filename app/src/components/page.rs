@@ -4,11 +4,16 @@ use leptos::*;
 use crate::state::use_app;
 
 #[component]
-pub fn Page(
+pub fn Page<F, E>(
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
     children: Children,
     #[prop(into, default = "Timada Starter App".to_owned())] title: String,
-    #[prop(optional)] head: Option<Children>,
-) -> impl IntoView {
+    #[prop(optional)] head: Option<F>,
+) -> impl IntoView
+where
+    F: Fn() -> E + 'static,
+    E: IntoView,
+{
     let app = use_app();
 
     view! {
@@ -28,10 +33,6 @@ pub fn Page(
 
                 <script src="https://unpkg.com/htmx.org@1.9.5" crossorigin="anonymous"></script>
                 <script
-                    src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"
-                    crossorigin="anonymous"
-                ></script>
-                <script
                     src="https://unpkg.com/hyperscript.org@0.9.11"
                     crossorigin="anonymous"
                 ></script>
@@ -39,7 +40,7 @@ pub fn Page(
                 {head.map(|head| head())}
             </head>
 
-            <body hx-ext="response-targets">{children()}</body>
+            <body {..attrs}>{children()}</body>
         </html>
     }
 }
@@ -49,7 +50,7 @@ pub fn NotFoundPage() -> impl IntoView {
     let app = use_app();
 
     view! {
-        <Page title="404 Not Found">
+        <Page head=|| () title="404 Not Found">
             <h1>{fl!(app.fl_loader, "components_page_not-found_title")}</h1>
             <p>{fl!(app.fl_loader, "components_page_not-found_content")}</p>
             <a href=app
@@ -63,7 +64,7 @@ pub fn InternalServerErrorPage() -> impl IntoView {
     let app = use_app();
 
     view! {
-        <Page title="500 Internal Server Error">
+        <Page head=|| () title="500 Internal Server Error">
             <h1>{fl!(app.fl_loader, "components_page_internal-server-error_title")}</h1>
             <p>{fl!(app.fl_loader, "components_page_internal-server-error_content")}</p>
             <a href=app

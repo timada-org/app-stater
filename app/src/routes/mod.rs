@@ -2,12 +2,15 @@ mod api;
 mod component;
 mod feed;
 mod page;
+mod subscriber;
 
 use axum::{
     body::Body,
     routing::{get, post},
     Router,
 };
+
+pub use subscriber::subscriber;
 
 pub fn create_router() -> Router<(), Body> {
     Router::new()

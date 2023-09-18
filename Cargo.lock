@@ -1965,6 +1965,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "pikav-client"
+version = "0.19.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ad25d0d2d0a45345a0c6c24caddc9dc03c8a61bedb62f57ae86573086d63dd0"
+dependencies = [
+ "parking_lot",
+ "prost",
+ "prost-derive",
+ "prost-types",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tonic",
+ "tonic-build",
+ "tracing",
+ "url",
+]
+
+[[package]]
 name = "pin-project"
 version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3012,12 +3032,14 @@ dependencies = [
  "config",
  "evento",
  "evento-query",
+ "futures",
  "http",
  "i18n-embed",
  "i18n-embed-fl",
  "leptos",
  "mime_guess",
  "once_cell",
+ "pikav-client",
  "rust-embed",
  "serde",
  "sqlx",

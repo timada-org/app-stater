@@ -35,7 +35,16 @@ pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> 
         let app = use_app();
 
         view! {
-            <Page>
+            <Page attr:hx-ext="response-targets" head=|| view! {
+                <script
+                    src="https://unpkg.com/htmx.org/dist/ext/sse.js"
+                    crossorigin="anonymous"
+                ></script>
+                <script
+                    src="https://unpkg.com/htmx.org/dist/ext/response-targets.js"
+                    crossorigin="anonymous"
+                ></script>
+            }>
                 {fl!(app.fl_loader, "root_hello-world")}
                 <form
                     hx-post=app.create_url("/_create-feed")
@@ -44,7 +53,7 @@ pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> 
                     hx-target-4xx="#form-response"
                     hx-target-5xx="#form-response"
                 >
-                    <input name="title" minlength="3" maxlength="100" required />
+                    <input id="form-title" name="title" minlength="3" maxlength="100" required />
                 </form>
                 <div id="form-response"></div>
                 <div hx-boost="true">
@@ -55,6 +64,9 @@ pub(super) async fn root(ctx: AppContext, Query(tag_query): Query<TagQuery>) -> 
                 <div hx-boost="true">
                     <a href=app.create_url("")>Global feed</a>
                     {tag_query.tag.as_ref().map(|tag| view! {<span>"#"{tag}</span>})}
+                </div>
+                <div hx-ext="sse" sse-connect=app.create_sse_url("/*")>
+                    <div sse-swap="created" hx-target="#list-feeds" hx-swap="beforeend"></div>
                 </div>
                 <div id="list-feeds">
                     <Feeds tag=tag_query.tag query=feeds />

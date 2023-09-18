@@ -16,7 +16,7 @@ use validator::Validate;
 use crate::{Created, Feed, FeedEvent};
 
 #[derive(Deserialize, Serialize)]
-pub struct CommandMetadata {
+pub struct FeedMetadata {
     pub req_id: String,
     pub req_user: Uuid,
 }
@@ -59,7 +59,7 @@ impl FeedCommand {
                         content: Paragraph(50..100).fake(),
                         tags,
                     })?
-                    .metadata(CommandMetadata {
+                    .metadata(FeedMetadata {
                         req_user: Uuid::from_str(self.user_id.as_str())?,
                         req_id: self.request_id.to_owned(),
                     })?],

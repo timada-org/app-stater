@@ -2,12 +2,19 @@ use config::{ConfigError, Environment, File};
 use serde::Deserialize;
 use std::env;
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Deserialize, Clone)]
+pub struct PikavConfig {
+    pub url: String,
+    pub namespace: String,
+}
+
+#[derive(Deserialize, Clone)]
 pub struct AppConfig {
     pub addr: String,
     pub base_url: Option<String>,
     pub jwks_url: Option<String>,
     pub evento_delay: Option<u64>,
+    pub pikav: PikavConfig,
 }
 
 impl Default for AppConfig {
@@ -17,11 +24,15 @@ impl Default for AppConfig {
             base_url: Some("/starter".to_owned()),
             jwks_url: Some("http://127.0.0.1:4456/.well-known/jwks.json".to_owned()),
             evento_delay: Some(0),
+            pikav: PikavConfig {
+                url: "http://127.0.0.1:6751".to_owned(),
+                namespace: "starter".to_owned(),
+            },
         }
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Deserialize)]
 pub struct Config {
     #[serde(default)]
     pub app: AppConfig,

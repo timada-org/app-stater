@@ -117,6 +117,14 @@ impl AppContext {
         self.create_url(format!("/static/{}", uri.into()))
     }
 
+    pub fn create_sse_url(&self, uri: impl Into<String>) -> String {
+        format!(
+            "/pikav/{}{}",
+            self.config.pikav.namespace,
+            uri.into()
+        )
+    }
+
     fn fl_loader(user_lang: UserLanguage) -> FluentLanguageLoader {
         let langs = user_lang
             .preferred_languages()
