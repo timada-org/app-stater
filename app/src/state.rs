@@ -139,7 +139,7 @@ where
             web_context: WebContext {
                 config: state.config.clone(),
                 fl_loader: Arc::new(fl_loader),
-                lang: lang,
+                lang,
             },
         })
     }

@@ -47,7 +47,7 @@ pub fn subscriber() -> Subscriber {
                             user_id: metadata.req_user.to_string(),
                             topic: "root".to_owned(),
                             event: event.name,
-                            data: html.replace("\n", " ")
+                            data: html.replace('\n', " ")
                         }])
                     }
                     FeedProjectionEvent::Updated => todo!(),
