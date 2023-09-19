@@ -31,3 +31,5 @@ ulid = "1.1.0"
 chrono = { version = "0.4.31", features = ["unstable-locales"] }
 pikav-client = "0.19.0"
 futures = "0.3.28"
+regex-lite = "0.1.0"
+

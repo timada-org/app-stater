@@ -9,7 +9,7 @@ use sqlx::{postgres::PgArguments, query::QueryAs, FromRow, PgPool, Postgres};
 use tracing::warn;
 use uuid::Uuid;
 
-use crate::{FeedMetadata, Created, Feed, FeedEvent, FeedQuery, FeedProjectionEvent};
+use crate::{Created, Feed, FeedEvent, FeedMetadata, FeedProjectionEvent, FeedQuery};
 
 #[derive(Default, Serialize, Deserialize, Clone, Debug, PartialEq, FromRow)]
 pub struct UserFeed {

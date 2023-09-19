@@ -40,6 +40,7 @@ pub async fn serve() -> Result<()> {
     let projection = PgEngine::new_prefix(db.clone(), "projection")
         .name(format!("{}-projection", config.region))
         .data(pikva_client)
+        .data(state_config.clone())
         .subscribe(routes::subscriber())
         .run(config.app.evento_delay.unwrap_or(30))
         .await?;

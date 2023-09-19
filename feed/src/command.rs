@@ -17,6 +17,7 @@ use crate::{Created, Feed, FeedEvent};
 
 #[derive(Deserialize, Serialize)]
 pub struct FeedMetadata {
+    pub user_lang: String,
     pub req_id: String,
     pub req_user: Uuid,
 }
@@ -24,6 +25,7 @@ pub struct FeedMetadata {
 #[derive(Clone)]
 pub struct FeedCommand {
     pub producer: PgProducer,
+    pub user_lang: String,
     pub user_id: String,
     pub request_id: String,
 }
@@ -62,6 +64,7 @@ impl FeedCommand {
                     .metadata(FeedMetadata {
                         req_user: Uuid::from_str(self.user_id.as_str())?,
                         req_id: self.request_id.to_owned(),
+                        user_lang: self.user_lang.to_owned(),
                     })?],
                 0,
             )

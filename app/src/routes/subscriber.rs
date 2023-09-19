@@ -5,6 +5,8 @@ use pikav_client::timada::SimpleEvent;
 use timada_starter_feed::{FeedMetadata, FeedProjectionEvent, UserFeed};
 use tracing::warn;
 
+use crate::state::WebContext;
+
 use super::component::*;
 
 pub fn subscriber() -> Subscriber {
@@ -24,22 +26,28 @@ pub fn subscriber() -> Subscriber {
 
                 let pikav = ctx.extract::<pikav_client::Client>();
                 let metadata = event.to_metadata::<FeedMetadata>()?;
+                let web_context: WebContext = (&ctx, metadata.user_lang).into();
 
                 match feed_event {
                     FeedProjectionEvent::Created => {
                         let data: UserFeed = event.to_data()?;
 
+                        let html = web_context.html(move || {
+                            view! {
+                                <Feed
+                                    feed=data
+                                    tag=None
+                                    cursor=None
+                                    attr:_="init remove @disabled from #form-title then call #form-title.focus()"
+                                />
+                            }
+                        });
+
                         pikav.publish(vec![SimpleEvent {
                             user_id: metadata.req_user.to_string(),
                             topic: "root".to_owned(),
                             event: event.name,
-                            data: view! {
-                                // <Feed feed=data />
-                                <div _=format!("init remove #creating-{} then remove @disabled from #form-title then call #form-title.focus()", data.id)>{data.content_short}</div>
-                            }
-                            .into_view()
-                            .render_to_string()
-                            .to_string(),
+                            data: html.replace("\n", " ")
                         }])
                     }
                     FeedProjectionEvent::Updated => todo!(),

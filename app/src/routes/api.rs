@@ -41,19 +41,12 @@ pub(super) async fn create_feed(
         return ctx.unprocessable_entity(errors).into_response();
     }
 
-    let details = match ctx.feed_cmd.create(&input).await {
-        Ok(events) => events[0].aggregate_details(),
-        Err(e) => return ctx.internal_server_error(e).into_response(),
-    };
-
-    let Some((_, id)) = details else {
-        return ctx
-            .internal_server_error("create_feed <> events[0].aggregate_details() => None")
-            .into_response();
-    };
+    if let Err(e) = ctx.feed_cmd.create(&input).await {
+        return ctx.internal_server_error(e).into_response();
+    }
 
     ctx.html(move || {
-        view! { <div _="init add @disabled to #form-title" id=format!("creating-{id}")>"Creating '" {input.title} "' ..."</div> }
+        view! { <div _="init add @disabled to #form-title then remove me">""</div> }
     })
     .into_response()
 }
