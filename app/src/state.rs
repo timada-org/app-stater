@@ -159,7 +159,7 @@ impl WebContext {
             f()
         });
 
-        std::str::from_utf8(&minify(&html.as_bytes(), &Cfg::new()))
+        std::str::from_utf8(&minify(html.as_bytes(), &Cfg::new()))
             .unwrap_or_default()
             .to_owned()
     }
