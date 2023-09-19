@@ -5,10 +5,11 @@ use axum::{
     Extension, RequestPartsExt,
 };
 use chrono::{DateTime, Locale, TimeZone};
-use evento::PgProducer;
+use evento::{EventoContext, PgProducer};
 use http::{request::Parts, StatusCode};
 use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
 use leptos::*;
+use minify_html::{minify, Cfg};
 use serde::Deserialize;
 use sqlx::PgPool;
 use starter_core::axum_extra::UserLanguage;
@@ -40,10 +41,7 @@ pub struct AppState {
 
 #[derive(Clone)]
 pub struct AppContext {
-    pub config: AppConfig,
-    pub lang: String,
-    pub fl_loader: Arc<FluentLanguageLoader>,
-    pub jwt_claims: JwtClaims,
+    pub web_context: WebContext,
     pub feed_cmd: FeedCommand,
     pub feed_query: FeedQuery,
 }
@@ -54,14 +52,7 @@ impl AppContext {
         F: FnOnce() -> N + 'static,
         N: IntoView,
     {
-        let ctx = self.clone();
-        let html = ssr::render_to_string(move || {
-            provide_context(ctx);
-
-            f()
-        });
-
-        (StatusCode::OK, Html(html.to_string()))
+        (StatusCode::OK, Html(self.web_context.html(f)))
     }
 
     pub fn internal_server_error<E: Display>(&self, err: E) -> impl IntoResponse {
@@ -103,6 +94,75 @@ impl AppContext {
             }),
         )
     }
+}
+
+#[async_trait]
+impl<S> FromRequestParts<S> for AppContext
+where
+    S: Send + Sync,
+{
+    type Rejection = (StatusCode, Html<&'static str>);
+
+    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+        let JwtPayload(jwt_claims) =
+            JwtPayload::<JwtClaims>::from_request_parts(parts, state).await?;
+
+        let Ok(user_lang) = UserLanguage::from_request_parts(parts, state).await else {
+            return Err((StatusCode::BAD_REQUEST, Html("Bad Request")));
+        };
+
+        let fl_loader = WebContext::fl_loader(user_lang);
+        let lang = WebContext::lang(&fl_loader);
+
+        let Extension(state) = parts
+            .extract::<Extension<AppState>>()
+            .await
+            .expect("AppState not configured correctly");
+
+        Ok(Self {
+            feed_cmd: FeedCommand {
+                producer: state.evento,
+                user_id: jwt_claims.sub.to_owned(),
+                request_id: Ulid::new().to_string(),
+                user_lang: lang.clone(),
+            },
+            feed_query: FeedQuery {
+                user_id: jwt_claims.sub,
+                db: state.db,
+            },
+            web_context: WebContext {
+                config: state.config.clone(),
+                fl_loader: Arc::new(fl_loader),
+                lang,
+            },
+        })
+    }
+}
+
+#[derive(Clone)]
+pub struct WebContext {
+    pub config: AppConfig,
+    pub lang: String,
+    pub fl_loader: Arc<FluentLanguageLoader>,
+}
+
+impl WebContext {
+    pub fn html<F, N>(&self, f: F) -> String
+    where
+        F: FnOnce() -> N + 'static,
+        N: IntoView,
+    {
+        let ctx = self.clone();
+        let html = ssr::render_to_string(move || {
+            provide_context(ctx);
+
+            f()
+        });
+
+        std::str::from_utf8(&minify(html.as_bytes(), &Cfg::new()))
+            .unwrap_or_default()
+            .to_owned()
+    }
 
     pub fn create_url(&self, uri: impl Into<String>) -> String {
         let uri = uri.into();
@@ -117,14 +177,25 @@ impl AppContext {
         self.create_url(format!("/static/{}", uri.into()))
     }
 
+    pub fn create_sse_url(&self, uri: impl Into<String>) -> String {
+        format!("/pikav/{}{}", self.config.pikav.namespace, uri.into())
+    }
+
     fn fl_loader(user_lang: UserLanguage) -> FluentLanguageLoader {
         let langs = user_lang
             .preferred_languages()
             .iter()
-            .map(|lang| lang.parse().unwrap())
+            .map(|lang| lang.parse().unwrap_or_default())
             .collect::<Vec<LanguageIdentifier>>();
 
         LANGUAGE_LOADER.select_languages(&langs)
+    }
+
+    fn fl_loader_from_string(user_lang: impl Into<String>) -> FluentLanguageLoader {
+        LANGUAGE_LOADER.select_languages(&[user_lang
+            .into()
+            .parse::<LanguageIdentifier>()
+            .unwrap_or_default()])
     }
 
     fn lang(loader: &FluentLanguageLoader) -> String {
@@ -159,49 +230,21 @@ impl AppContext {
     }
 }
 
-#[async_trait]
-impl<S> FromRequestParts<S> for AppContext
-where
-    S: Send + Sync,
-{
-    type Rejection = (StatusCode, Html<&'static str>);
+impl From<(&EventoContext, String)> for WebContext {
+    fn from(value: (&EventoContext, String)) -> Self {
+        let config = value.0.extract::<AppConfig>();
+        let fl_loader = Self::fl_loader_from_string(&value.1);
 
-    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
-        let JwtPayload(jwt_claims) =
-            JwtPayload::<JwtClaims>::from_request_parts(parts, state).await?;
-
-        let Ok(user_lang) = UserLanguage::from_request_parts(parts, state).await else {
-            return Err((StatusCode::BAD_REQUEST, Html("Bad Request")));
-        };
-
-        let fl_loader = Self::fl_loader(user_lang);
-        let lang = Self::lang(&fl_loader);
-
-        let Extension(state) = parts
-            .extract::<Extension<AppState>>()
-            .await
-            .expect("AppState not configured correctly");
-
-        Ok(Self {
-            config: state.config,
+        Self {
+            config,
             fl_loader: Arc::new(fl_loader),
-            lang,
-            feed_cmd: FeedCommand {
-                producer: state.evento,
-                user_id: jwt_claims.sub.to_owned(),
-                request_id: Ulid::new().to_string(),
-            },
-            feed_query: FeedQuery {
-                user_id: jwt_claims.sub.to_owned(),
-                db: state.db,
-            },
-            jwt_claims,
-        })
+            lang: value.1,
+        }
     }
 }
 
-pub fn use_app() -> AppContext {
-    use_context().expect("AppContext not configured correctly")
+pub fn use_app() -> WebContext {
+    use_context().expect("WebContext not configured correctly")
 }
 
 #[derive(Deserialize, Debug, Clone)]

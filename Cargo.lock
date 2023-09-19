@@ -42,6 +42,15 @@ dependencies = [
 
 [[package]]
 name = "aho-corasick"
+version = "0.7.20"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cc936419f96fa211c1b9166887b38e5e40b19958e5b895be7c1f93adec7071ac"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
+name = "aho-corasick"
 version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0c378d78423fdad8089616f827526ee33c19f2fddbd5de1629152c9593ba4783"
@@ -491,6 +500,12 @@ dependencies = [
 
 [[package]]
 name = "convert_case"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6245d59a3e82a7fc217c5828a6692dbc6dfb63a0c8c90495621f7b9d79704a0e"
+
+[[package]]
+name = "convert_case"
 version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ec182b0ca2f35d8fc196cf3404988fd8b8c739a4d270ff118a398feb0cbec1ca"
@@ -567,6 +582,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "css-minify"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "874c6e2d19f8d4a285083b11a3241bfbe01ac3ed85f26e1e6b34888d960552bd"
+dependencies = [
+ "derive_more",
+ "indexmap 1.9.3",
+ "nom",
+]
+
+[[package]]
 name = "dashmap"
 version = "5.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -599,6 +625,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 2.0.31",
+]
+
+[[package]]
+name = "derive_more"
+version = "0.99.17"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4fb810d30a7c1953f91334de7244731fc3f3c10d7fe163338a35b9f640960321"
+dependencies = [
+ "convert_case 0.4.0",
+ "proc-macro2",
+ "quote",
+ "rustc_version",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -706,9 +745,9 @@ checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 
 [[package]]
 name = "evento"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "01d5dbe83e0e1c7d636d23a297e3f3f9b90db06665b5af0cd34dc5d192f19f0b"
+checksum = "e78b11728a806be037b86ca4fd488502a4c785a8c9ea5a4bd4f991089d5efa2c"
 dependencies = [
  "chrono",
  "evento-store",
@@ -725,9 +764,9 @@ dependencies = [
 
 [[package]]
 name = "evento-query"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c4d54641c165635ebf5174d3660451a8b51d8afbd9332fa5555d4a8c48dc879"
+checksum = "b02744909866fc630e3ff14a9979d567d770983c55f4da7324a5dd619161da79"
 dependencies = [
  "base64 0.21.4",
  "chrono",
@@ -747,9 +786,9 @@ dependencies = [
 
 [[package]]
 name = "evento-store"
-version = "0.7.0"
+version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18bffa189ed74895ed67a91358b96f7082bf1d26ff96fb8585a1eaf5992c92b5"
+checksum = "0197d24cf59c00d8fab457e23278969a9dc07aeccdee2a75a18d3dbb4a4c6e60"
 dependencies = [
  "chrono",
  "futures-util",
@@ -1538,7 +1577,7 @@ checksum = "2ee38aa6bc4e09dcf0bd5ab397b268caa0cf0a13bf8f9754162cf3aba0b04b26"
 dependencies = [
  "attribute-derive",
  "cfg-if",
- "convert_case",
+ "convert_case 0.6.0",
  "html-escape",
  "itertools 0.10.5",
  "leptos_hot_reload",
@@ -1684,6 +1723,30 @@ checksum = "4192263c238a5f0d0c6bfd21f336a313a4ce1c450542449ca191bb657b4642ef"
 dependencies = [
  "mime",
  "unicase",
+]
+
+[[package]]
+name = "minify-html"
+version = "0.11.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc4d9147754a49e80557df835eb59e743eab1bf75410a134f55dc4b9dbb692ad"
+dependencies = [
+ "aho-corasick 0.7.20",
+ "css-minify",
+ "lazy_static",
+ "memchr",
+ "minify-js",
+ "rustc-hash",
+]
+
+[[package]]
+name = "minify-js"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c300f90ba1138b5c5daf5d9441dc9bdc67b808aac22cf638362a2647bc213be4"
+dependencies = [
+ "lazy_static",
+ "parse-js",
 ]
 
 [[package]]
@@ -1883,6 +1946,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "parse-js"
+version = "0.10.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "30534759e6ad87aa144c396544747e1c25b1020bd133356fd758c8facec764e5"
+dependencies = [
+ "aho-corasick 0.7.20",
+ "lazy_static",
+ "memchr",
+]
+
+[[package]]
 name = "paste"
 version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1962,6 +2036,26 @@ checksum = "e1d3afd2628e69da2be385eb6f2fd57c8ac7977ceeff6dc166ff1657b0e386a9"
 dependencies = [
  "fixedbitset",
  "indexmap 2.0.0",
+]
+
+[[package]]
+name = "pikav-client"
+version = "0.19.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ad25d0d2d0a45345a0c6c24caddc9dc03c8a61bedb62f57ae86573086d63dd0"
+dependencies = [
+ "parking_lot",
+ "prost",
+ "prost-derive",
+ "prost-types",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "tokio",
+ "tonic",
+ "tonic-build",
+ "tracing",
+ "url",
 ]
 
 [[package]]
@@ -2233,7 +2327,7 @@ version = "1.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "697061221ea1b4a94a624f67d0ae2bfe4e22b8a17b6a192afb11046542cc8c47"
 dependencies = [
- "aho-corasick",
+ "aho-corasick 1.0.5",
  "memchr",
  "regex-automata 0.3.8",
  "regex-syntax 0.7.5",
@@ -2254,7 +2348,7 @@ version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2f401f4955220693b56f8ec66ee9c78abffd8d1c4f23dc41a23839eb88f0795"
 dependencies = [
- "aho-corasick",
+ "aho-corasick 1.0.5",
  "memchr",
  "regex-syntax 0.7.5",
 ]
@@ -2424,6 +2518,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08d43f7aa6b08d49f382cde6a7982047c3426db949b1424bc4b7ec9ae12c6ce2"
 
 [[package]]
+name = "rustc_version"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bfa0f585226d2e68097d4f95d113b15b83a82e819ab25717ec0590d9584ef366"
+dependencies = [
+ "semver",
+]
+
+[[package]]
 name = "rustix"
 version = "0.38.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2525,6 +2628,12 @@ name = "self_cell"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4c309e515543e67811222dbc9e3dd7e1056279b782e1dacffe4242b718734fb6"
+
+[[package]]
+name = "semver"
+version = "1.0.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0293b4b29daaf487284529cc2f5675b8e57c61f70167ba415a463651fd6a918"
 
 [[package]]
 name = "serde"
@@ -3012,12 +3121,15 @@ dependencies = [
  "config",
  "evento",
  "evento-query",
+ "futures",
  "http",
  "i18n-embed",
  "i18n-embed-fl",
  "leptos",
  "mime_guess",
+ "minify-html",
  "once_cell",
+ "pikav-client",
  "rust-embed",
  "serde",
  "sqlx",

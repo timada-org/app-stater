@@ -31,7 +31,13 @@ pub(super) fn Feeds(tag: Option<String>, query: QueryResult<UserFeed>) -> impl I
 }
 
 #[component]
-fn Feed(feed: UserFeed, cursor: Option<String>, tag: Option<String>) -> impl IntoView {
+pub fn Feed(
+    // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] hs: Option<&'static str>,
+    feed: UserFeed,
+    cursor: Option<String>,
+    tag: Option<String>,
+) -> impl IntoView {
     let app = use_app();
 
     let (hx_get, hx_trigger, hx_swap) = if let Some(cursor) = cursor {
@@ -48,7 +54,14 @@ fn Feed(feed: UserFeed, cursor: Option<String>, tag: Option<String>) -> impl Int
     };
 
     view! {
-        <div id=format!("feed-{}", feed.id) hx-get=hx_get hx-trigger=hx_trigger hx-swap=hx_swap>
+        <div
+            // {..attrs}
+            _=hs
+            id=format!("feed-{}", feed.id)
+            hx-get=hx_get
+            hx-trigger=hx_trigger
+            hx-swap=hx_swap
+        >
             <div>
                 <div>
                     {feed.author} - {app.format_localized(&feed.created_at, "%A %e %B %Y, %T")}

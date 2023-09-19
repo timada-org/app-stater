@@ -27,15 +27,27 @@ pub async fn serve() -> Result<()> {
 
     let jwks = JwksClient::build(config.app.jwks_url).await?;
     let db = PgPool::connect(&config.dsn).await?;
+    let pikva_client = pikav_client::Client::new(pikav_client::ClientOptions {
+        url: config.app.pikav.url.to_owned(),
+        namespace: config.app.pikav.namespace.to_owned(),
+    })?;
 
     sqlx::migrate!("../migrations")
         .set_locking(false)
         .run(&db)
         .await?;
 
+    let projection = PgEngine::new_prefix(db.clone(), "projection")
+        .name(format!("{}-projection", config.region))
+        .data(pikva_client)
+        .data(state_config.clone())
+        .subscribe(routes::subscriber())
+        .run(config.app.evento_delay.unwrap_or(30))
+        .await?;
+
     let evento = PgEngine::new(db.clone())
         .name(&config.region)
-        .data(db.clone())
+        .data(projection)
         .subscribe(timada_starter_feed::feeds_subscriber())
         .subscribe(timada_starter_feed::tags_count_subscriber())
         .run(config.app.evento_delay.unwrap_or(30))

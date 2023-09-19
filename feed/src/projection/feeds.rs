@@ -1,6 +1,6 @@
 use anyhow::Result;
 use chrono::{DateTime, Utc};
-use evento::{Aggregate, Subscriber};
+use evento::{Aggregate, Event, PgProducer, Subscriber};
 use evento_query::{Cursor, CursorError, Query, QueryArgs, QueryResult};
 use fake::{faker::name::en::Name, Fake};
 use futures::FutureExt;
@@ -9,7 +9,7 @@ use sqlx::{postgres::PgArguments, query::QueryAs, FromRow, PgPool, Postgres};
 use tracing::warn;
 use uuid::Uuid;
 
-use crate::{CommandMetadata, Created, Feed, FeedEvent, FeedQuery};
+use crate::{Created, Feed, FeedEvent, FeedMetadata, FeedProjectionEvent, FeedQuery};
 
 #[derive(Default, Serialize, Deserialize, Clone, Debug, PartialEq, FromRow)]
 pub struct UserFeed {
@@ -22,6 +22,16 @@ pub struct UserFeed {
     pub tags: Vec<String>,
     pub user_id: Uuid,
     pub created_at: DateTime<Utc>,
+}
+
+impl Aggregate for UserFeed {
+    fn apply(&mut self, _event: &evento::Event) {
+        unreachable!()
+    }
+
+    fn aggregate_type<'a>() -> &'a str {
+        "feed-feeds"
+    }
 }
 
 impl Cursor for UserFeed {
@@ -73,8 +83,9 @@ pub fn feeds_subscriber() -> Subscriber {
                     return Ok(());
                 };
 
-                let metadata = event.to_metadata::<CommandMetadata>()?;
+                let metadata = event.to_metadata::<FeedMetadata>()?;
                 let db = ctx.extract::<PgPool>();
+                let projection = ctx.extract::<PgProducer>();
 
                 match feed_event {
                     FeedEvent::Created => {
@@ -97,15 +108,24 @@ pub fn feeds_subscriber() -> Subscriber {
                             INSERT INTO feed_feeds (id, user_id, title, author, content, content_short, tags, created_at)
                             VALUES ( $1, $2, $3, $4, $5, $6, $7, $8 )
                             "#,
-                            feed.id,
-                            feed.user_id,
-                            feed.title,
-                            feed.author,
-                            feed.content,
-                            feed.content_short,
+                            &feed.id,
+                            &feed.user_id,
+                            &feed.title,
+                            &feed.author,
+                            &feed.content,
+                            &feed.content_short,
                             &feed.tags,
-                            feed.created_at,
+                            &feed.created_at,
                         ).execute(&db)
+                        .await?;
+
+                        projection.publish::<UserFeed, _>(
+                            feed.id.to_owned(),
+                            vec![Event::new(FeedProjectionEvent::Created)
+                                .data(feed)?
+                                .metadata(metadata)?],
+                                event.version,
+                        )
                         .await?;
                     }
                 };
