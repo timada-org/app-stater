@@ -33,6 +33,7 @@ pub(super) fn Feeds(tag: Option<String>, query: QueryResult<UserFeed>) -> impl I
 #[component]
 pub fn Feed(
     // #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    #[prop(optional)] hs: Option<&'static str>,
     feed: UserFeed,
     cursor: Option<String>,
     tag: Option<String>,
@@ -55,6 +56,7 @@ pub fn Feed(
     view! {
         <div
             // {..attrs}
+            _=hs
             id=format!("feed-{}", feed.id)
             hx-get=hx_get
             hx-trigger=hx_trigger

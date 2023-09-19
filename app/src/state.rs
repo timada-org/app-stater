@@ -9,8 +9,7 @@ use evento::{EventoContext, PgProducer};
 use http::{request::Parts, StatusCode};
 use i18n_embed::{fluent::FluentLanguageLoader, LanguageLoader};
 use leptos::*;
-use once_cell::sync::Lazy;
-use regex_lite::Regex;
+use minify_html::{minify, Cfg};
 use serde::Deserialize;
 use sqlx::PgPool;
 use starter_core::axum_extra::UserLanguage;
@@ -32,11 +31,6 @@ use crate::{
     config::AppConfig,
     i18n::{LANGUAGES, LANGUAGE_LOADER},
 };
-
-pub(crate) static HTML_COMMENTS: Lazy<Regex> = Lazy::new(|| {
-    Regex::new("<!--(.*?)-->|\\s\\B|data-hk=\"[0-9]+-[0-9]+-[0-9]+\"")
-        .expect("Error while creating html comment regex")
-});
 
 #[derive(Clone)]
 pub struct AppState {
@@ -165,7 +159,9 @@ impl WebContext {
             f()
         });
 
-        HTML_COMMENTS.replace_all(html.as_str(), "").to_string()
+        std::str::from_utf8(&minify(&html.as_bytes(), &Cfg::new()))
+            .unwrap_or_default()
+            .to_owned()
     }
 
     pub fn create_url(&self, uri: impl Into<String>) -> String {

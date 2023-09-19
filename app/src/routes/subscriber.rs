@@ -38,7 +38,7 @@ pub fn subscriber() -> Subscriber {
                                     feed=data
                                     tag=None
                                     cursor=None
-                                    attr:_="init remove @disabled from #form-title then call #form-title.focus()"
+                                    hs="init remove @disabled from #form-title then call #form-title.focus()"
                                 />
                             }
                         });
@@ -47,7 +47,7 @@ pub fn subscriber() -> Subscriber {
                             user_id: metadata.req_user.to_string(),
                             topic: "root".to_owned(),
                             event: event.name,
-                            data: html.replace('\n', " ")
+                            data: html
                         }])
                     }
                     FeedProjectionEvent::Updated => todo!(),
