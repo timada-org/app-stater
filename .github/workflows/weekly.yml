@@ -7,9 +7,9 @@ on:
 
 jobs:
   audit:
-    uses: timayz/.github/.github/workflows/rust-audit.yml@v3
+    uses: timayz/.github/.github/workflows/rust-audit.yml@fix/rust/cockroach-user
 
   renovate:
-    uses: timayz/.github/.github/workflows/renovate.yml@v3
+    uses: timayz/.github/.github/workflows/renovate.yml@fix/rust/cockroach-user
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
