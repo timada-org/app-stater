@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    uses: timayz/.github/.github/workflows/rust-test.yml@fix/rust/cockroach-user
+    uses: timayz/.github/.github/workflows/rust-test.yml@v3
     with:
       cockroach: true
       cockroach-user: starter
