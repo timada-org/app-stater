@@ -7,7 +7,7 @@ license = "AGPL-3.0"
 [dependencies]
 timada-starter-feed = { path = "../feed", features = ["proto"], version = "0.3.1" }
 anyhow = "1.0.75"
-tonic = { version = "0.10.1", features = ["tls"] }
+tonic = { version = "0.10.2", features = ["tls"] }
 prost = "0.12.1"
 tokio = "1.32.0"
 tower = { version = "0.4.13", features = ["util"] }
