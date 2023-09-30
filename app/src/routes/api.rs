@@ -2,7 +2,7 @@ use axum::{extract::Query, response::IntoResponse, Form};
 use evento_query::QueryArgs;
 use leptos::*;
 use serde::Deserialize;
-use timada_starter_feed::{CreateFeedInput, ListFeedsInput};
+use starter_feed::{CreateFeedInput, ListFeedsInput};
 use validator::Validate;
 
 use crate::state::AppContext;

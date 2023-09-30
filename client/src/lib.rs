@@ -4,6 +4,9 @@ mod feed;
 use http::uri::InvalidUri;
 use tonic::transport::Channel;
 
+#[cfg(feature = "proto")]
+tonic::include_proto!("starter");
+
 #[cfg(feature = "feed")]
 pub use feed::*;
 pub use tonic::Status;

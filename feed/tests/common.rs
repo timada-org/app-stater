@@ -42,8 +42,8 @@ pub async fn get_producer() -> &'static PgProducer {
 
         PgEngine::new(pool)
             .data(projection)
-            .subscribe(timada_starter_feed::feeds_subscriber())
-            .subscribe(timada_starter_feed::tags_count_subscriber())
+            .subscribe(starter_feed::feeds_subscriber())
+            .subscribe(starter_feed::tags_count_subscriber())
             .run(0)
             .await
             .unwrap()

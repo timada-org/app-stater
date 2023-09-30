@@ -3151,7 +3151,7 @@ dependencies = [
  "config",
  "prost",
  "serde",
- "timada-starter-feed",
+ "timada-starter-client",
  "tokio",
  "tonic",
  "tower",
@@ -3181,7 +3181,7 @@ dependencies = [
  "serde",
  "sqlx",
  "starter-core",
- "timada-starter-feed",
+ "starter-feed",
  "tokio",
  "tower",
  "tracing",
@@ -3209,6 +3209,31 @@ version = "0.3.1"
 dependencies = [
  "axum",
  "http",
+]
+
+[[package]]
+name = "starter-feed"
+version = "0.3.1"
+dependencies = [
+ "anyhow",
+ "backoff",
+ "chrono",
+ "evento",
+ "evento-query",
+ "fake",
+ "futures",
+ "futures-util",
+ "once_cell",
+ "parse-display",
+ "rand",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+ "tracing",
+ "ulid",
+ "uuid",
+ "validator",
 ]
 
 [[package]]
@@ -3345,38 +3370,11 @@ name = "timada-starter-client"
 version = "0.3.1"
 dependencies = [
  "http",
- "timada-starter-feed",
- "tonic",
-]
-
-[[package]]
-name = "timada-starter-feed"
-version = "0.3.1"
-dependencies = [
- "anyhow",
- "backoff",
- "chrono",
- "evento",
- "evento-query",
- "fake",
- "futures",
- "futures-util",
- "once_cell",
- "parse-display",
  "prost",
  "prost-derive",
  "prost-types",
- "rand",
- "serde",
- "serde_json",
- "sqlx",
- "tokio",
  "tonic",
  "tonic-build",
- "tracing",
- "ulid",
- "uuid",
- "validator",
 ]
 
 [[package]]

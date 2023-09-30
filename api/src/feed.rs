@@ -1,4 +1,4 @@
-use timada_starter_feed::{
+use timada_starter_client::{
     feed_server::Feed, CreateFeedRequest, CreateFeedResponse, ListFeedsRequest, ListFeedsResponse,
 };
 use tonic::{Request, Response, Status};

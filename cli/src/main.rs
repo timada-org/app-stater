@@ -27,7 +27,7 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .with(
             EnvFilter::from_str(&format!(
-                "evento={log},pikav_client={log},starter_app={log},starter_api={log},timada_starter_feed={log}"
+                "evento={log},pikav_client={log},starter_app={log},starter_api={log},starter_feed={log}"
             ))
             .unwrap(),
         )

@@ -3,7 +3,7 @@ use evento_query::QueryArgs;
 use i18n_embed_fl::fl;
 use leptos::*;
 use serde::Deserialize;
-use timada_starter_feed::ListFeedsInput;
+use starter_feed::ListFeedsInput;
 
 use crate::{
     components::*,

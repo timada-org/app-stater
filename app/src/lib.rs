@@ -48,8 +48,8 @@ pub async fn serve() -> Result<()> {
     let evento = PgEngine::new(db.clone())
         .name(&config.region)
         .data(projection)
-        .subscribe(timada_starter_feed::feeds_subscriber())
-        .subscribe(timada_starter_feed::tags_count_subscriber())
+        .subscribe(starter_feed::feeds_subscriber())
+        .subscribe(starter_feed::tags_count_subscriber())
         .run(config.app.evento_delay.unwrap_or(30))
         .await?;
 

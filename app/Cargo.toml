@@ -6,7 +6,7 @@ license = "AGPL-3.0"
 
 [dependencies]
 starter-core = { path = "../core", version = "0.3.1" }
-timada-starter-feed = { path = "../feed", version = "0.3.1" }
+starter-feed = { path = "../feed", version = "0.3.1" }
 axum = "0.6.20"
 anyhow = "1.0.75"
 leptos = "0.5.0"

@@ -2,7 +2,7 @@ mod config;
 mod feed;
 
 use anyhow::Result;
-use timada_starter_feed::feed_server::FeedServer;
+use timada_starter_client::feed_server::FeedServer;
 use tonic::transport::Server;
 use tracing::info;
 

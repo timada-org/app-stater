@@ -1,7 +1,7 @@
 mod common;
 
+use starter_feed::{CreateFeedInput, FeedCommand};
 use std::time::Duration;
-use timada_starter_feed::{CreateFeedInput, FeedCommand};
 use tokio::time::sleep;
 use uuid::Uuid;
 
