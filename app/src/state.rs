@@ -13,11 +13,11 @@ use minify_html::{minify, Cfg};
 use serde::Deserialize;
 use sqlx::PgPool;
 use starter_core::axum_extra::UserLanguage;
+use starter_feed::{FeedCommand, FeedQuery};
 use std::{
     fmt::{self, Display},
     sync::Arc,
 };
-use starter_feed::{FeedCommand, FeedQuery};
 use tracing::{error, warn};
 use twa_jwks::axum::JwtPayload;
 use ulid::Ulid;
