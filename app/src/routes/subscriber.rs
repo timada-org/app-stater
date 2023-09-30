@@ -2,7 +2,7 @@ use evento::Subscriber;
 use futures::FutureExt;
 use leptos::*;
 use pikav_client::timada::SimpleEvent;
-use timada_starter_feed::{FeedMetadata, FeedProjectionEvent, UserFeed};
+use starter_feed::{FeedMetadata, FeedProjectionEvent, UserFeed};
 use tracing::warn;
 
 use crate::state::WebContext;

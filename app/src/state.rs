@@ -17,7 +17,7 @@ use std::{
     fmt::{self, Display},
     sync::Arc,
 };
-use timada_starter_feed::{FeedCommand, FeedQuery};
+use starter_feed::{FeedCommand, FeedQuery};
 use tracing::{error, warn};
 use twa_jwks::axum::JwtPayload;
 use ulid::Ulid;

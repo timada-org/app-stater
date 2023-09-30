@@ -1,6 +1,6 @@
 use evento_query::QueryResult;
 use leptos::*;
-use timada_starter_feed::UserFeed;
+use starter_feed::UserFeed;
 
 use crate::state::use_app;
 
