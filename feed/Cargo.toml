@@ -8,10 +8,6 @@ repository = "https://github.com/timayz/starter"
 homepage = "https://timada.co"
 
 [dependencies]
-tonic = { version = "0.10.2", features = ["tls"] }
-prost = "0.12.1"
-prost-types = "0.12.1"
-prost-derive = "0.12.1"
 evento = "0.7.2"
 evento-query = "0.7.2"
 anyhow = "1.0.75"
