@@ -19,5 +19,5 @@ components_page_internal-server-error_title = System Error
 components_page_internal-server-error_content = Something went wrong! Please try again later.
 components_page_internal-server-error_return_home = Return home
 
-# root
-root_hello-world = Hello World!
+# index
+index_hello-world = Hello World!

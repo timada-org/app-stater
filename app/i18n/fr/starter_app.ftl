@@ -19,5 +19,5 @@ components_page_internal-server-error_title = Erreur du système
 components_page_internal-server-error_content = Quelque chose n'a pas fonctionné ! Veuillez réessayer plus tard.
 components_page_internal-server-error_return_home = Retourner à la page d'accueil
 
-# root
-root_hello-world = Bonjour le monde!
+# index
+index_hello-world = Bonjour le monde!

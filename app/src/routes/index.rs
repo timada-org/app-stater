@@ -27,7 +27,7 @@ pub fn IndexPage(
                 ></script>
             }
         }>
-            {fl!(app.fl_loader, "root_hello-world")}
+            {fl!(app.fl_loader, "index_hello-world")}
             <form
                 hx-post=app.create_url("/_create-feed")
                 hx-swap="innerHTML"
@@ -47,7 +47,7 @@ pub fn IndexPage(
             </div> <div hx-boost="true">
                 <a href=app.create_url("")>Global feed</a>
                 {tag.as_ref().map(|tag| view! { <span>"#" {tag}</span> })}
-            </div> <div hx-ext="sse" sse-connect=app.create_sse_url("/root")>
+            </div> <div hx-ext="sse" sse-connect=app.create_sse_url("/index")>
                 <div sse-swap="created" hx-target="#list-feeds" hx-swap="afterbegin"></div>
             </div> <div id="list-feeds">
                 <Feeds tag query=feeds/>
@@ -153,7 +153,7 @@ pub async fn subscribe(
 
         pikav.publish(vec![SimpleEvent {
             user_id: metadata.req_user.to_string(),
-            topic: "root".into(),
+            topic: "index".into(),
             event: "created".into(),
             data: html,
         }])
