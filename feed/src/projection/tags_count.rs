@@ -24,7 +24,7 @@ pub fn tags_count_subscriber() -> Subscriber {
                         event.name
                     );
 
-                    return Ok(());
+                    return Ok(None);
                 };
 
                 let db = ctx.extract::<PgPool>();
@@ -45,7 +45,7 @@ pub fn tags_count_subscriber() -> Subscriber {
                     }
                 };
 
-                Ok(())
+                Ok(None)
             }
             .boxed()
         })

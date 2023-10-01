@@ -3,20 +3,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Display, FromStr)]
 #[display(style = "kebab-case")]
-pub enum FeedProjectionEvent {
-    Created,
-    Updated,
-    Deleted,
-}
-
-impl From<FeedProjectionEvent> for String {
-    fn from(e: FeedProjectionEvent) -> Self {
-        e.to_string()
-    }
-}
-
-#[derive(Display, FromStr)]
-#[display(style = "kebab-case")]
 pub enum FeedEvent {
     Created,
 }
