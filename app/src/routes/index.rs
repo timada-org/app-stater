@@ -21,10 +21,7 @@ pub fn IndexPage(
     view! {
         <Page head=|| {
             view! {
-                <script
-                    src="https://unpkg.com/htmx.org/dist/ext/sse.js"
-                    crossorigin="anonymous"
-                ></script>
+                <HtmxSseScript />
             }
         }>
             {fl!(app.fl_loader, "index_hello-world")}

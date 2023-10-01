@@ -31,11 +31,14 @@ where
                     crossorigin="anonymous"
                 />
 
-                <script src="https://unpkg.com/htmx.org@1.9.5" crossorigin="anonymous"></script>
+                <script src="https://unpkg.com/htmx.org@1.9.6/dist/htmx.min.js" crossorigin="anonymous"></script>
                 <script
-                    src="https://unpkg.com/hyperscript.org@0.9.11"
+                    src="https://unpkg.com/hyperscript.org@0.9.11/dist/_hyperscript.min.js"
                     crossorigin="anonymous"
                 ></script>
+                <script>
+                    r#"htmx.on("htmx:beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"#
+                </script>
 
                 {head.map(|head| head())}
             </head>
@@ -43,16 +46,6 @@ where
             <body {..attrs}>
                 <HotReload/>
                 {children()}
-                <script>
-                    "document.body.addEventListener('htmx:beforeSwap', function(evt) {
-                        // Allow 422 and 400 responses to swap
-                        // We treat these as form validation errors
-                        if (evt.detail.xhr.status === 422 || evt.detail.xhr.status === 400) {
-                        evt.detail.shouldSwap = true;
-                        evt.detail.isError = false;
-                        }
-                    });"
-                </script>
             </body>
         </html>
     }
