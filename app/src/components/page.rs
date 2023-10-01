@@ -34,7 +34,7 @@ where
                 {head.map(|head| head())}
             </head>
 
-            <body class="container mx-auto" {..attrs}>
+            <body {..attrs}>
                 {children()}
                 <HotReload/>
             </body>

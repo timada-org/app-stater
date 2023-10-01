@@ -21,7 +21,7 @@ pub fn IndexPage(
 
     view! {
         <Page head=move || {
-            view! { 
+            view! {
                 <>
                     <link rel="stylesheet" href=index_css crossorigin="anonymous" />
 
