@@ -65,18 +65,20 @@ async fn load_more(
     Query(args): Query<QueryArgs>,
     Query(query): Query<LoadMoreQuery>,
 ) -> impl IntoResponse {
-    let feeds = ctx
-        .feed_query
-        .list_feeds(ListFeedsInput {
-            args,
-            tag: query.tag.to_owned(),
-        })
-        .await
-        .unwrap();
+    let input = ListFeedsInput {
+        args,
+        tag: query.tag.to_owned(),
+    };
+
+    let feeds = match ctx.feed_query.list_feeds(input).await {
+        Ok(res) => res,
+        Err(e) => return ctx.internal_server_error(e).into_response(),
+    };
 
     ctx.html(move || {
         view! { <Feeds tag=query.tag query=feeds/> }
     })
+    .into_response()
 }
 
 async fn create_feed(ctx: AppContext, Form(input): Form<CreateFeedInput>) -> impl IntoResponse {

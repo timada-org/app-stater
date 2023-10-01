@@ -3,7 +3,7 @@ use crate::FeedEvent;
 use super::event::Created;
 use evento::Aggregate;
 use serde::{Deserialize, Serialize};
-use tracing::warn;
+use tracing::{error, warn};
 
 #[derive(Default, Serialize, Deserialize)]
 pub struct Feed {
@@ -19,7 +19,14 @@ impl Aggregate for Feed {
 
         match feed_event {
             FeedEvent::Created => {
-                let data: Created = event.to_data().unwrap();
+                let data = match event.to_data::<Created>() {
+                    Ok(data) => data,
+                    Err(e) => {
+                        error!("Feed.apply {} {}", event.name, e);
+                        return;
+                    }
+                };
+
                 self.title = data.title;
             }
         }
