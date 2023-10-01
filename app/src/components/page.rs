@@ -41,6 +41,7 @@ where
             </head>
 
             <body {..attrs}>
+                <HotReload/>
                 {children()}
                 <script>
                     "document.body.addEventListener('htmx:beforeSwap', function(evt) {
@@ -85,4 +86,30 @@ pub fn InternalServerErrorPage() -> impl IntoView {
                 )>{fl!(app.fl_loader, "components_page_internal-server-error_return_home")}</a>
         </Page>
     }
+}
+
+#[component]
+pub fn HotReload() -> impl IntoView {
+    #[cfg(debug_assertions)]
+    let app = use_app();
+
+    #[cfg(debug_assertions)]
+    view! {
+        <script>
+            {format!(
+                r#"
+            var es = new EventSource("{}");
+            
+            es.addEventListener("hot-reload", function (e) {{
+                location.reload(true);
+            }});
+            "#,
+                app.create_sse_url("/sys")
+            )}
+
+        </script>
+    }
+
+    #[cfg(not(debug_assertions))]
+    None
 }
