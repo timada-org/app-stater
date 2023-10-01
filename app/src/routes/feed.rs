@@ -21,9 +21,7 @@ async fn index(ctx: AppContext, Path((id,)): Path<(String,)>) -> impl IntoRespon
     };
 
     ctx.html(move || {
-        view! {
-            <IndexPage feed />
-        }
+        view! { <IndexPage feed/> }
     })
     .into_response()
 }
