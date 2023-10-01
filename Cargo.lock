@@ -3138,7 +3138,7 @@ dependencies = [
 
 [[package]]
 name = "starter-api"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "config",
@@ -3153,7 +3153,7 @@ dependencies = [
 
 [[package]]
 name = "starter-app"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "axum",
@@ -3186,7 +3186,7 @@ dependencies = [
 
 [[package]]
 name = "starter-cli"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "clap",
  "starter-api",
@@ -3198,7 +3198,7 @@ dependencies = [
 
 [[package]]
 name = "starter-core"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "axum",
  "http",
@@ -3206,7 +3206,7 @@ dependencies = [
 
 [[package]]
 name = "starter-feed"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "anyhow",
  "backoff",
@@ -3360,7 +3360,7 @@ dependencies = [
 
 [[package]]
 name = "timada-starter-client"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "http",
  "prost",
