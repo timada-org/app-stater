@@ -23,7 +23,7 @@ async fn main() {
         .map(|s| s.to_owned())
         .unwrap_or("error".to_owned());
 
-    let env_filter = match EnvFilter::from_str(&format!("{log}")) {
+    let env_filter = match EnvFilter::from_str(log.as_str()) {
         Ok(filter) => filter,
         Err(e) => {
             error!("{}", e);
