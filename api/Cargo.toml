@@ -1,11 +1,11 @@
 [package]
 name = "starter-api"
-version = "0.3.1"
+version = "0.4.0"
 edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
-timada-starter-client = { path = "../client", features = ["proto"], version = "0.3.1" }
+timada-starter-client = { path = "../client", features = ["proto"], version = "0.4.0" }
 anyhow = "1.0.75"
 tonic = { version = "0.10.2", features = ["tls"] }
 prost = "0.12.1"
