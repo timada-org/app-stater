@@ -243,6 +243,34 @@ impl From<(&EventoContext, String)> for WebContext {
     }
 }
 
+#[async_trait]
+impl<S> FromRequestParts<S> for WebContext
+where
+    S: Send + Sync,
+{
+    type Rejection = (StatusCode, Html<&'static str>);
+
+    async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
+        let Ok(user_lang) = UserLanguage::from_request_parts(parts, state).await else {
+            return Err((StatusCode::BAD_REQUEST, Html("Bad Request")));
+        };
+
+        let fl_loader = WebContext::fl_loader(user_lang);
+        let lang = WebContext::lang(&fl_loader);
+
+        let Extension(state) = parts
+            .extract::<Extension<AppState>>()
+            .await
+            .expect("AppState not configured correctly");
+
+        Ok(Self {
+            config: state.config.clone(),
+            fl_loader: Arc::new(fl_loader),
+            lang,
+        })
+    }
+}
+
 pub fn use_app() -> WebContext {
     use_context().expect("WebContext not configured correctly")
 }

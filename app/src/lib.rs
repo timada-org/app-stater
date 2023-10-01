@@ -18,10 +18,11 @@ use pikav_client::timada::SimpleEvent;
 use rust_embed::RustEmbed;
 use sqlx::PgPool;
 use starter_core::axum_extra::{AcceptLanguageSource, QuerySource, UserLanguage};
+use state::WebContext;
 use tracing::info;
 use twa_jwks::JwksClient;
 
-use crate::{config::Config, state::AppState};
+use crate::{components::NotFoundPage, config::Config, state::AppState};
 
 pub async fn serve() -> Result<()> {
     let config = Config::new()?;
@@ -92,7 +93,11 @@ pub async fn serve() -> Result<()> {
 #[prefix = "/static/"]
 struct Assets;
 
-async fn static_handler(uri: Uri, Extension(app): Extension<AppState>) -> impl IntoResponse {
+async fn static_handler(
+    uri: Uri,
+    Extension(app): Extension<AppState>,
+    ctx: WebContext,
+) -> impl IntoResponse {
     let uri = uri.to_string();
     let path = app
         .config
@@ -107,6 +112,17 @@ async fn static_handler(uri: Uri, Extension(app): Extension<AppState>) -> impl I
             uri
         })
         .unwrap_or(uri);
+
+    if !path.starts_with("/static/") {
+        return (
+            StatusCode::NOT_FOUND,
+            [(header::CONTENT_TYPE, "text/html")],
+            ctx.html(move || {
+                view! { <NotFoundPage /> }
+            }),
+        )
+            .into_response();
+    }
 
     match Assets::get(path.as_str()) {
         Some(content) => {

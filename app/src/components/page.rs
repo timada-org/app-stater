@@ -40,7 +40,7 @@ where
                     crossorigin="anonymous"
                 ></script>
                 <script>
-                    "htmx.on("beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"
+                    r#"htmx.on("beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"#
                 </script>
 
                 {head.map(|head| head())}
