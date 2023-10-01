@@ -3,6 +3,7 @@ mod config;
 mod i18n;
 mod routes;
 mod state;
+mod subscriber;
 
 use anyhow::Result;
 use axum::{
@@ -40,9 +41,9 @@ pub async fn serve() -> Result<()> {
     let evento = PgEngine::new(db.clone())
         .name(&config.region)
         .data(pikva_client)
-        .data(state_config.clone())
-        .subscribe(routes::subscriber())
-        .subscribe(starter_feed::tags_count_subscriber())
+        .data(state_config.clone());
+
+    let producer = subscriber::subscribe(evento)
         .run(config.app.evento_delay.unwrap_or(30))
         .await?;
 
@@ -62,7 +63,7 @@ pub async fn serve() -> Result<()> {
     .layer(Extension(jwks))
     .layer(Extension(AppState {
         config: state_config,
-        evento,
+        producer,
         db,
     }));
 
