@@ -24,7 +24,7 @@ test:
 
 fmt:
 	cargo fmt -- --emit files
-	leptosfmt ./*/src/**/*.rs
+	# leptosfmt ./*/src/**/*.rs
 
 deny:
 	cargo deny check

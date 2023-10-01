@@ -1,7 +1,7 @@
 mod error;
-mod page;
 mod htmx;
+mod page;
 
 pub use error::*;
-pub use page::*;
 pub use htmx::*;
+pub use page::*;

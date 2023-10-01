@@ -31,21 +31,24 @@ where
                     crossorigin="anonymous"
                 />
 
-                <script src="https://unpkg.com/htmx.org@1.9.6/dist/htmx.min.js" crossorigin="anonymous"></script>
+                <script
+                    src="https://unpkg.com/htmx.org@1.9.6/dist/htmx.min.js"
+                    crossorigin="anonymous"
+                ></script>
                 <script
                     src="https://unpkg.com/hyperscript.org@0.9.11/dist/_hyperscript.min.js"
                     crossorigin="anonymous"
                 ></script>
                 <script>
-                    r#"htmx.on("htmx:beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"#
+                    "htmx.on("beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"
                 </script>
 
                 {head.map(|head| head())}
             </head>
 
             <body {..attrs}>
-                <HotReload/>
                 {children()}
+                <HotReload/>
             </body>
         </html>
     }
