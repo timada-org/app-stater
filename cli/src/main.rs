@@ -23,14 +23,17 @@ async fn main() {
         .map(|s| s.to_owned())
         .unwrap_or("error".to_owned());
 
+    let env_filter = match EnvFilter::from_str(log.as_str()) {
+        Ok(filter) => filter,
+        Err(e) => {
+            error!("{}", e);
+            std::process::exit(1);
+        }
+    };
+
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
-        .with(
-            EnvFilter::from_str(&format!(
-                "evento={log},pikav_client={log},starter_app={log},starter_api={log},starter_feed={log}"
-            ))
-            .unwrap(),
-        )
+        .with(env_filter)
         .init();
 
     match matches.subcommand() {

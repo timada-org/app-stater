@@ -13,7 +13,7 @@ dev:
 _dev: dev.serve dev.css.index dev.css.feed.index
 
 dev.serve:
-	cargo watch -x 'run -- --log debug serve'
+	cargo watch -x 'run -- --log error,event=debug,starter_app=debug,starter_api=debug serve'
 
 dev.css.index:
 	npx tailwindcss -i ./app/styles/index.css -o ./app/public/css/index.css --watch
