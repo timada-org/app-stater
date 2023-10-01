@@ -14,6 +14,7 @@ use axum::{
 };
 use evento::PgEngine;
 use leptos::*;
+use pikav_client::timada::SimpleEvent;
 use rust_embed::RustEmbed;
 use sqlx::PgPool;
 use starter_core::axum_extra::{AcceptLanguageSource, QuerySource, UserLanguage};
@@ -40,7 +41,7 @@ pub async fn serve() -> Result<()> {
 
     let evento = PgEngine::new(db.clone())
         .name(&config.region)
-        .data(pikva_client)
+        .data(pikva_client.clone())
         .data(state_config.clone());
 
     let producer = subscriber::subscribe(evento)
@@ -66,6 +67,14 @@ pub async fn serve() -> Result<()> {
         producer,
         db,
     }));
+
+    #[cfg(debug_assertions)]
+    pikva_client.publish(vec![SimpleEvent {
+        user_id: "*".into(),
+        topic: "sys".into(),
+        event: "hot-reload".into(),
+        data: "App was updted".into(),
+    }]);
 
     let addr = config.app.addr.parse()?;
 

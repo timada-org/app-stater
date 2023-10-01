@@ -2089,9 +2089,9 @@ dependencies = [
 
 [[package]]
 name = "pikav-client"
-version = "0.19.1"
+version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f788039082641b70ae605f42d33032db19a0775faac8d4d31ca372a5864e4fbb"
+checksum = "127d287107954c841185a3f89bfcdfa31466788cf4671f9b7c2c11a5712b0df4"
 dependencies = [
  "parking_lot",
  "prost",
