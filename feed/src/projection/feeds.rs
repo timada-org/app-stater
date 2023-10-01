@@ -1,7 +1,7 @@
 use anyhow::Result;
 use chrono::{DateTime, Utc};
 use evento::{Aggregate, Subscriber};
-use evento_query::{Cursor, CursorError, Query, QueryArgs, QueryOrder, QueryResult};
+use evento_query::{Cursor, CursorError, Query, QueryArgs, QueryResult};
 use fake::{faker::name::en::Name, Fake};
 use futures::FutureExt;
 use serde::{Deserialize, Serialize};
@@ -133,11 +133,7 @@ impl FeedQuery {
             None => Query::<UserFeed>::new("SELECT * FROM feed_feeds"),
         };
 
-        Ok(query
-            .order(QueryOrder::Desc)
-            .build(input.args)
-            .fetch_all(&self.db)
-            .await?)
+        Ok(query.desc().build(input.args).fetch_all(&self.db).await?)
     }
 
     pub async fn get_feed(&self, id: String) -> Result<Option<UserFeed>> {

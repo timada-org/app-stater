@@ -35,7 +35,7 @@ use crate::{
 #[derive(Clone)]
 pub struct AppState {
     pub config: AppConfig,
-    pub evento: PgProducer,
+    pub producer: PgProducer,
     pub db: PgPool,
 }
 
@@ -121,7 +121,7 @@ where
 
         Ok(Self {
             feed_cmd: FeedCommand {
-                producer: state.evento,
+                producer: state.producer,
                 user_id: jwt_claims.sub.to_owned(),
                 request_id: Ulid::new().to_string(),
                 user_lang: lang.clone(),
