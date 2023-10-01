@@ -20,12 +20,7 @@ pub fn IndexPage(
 
     view! {
         <Page head=|| {
-            view! {
-                <script
-                    src="https://unpkg.com/htmx.org/dist/ext/sse.js"
-                    crossorigin="anonymous"
-                ></script>
-            }
+            view! { <HtmxSseScript/> }
         }>
             {fl!(app.fl_loader, "index_hello-world")}
             <form
@@ -34,7 +29,8 @@ pub fn IndexPage(
                 hx-target="#form-response"
             >
                 <input id="form-title" name="title" required/>
-            </form> <div id="form-response"></div>
+            </form>
+            <div id="form-response"></div>
             <div hx-boost="true">
                 {popular_tags
                     .iter()
@@ -44,12 +40,15 @@ pub fn IndexPage(
                         }
                     })
                     .collect_view()}
-            </div> <div hx-boost="true">
+            </div>
+            <div hx-boost="true">
                 <a href=app.create_url("")>Global feed</a>
                 {tag.as_ref().map(|tag| view! { <span>"#" {tag}</span> })}
-            </div> <div hx-ext="sse" sse-connect=app.create_sse_url("/index")>
+            </div>
+            <div hx-ext="sse" sse-connect=app.create_sse_url("/index")>
                 <div sse-swap="created" hx-target="#list-feeds" hx-swap="afterbegin"></div>
-            </div> <div id="list-feeds">
+            </div>
+            <div id="list-feeds">
                 <Feeds tag query=feeds/>
             </div>
         </Page>
