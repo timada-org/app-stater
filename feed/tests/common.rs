@@ -35,13 +35,7 @@ pub async fn get_producer() -> &'static PgProducer {
             .await
             .unwrap();
 
-        let projection = PgEngine::new_prefix(pool.clone(), "projection")
-            .run(0)
-            .await
-            .unwrap();
-
         PgEngine::new(pool)
-            .data(projection)
             .subscribe(starter_feed::feeds_subscriber())
             .subscribe(starter_feed::tags_count_subscriber())
             .run(0)

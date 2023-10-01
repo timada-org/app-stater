@@ -37,18 +37,11 @@ pub async fn serve() -> Result<()> {
         .run(&db)
         .await?;
 
-    let projection = PgEngine::new_prefix(db.clone(), "projection")
-        .name(format!("{}-projection", config.region))
+    let evento = PgEngine::new(db.clone())
+        .name(&config.region)
         .data(pikva_client)
         .data(state_config.clone())
         .subscribe(routes::subscriber())
-        .run(config.app.evento_delay.unwrap_or(30))
-        .await?;
-
-    let evento = PgEngine::new(db.clone())
-        .name(&config.region)
-        .data(projection)
-        .subscribe(starter_feed::feeds_subscriber())
         .subscribe(starter_feed::tags_count_subscriber())
         .run(config.app.evento_delay.unwrap_or(30))
         .await?;

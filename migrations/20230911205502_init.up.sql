@@ -37,44 +37,6 @@ CREATE TABLE IF NOT EXISTS evento_subscriptions
 
 CREATE UNIQUE INDEX ON evento_subscriptions (key);
 
-CREATE TABLE IF NOT EXISTS evento_projection_events
-(
-    id uuid NOT NULL PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    aggregate_id varchar(255) NOT NULL,
-    version int4 NOT NULL,
-    data json NOT NULL,
-    metadata jsonb DEFAULT NULL,
-    created_at timestamptz NOT NULL
-);
-
-CREATE INDEX ON evento_projection_events (aggregate_id);
-CREATE INDEX ON evento_projection_events USING GIN (metadata jsonb_ops);
-
-CREATE TABLE IF NOT EXISTS evento_projection_deadletters
-(
-    id uuid NOT NULL PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    aggregate_id varchar(255) NOT NULL,
-    version int4 NOT NULL,
-    data json NOT NULL,
-    metadata jsonb DEFAULT NULL,
-    created_at timestamptz NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS evento_projection_subscriptions
-(
-    id uuid NOT NULL PRIMARY KEY,
-    consumer_id uuid NOT NULL,
-    key varchar(255) NOT NULL,
-    enabled BOOLEAN NOT NULL,
-    cursor uuid NULL,
-    updated_at timestamptz NULL,
-    created_at timestamptz NOT NULL
-);
-
-CREATE UNIQUE INDEX ON evento_projection_subscriptions (key);
-
 CREATE TABLE IF NOT EXISTS feed_feeds
 (
     id VARCHAR(26) NOT NULL PRIMARY KEY,

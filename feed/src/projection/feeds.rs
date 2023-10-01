@@ -1,7 +1,7 @@
 use anyhow::Result;
 use chrono::{DateTime, Utc};
-use evento::{Aggregate, Event, PgProducer, Subscriber};
-use evento_query::{Cursor, CursorError, Query, QueryArgs, QueryResult};
+use evento::{Aggregate, Subscriber};
+use evento_query::{Cursor, CursorError, Query, QueryArgs, QueryOrder, QueryResult};
 use fake::{faker::name::en::Name, Fake};
 use futures::FutureExt;
 use serde::{Deserialize, Serialize};
@@ -9,7 +9,7 @@ use sqlx::{postgres::PgArguments, query::QueryAs, FromRow, PgPool, Postgres};
 use tracing::warn;
 use uuid::Uuid;
 
-use crate::{Created, Feed, FeedEvent, FeedMetadata, FeedProjectionEvent, FeedQuery};
+use crate::{Created, Feed, FeedEvent, FeedMetadata, FeedQuery};
 
 #[derive(Default, Serialize, Deserialize, Clone, Debug, PartialEq, FromRow)]
 pub struct UserFeed {
@@ -22,16 +22,6 @@ pub struct UserFeed {
     pub tags: Vec<String>,
     pub user_id: Uuid,
     pub created_at: DateTime<Utc>,
-}
-
-impl Aggregate for UserFeed {
-    fn apply(&mut self, _event: &evento::Event) {
-        unreachable!()
-    }
-
-    fn aggregate_type<'a>() -> &'a str {
-        "feed-feeds"
-    }
 }
 
 impl Cursor for UserFeed {
@@ -80,19 +70,18 @@ pub fn feeds_subscriber() -> Subscriber {
                         event.name
                     );
 
-                    return Ok(());
+                    return Ok(None);
                 };
 
                 let metadata = event.to_metadata::<FeedMetadata>()?;
                 let db = ctx.extract::<PgPool>();
-                let projection = ctx.extract::<PgProducer>();
 
                 match feed_event {
                     FeedEvent::Created => {
                         let data: Created = event.to_data()?;
 
                         let feed = UserFeed {
-                            id: Feed::to_id(event.aggregate_id),
+                            id: Feed::to_id(&event.aggregate_id),
                             user_id: metadata.req_user,
                             title: data.title,
                             author: Name().fake(),
@@ -119,17 +108,11 @@ pub fn feeds_subscriber() -> Subscriber {
                         ).execute(&db)
                         .await?;
 
-                        projection.publish::<UserFeed, _>(
-                            feed.id.to_owned(),
-                            vec![Event::new(FeedProjectionEvent::Created)
-                                .data(feed)?
-                                .metadata(metadata)?],
-                                event.version,
-                        )
-                        .await?;
+
+                Ok(Some(event.data(&feed)?))
                     }
-                };
-                Ok(())
+                }
+
             }
             .boxed()
         })
@@ -150,7 +133,11 @@ impl FeedQuery {
             None => Query::<UserFeed>::new("SELECT * FROM feed_feeds"),
         };
 
-        Ok(query.build(input.args).fetch_all(&self.db).await?)
+        Ok(query
+            .order(QueryOrder::Desc)
+            .build(input.args)
+            .fetch_all(&self.db)
+            .await?)
     }
 
     pub async fn get_feed(&self, id: String) -> Result<Option<UserFeed>> {

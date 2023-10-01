@@ -759,9 +759,9 @@ checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 
 [[package]]
 name = "evento"
-version = "0.7.2"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4d0910ad4825ef089f0684f28f10ba5b6fc2fdedd71fbb67fe106e0bf1b5033"
+checksum = "c575736fb9323b081002beba06444730c0f0deda045989aaac2aae1e76753f76"
 dependencies = [
  "chrono",
  "evento-store",
@@ -778,9 +778,9 @@ dependencies = [
 
 [[package]]
 name = "evento-query"
-version = "0.7.2"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e114aa15a26769151fa5b122e55260cd04fc055806b9d2698e371564ff71153"
+checksum = "0ea0421424271754c04e59e2e795ea95f9c4319de865c40055d03db8d996b901"
 dependencies = [
  "base64 0.21.4",
  "chrono",
@@ -800,9 +800,9 @@ dependencies = [
 
 [[package]]
 name = "evento-store"
-version = "0.7.2"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "52cdf6734fb1c2a8025946197897890f225aa2e7f0c93c6e070d1cbef532a8dd"
+checksum = "0ccfec1b067ab8dcf99dcb6dba08d36332d74e0e8b906af068a0f07a1c9cc10f"
 dependencies = [
  "chrono",
  "futures-util",

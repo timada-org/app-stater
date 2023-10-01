@@ -8,8 +8,8 @@ repository = "https://github.com/timayz/starter"
 homepage = "https://timada.co"
 
 [dependencies]
-evento = "0.7.2"
-evento-query = "0.7.2"
+evento = "0.8.0"
+evento-query = "0.8.0"
 anyhow = "1.0.75"
 ulid = "1.1.0"
 parse-display = "0.8.2"
