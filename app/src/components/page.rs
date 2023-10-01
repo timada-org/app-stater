@@ -11,7 +11,7 @@ pub fn Page<F, E>(
     #[prop(optional)] head: Option<F>,
 ) -> impl IntoView
 where
-    F: Fn() -> E + 'static,
+    F: FnOnce() -> E + 'static,
     E: IntoView,
 {
     let app = use_app();
@@ -25,23 +25,11 @@ where
                 <title>{title}</title>
 
                 <link rel="icon" href=app.create_static_url("favicon.ico")/>
-                <link
-                    rel="stylesheet"
-                    href="https://cdn.jsdelivr.net/npm/@unocss/reset/normalize.min.css"
-                    crossorigin="anonymous"
-                />
 
-                <script
-                    src="https://unpkg.com/htmx.org@1.9.6/dist/htmx.min.js"
-                    crossorigin="anonymous"
-                ></script>
-                <script
-                    src="https://unpkg.com/hyperscript.org@0.9.11/dist/_hyperscript.min.js"
-                    crossorigin="anonymous"
-                ></script>
-                <script>
-                    r#"htmx.on("beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"#
-                </script>
+                <script src="https://unpkg.com/htmx.org@1.9.6/dist/htmx.min.js" crossorigin="anonymous"></script>
+                <script src="https://unpkg.com/hyperscript.org@0.9.11/dist/_hyperscript.min.js" crossorigin="anonymous"></script>
+
+                <script>r#"htmx.on("beforeSwap",function(t){(422===t.detail.xhr.status||400===t.detail.xhr.status)&&(t.detail.shouldSwap=!0,t.detail.isError=!1)});"#</script>
 
                 {head.map(|head| head())}
             </head>
@@ -107,5 +95,5 @@ pub fn HotReload() -> impl IntoView {
     }
 
     #[cfg(not(debug_assertions))]
-    None
+    None::<bool>
 }
