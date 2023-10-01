@@ -17,10 +17,17 @@ pub fn IndexPage(
     popular_tags: Vec<TagCount>,
 ) -> impl IntoView {
     let app = use_app();
+    let index_css = app.create_css_url("index.css");
 
     view! {
-        <Page head=|| {
-            view! { <HtmxSseScript/> }
+        <Page head=move || {
+            view! { 
+                <>
+                    <link rel="stylesheet" href=index_css crossorigin="anonymous" />
+
+                    <HtmxSseScript/>
+                <>
+             }
         }>
             {fl!(app.fl_loader, "index_hello-world")}
             <form
