@@ -78,6 +78,7 @@ async fn load_more(
     ctx.html(move || {
         view! { <Feeds tag=query.tag query=feeds/> }
     })
+    .into_response()
 }
 
 async fn create_feed(ctx: AppContext, Form(input): Form<CreateFeedInput>) -> impl IntoResponse {
