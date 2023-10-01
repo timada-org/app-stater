@@ -41,6 +41,7 @@ where
             </head>
 
             <body {..attrs}>
+                <HotReload/>
                 {children()}
                 <script>
                     "document.body.addEventListener('htmx:beforeSwap', function(evt) {
@@ -52,7 +53,6 @@ where
                         }
                     });"
                 </script>
-                <HotReload />
             </body>
         </html>
     }
@@ -106,6 +106,7 @@ pub fn HotReload() -> impl IntoView {
             "#,
                 app.create_sse_url("/sys")
             )}
+
         </script>
     }
 
