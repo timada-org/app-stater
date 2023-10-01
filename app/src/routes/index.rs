@@ -139,27 +139,24 @@ pub async fn subscribe(
     pikav: pikav_client::Client,
     event: SubscribeEvent<UserFeed, FeedMetadata>,
 ) -> anyhow::Result<()> {
-    match event {
-        SubscribeEvent::Created(feed, metadata) => {
-            let html = ctx.html(move || {
-                view! {
-                    <Feed
-                        feed
-                        tag=None
-                        cursor=None
-                        hs="init remove @disabled from #form-title then call #form-title.focus()"
-                    />
-                }
-            });
+    if let SubscribeEvent::Created(feed, metadata) = event {
+        let html = ctx.html(move || {
+            view! {
+                <Feed
+                    feed
+                    tag=None
+                    cursor=None
+                    hs="init remove @disabled from #form-title then call #form-title.focus()"
+                />
+            }
+        });
 
-            pikav.publish(vec![SimpleEvent {
-                user_id: metadata.req_user.to_string(),
-                topic: "root".into(),
-                event: "created".into(),
-                data: html,
-            }])
-        }
-        _ => {}
+        pikav.publish(vec![SimpleEvent {
+            user_id: metadata.req_user.to_string(),
+            topic: "root".into(),
+            event: "created".into(),
+            data: html,
+        }])
     };
 
     Ok(())
