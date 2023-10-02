@@ -1,7 +1,7 @@
 use leptos::*;
 use starter_feed::UserFeed;
 
-use crate::{components::Page, state::use_app};
+use crate::{components::Layout, state::use_app};
 
 #[component]
 pub fn IndexPage(feed: UserFeed) -> impl IntoView {
@@ -9,7 +9,7 @@ pub fn IndexPage(feed: UserFeed) -> impl IntoView {
     let index_css = app.create_css_url("feed/index.css");
 
     view! {
-        <Page head=|| view! {
+        <Layout head=|| view! {
             <>
                 <link rel="stylesheet" href=index_css crossorigin="anonymous" />
             </>
@@ -27,6 +27,6 @@ pub fn IndexPage(feed: UserFeed) -> impl IntoView {
                     <span>{tag}</span>
                 }).collect_view()}
             </div>
-        </Page>
+        </Layout>
     }
 }
