@@ -1,5 +1,3 @@
-@config "./index.config.js";
-
 /*
 ! tailwindcss v3.3.3 | MIT License | https://tailwindcss.com
 */
@@ -437,16 +435,16 @@ video {
 }
 
 :root,
-[data-theme]{
+[data-theme] {
   background-color: hsl(var(--b1) / var(--tw-bg-opacity, 1));
   color: hsl(var(--bc) / var(--tw-text-opacity, 1));
 }
 
-html{
+html {
   -webkit-tap-highlight-color: transparent;
 }
 
-:root{
+:root {
   color-scheme: light;
   --pf: 259 94% 44%;
   --sf: 314 100% 40%;
@@ -484,8 +482,8 @@ html{
   --bc: 215 28% 17%;
 }
 
-@media (prefers-color-scheme: dark){
-  :root{
+@media (prefers-color-scheme: dark) {
+  :root {
     color-scheme: dark;
     --pf: 262 80% 43%;
     --sf: 316 70% 43%;
@@ -524,7 +522,7 @@ html{
   }
 }
 
-[data-theme=light]{
+[data-theme=light] {
   color-scheme: light;
   --pf: 259 94% 44%;
   --sf: 314 100% 40%;
@@ -562,7 +560,7 @@ html{
   --bc: 215 28% 17%;
 }
 
-[data-theme=dark]{
+[data-theme=dark] {
   color-scheme: dark;
   --pf: 262 80% 43%;
   --sf: 316 70% 43%;
@@ -600,7 +598,7 @@ html{
   --bc: 220 13% 69%;
 }
 
-*, ::before, ::after{
+*, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -650,7 +648,7 @@ html{
   --tw-backdrop-sepia:  ;
 }
 
-::backdrop{
+::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -700,148 +698,148 @@ html{
   --tw-backdrop-sepia:  ;
 }
 
-.container{
+.container {
   width: 100%;
 }
 
-@media (min-width: 640px){
-  .container{
+@media (min-width: 640px) {
+  .container {
     max-width: 640px;
   }
 }
 
-@media (min-width: 768px){
-  .container{
+@media (min-width: 768px) {
+  .container {
     max-width: 768px;
   }
 }
 
-@media (min-width: 1024px){
-  .container{
+@media (min-width: 1024px) {
+  .container {
     max-width: 1024px;
   }
 }
 
-@media (min-width: 1280px){
-  .container{
+@media (min-width: 1280px) {
+  .container {
     max-width: 1280px;
   }
 }
 
-@media (min-width: 1536px){
-  .container{
+@media (min-width: 1536px) {
+  .container {
     max-width: 1536px;
   }
 }
 
-.link{
+.link {
   cursor: pointer;
   text-decoration-line: underline;
 }
 
-@keyframes button-pop{
-  0%{
+@keyframes button-pop {
+  0% {
     transform: scale(var(--btn-focus-scale, 0.98));
   }
 
-  40%{
+  40% {
     transform: scale(1.02);
   }
 
-  100%{
+  100% {
     transform: scale(1);
   }
 }
 
-@keyframes checkmark{
-  0%{
+@keyframes checkmark {
+  0% {
     background-position-y: 5px;
   }
 
-  50%{
+  50% {
     background-position-y: -2px;
   }
 
-  100%{
+  100% {
     background-position-y: 0;
   }
 }
 
-.link:focus{
+.link:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-.link:focus-visible{
+.link:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 
-@keyframes modal-pop{
-  0%{
+@keyframes modal-pop {
+  0% {
     opacity: 0;
   }
 }
 
-@keyframes progress-loading{
-  50%{
+@keyframes progress-loading {
+  50% {
     background-position-x: -115%;
   }
 }
 
-@keyframes radiomark{
-  0%{
+@keyframes radiomark {
+  0% {
     box-shadow: 0 0 0 12px hsl(var(--b1)) inset,
       0 0 0 12px hsl(var(--b1)) inset;
   }
 
-  50%{
+  50% {
     box-shadow: 0 0 0 3px hsl(var(--b1)) inset,
       0 0 0 3px hsl(var(--b1)) inset;
   }
 
-  100%{
+  100% {
     box-shadow: 0 0 0 4px hsl(var(--b1)) inset,
       0 0 0 4px hsl(var(--b1)) inset;
   }
 }
 
-@keyframes rating-pop{
-  0%{
+@keyframes rating-pop {
+  0% {
     transform: translateY(-0.125em);
   }
 
-  40%{
+  40% {
     transform: translateY(-0.125em);
   }
 
-  100%{
+  100% {
     transform: translateY(0);
   }
 }
 
-@keyframes toast-pop{
-  0%{
+@keyframes toast-pop {
+  0% {
     transform: scale(0.9);
     opacity: 0;
   }
 
-  100%{
+  100% {
     transform: scale(1);
     opacity: 1;
   }
 }
 
-.static{
+.static {
   position: static;
 }
 
-.mx-auto{
+.mx-auto {
   margin-left: auto;
   margin-right: auto;
 }
 
-.px-4{
+.px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
 }
