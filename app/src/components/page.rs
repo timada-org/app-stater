@@ -43,6 +43,26 @@ where
 }
 
 #[component]
+pub fn Layout<F, E>(
+    #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
+    children: Children,
+    #[prop(into, default = "Timada Starter App".to_owned())] title: String,
+    head: F,
+) -> impl IntoView
+where
+    F: FnOnce() -> E + 'static,
+    E: IntoView,
+{
+    view! {
+        <Page attrs title head>
+            <div class="container mx-auto px-4">
+                {children()}
+            </div>
+        </Page>
+    }
+}
+
+#[component]
 pub fn NotFoundPage() -> impl IntoView {
     let app = use_app();
 

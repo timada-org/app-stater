@@ -31,6 +31,7 @@ pub fn create_router() -> Router<(), Body> {
 #[derive(Deserialize)]
 pub struct IndexQuery {
     tag: Option<String>,
+    prev_tag: Option<String>,
 }
 
 async fn index(ctx: AppContext, Query(query): Query<IndexQuery>) -> impl IntoResponse {
@@ -49,7 +50,7 @@ async fn index(ctx: AppContext, Query(query): Query<IndexQuery>) -> impl IntoRes
 
     ctx.html(move || {
         view! {
-            <IndexPage feeds popular_tags tag=query.tag />
+            <IndexPage feeds popular_tags tag=query.tag prev_tag=query.prev_tag />
         }
     })
     .into_response()
@@ -90,8 +91,5 @@ async fn create_feed(ctx: AppContext, Form(input): Form<CreateFeedInput>) -> imp
         return ctx.internal_server_error(e).into_response();
     }
 
-    ctx.html(move || {
-        view! { <div _="init add @disabled to #form-title then remove me">""</div> }
-    })
-    .into_response()
+    ctx.html(move || ()).into_response()
 }
