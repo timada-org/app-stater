@@ -1,12 +1,12 @@
 [package]
 name = "starter-app"
-version = "0.5.0"
+version = "0.6.0"
 edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
-starter-core = { path = "../core", version = "0.5.0" }
-starter-feed = { path = "../feed", version = "0.5.0" }
+starter-core = { path = "../core", version = "0.6.0" }
+starter-feed = { path = "../feed", version = "0.6.0" }
 axum = "0.6.20"
 anyhow = "1.0.75"
 leptos = "0.5.0"
