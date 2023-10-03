@@ -30,6 +30,11 @@ pub fn IndexPage(
         .map(|tag| format!("?prev_tag={tag}"))
         .unwrap_or_default();
 
+    let sse_tag_suffix = tag
+        .as_ref()
+        .map(|tag| format!("-{tag}"))
+        .unwrap_or_default();
+
     view! {
         <Layout head=move || {
             view! {
@@ -50,7 +55,7 @@ pub fn IndexPage(
             </form>
             <div id="form-response"></div>
             <div hx-ext="sse" sse-connect=app.create_sse_url("/index")>
-                <div sse-swap="created" hx-target="#list-feeds" hx-swap="afterbegin"></div>
+                <div sse-swap=format!("created{sse_tag_suffix}") hx-target="#list-feeds" hx-swap="afterbegin"></div>
             </div>
             <div class="grid grid-cols-[auto_24rem] gap-4">
                 <div>
@@ -60,7 +65,7 @@ pub fn IndexPage(
                         {tag.as_ref().map(|tag| view! { <span class="text-info border-b-2 border-info relative bottom-[-1.3px] lowercase px-4 pb-2">"#" {tag}</span> })}
                     </div>
                     <div id="list-feeds">
-                        <Feeds backward=true tag query=feeds/>
+                        <Feeds tag query=feeds/>
                     </div>
                 </div>
                 <div hx-boost="true">
@@ -81,28 +86,13 @@ pub fn IndexPage(
 }
 
 #[component]
-pub fn Feeds(
-    tag: Option<String>,
-    query: QueryResult<UserFeed>,
-    #[prop(optional)] backward: bool,
-) -> impl IntoView {
+pub fn Feeds(tag: Option<String>, query: QueryResult<UserFeed>) -> impl IntoView {
     view! {
         <>
             {query
                 .edges
                 .into_iter()
                 .map(|feed| {
-                    let start_cursor = query
-                        .page_info
-                        .end_cursor
-                        .to_owned()
-                        .and_then(|cursor| {
-                            if backward && cursor == feed.cursor && query.page_info.has_next_page {
-                                Some(cursor)
-                            } else {
-                                None
-                            }
-                        });
                     let end_cursor = query
                         .page_info
                         .end_cursor
@@ -114,7 +104,7 @@ pub fn Feeds(
                                 None
                             }
                         });
-                    view! { <Feed tag=tag.to_owned() feed=feed.node start_cursor end_cursor/> }
+                    view! { <Feed tag=tag.to_owned() feed=feed.node end_cursor/> }
                 })
                 .collect_view()}
         </>
@@ -124,9 +114,7 @@ pub fn Feeds(
 #[component]
 pub fn Feed(
     #[prop(attrs)] attrs: Vec<(&'static str, Attribute)>,
-    #[prop(optional)] hs: Option<&'static str>,
     feed: UserFeed,
-    start_cursor: Option<String>,
     end_cursor: Option<String>,
     tag: Option<String>,
 ) -> impl IntoView {
@@ -144,14 +132,12 @@ pub fn Feed(
     } else {
         (None, None, None)
     };
-    
-    // afterbegin
 
     view! {
         <div
             {..attrs}
-            _=hs
             id=format!("feed-{}", feed.id)
+            class="border-b mb-8 pb-16"
             hx-get=hx_get
             hx-trigger=hx_trigger
             hx-swap=hx_swap
@@ -162,16 +148,19 @@ pub fn Feed(
                 </div>
                 <div>{feed.total_likes}</div>
             </div>
-            <article>
-                <h2>{feed.title}</h2>
+            <article class="prose mb-4">
+                <h1>{feed.title}</h1>
                 <p>
                     {feed.content_short} ...
-                    <a hx-boost="true" href=app.create_url(format!("/feed/{}", & feed.id))>
-                        "Read more..."
-                    </a>
+
                 </p>
             </article>
-            <div>{feed.tags.iter().map(|tag| view! { <span>{tag}</span> }).collect_view()}</div>
+            <div class="prose">
+                <a hx-boost="true" href=app.create_url(format!("/feed/{}", & feed.id))>
+                    "Read more..."
+                </a>
+                {feed.tags.iter().map(|tag| view! { <span class="ml-2 badge badge-outline">{tag}</span> }).collect_view()}
+            </div>
         </div>
     }
 }
@@ -182,24 +171,28 @@ pub async fn subscribe(
     event: SubscribeEvent<UserFeed, FeedMetadata>,
 ) -> anyhow::Result<()> {
     if let SubscribeEvent::Created(feed, metadata) = event {
+        let tags = feed.tags.clone();
         let html = ctx.html(move || {
             view! {
-                <Feed
-                    feed
-                    tag=None
-                    start_cursor=None
-                    end_cursor=None
-                    hs="init remove @disabled from #form-title then call #form-title.focus()"
-                />
+                <Feed feed tag=None end_cursor=None />
             }
         });
+
+        for tag in tags {
+            pikav.publish(vec![SimpleEvent {
+                user_id: metadata.req_user.to_string(),
+                topic: "index".into(),
+                event: format!("created-{tag}"),
+                data: html.to_owned(),
+            }]);
+        }
 
         pikav.publish(vec![SimpleEvent {
             user_id: metadata.req_user.to_string(),
             topic: "index".into(),
             event: "created".into(),
             data: html,
-        }])
+        }]);
     };
 
     Ok(())

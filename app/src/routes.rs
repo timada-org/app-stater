@@ -91,8 +91,5 @@ async fn create_feed(ctx: AppContext, Form(input): Form<CreateFeedInput>) -> imp
         return ctx.internal_server_error(e).into_response();
     }
 
-    ctx.html(move || {
-        view! { <div _="init add @disabled to #form-title then remove me">""</div> }
-    })
-    .into_response()
+    ctx.html(move || ()).into_response()
 }
