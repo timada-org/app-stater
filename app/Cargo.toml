@@ -9,9 +9,8 @@ starter-core = { path = "../core", version = "0.6.0" }
 starter-feed = { path = "../feed", version = "0.6.0" }
 axum = "0.6.20"
 anyhow = "1.0.75"
-leptos = "0.5.0"
+leptos = "0.5.1"
 tokio = "1.32.0"
-tower = { version = "0.4.13", features = ["util"] }
 tracing = "0.1.37"
 serde = "1.0.188"
 config = "0.13.3"

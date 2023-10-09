@@ -13,8 +13,6 @@ documentation = "https://docs.rs/timada-starter-client"
 tonic = { version = "0.10.2", features = ["tls"] }
 http = "0.2.9"
 prost = { version = "0.12.1", optional = true }
-prost-types = { version = "0.12.1", optional = true }
-prost-derive = { version = "0.12.1", optional = true }
 
 [build-dependencies]
 tonic-build = { version = "0.10.2", features = ["prost"] }
@@ -24,7 +22,8 @@ default = []
 all = ["feed"]
 proto = [
 	"dep:prost",
-	"dep:prost-types",
-	"dep:prost-derive",
 ]
 feed = ["proto"]
+
+[package.metadata.cargo-machete]
+ignored = ["prost"]
