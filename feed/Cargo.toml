@@ -14,7 +14,6 @@ anyhow = "1.0.75"
 ulid = "1.1.0"
 parse-display = "0.8.2"
 serde = "1.0.188"
-serde_json = "1.0.107"
 validator = { version = "0.16.1", features = ["derive"] }
 tracing = "0.1.37"
 sqlx = { version = "0.7.2", features = [ "runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "json" ] }

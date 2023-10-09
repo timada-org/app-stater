@@ -3153,12 +3153,9 @@ version = "0.6.0"
 dependencies = [
  "anyhow",
  "config",
- "prost",
  "serde",
  "timada-starter-client",
- "tokio",
  "tonic",
- "tower",
  "tracing",
 ]
 
@@ -3187,7 +3184,6 @@ dependencies = [
  "starter-core",
  "starter-feed",
  "tokio",
- "tower",
  "tracing",
  "twa-jwks",
  "ulid",
@@ -3231,7 +3227,6 @@ dependencies = [
  "parse-display",
  "rand",
  "serde",
- "serde_json",
  "sqlx",
  "tokio",
  "tracing",
@@ -3396,8 +3391,6 @@ version = "0.6.0"
 dependencies = [
  "http",
  "prost",
- "prost-derive",
- "prost-types",
  "tonic",
  "tonic-build",
 ]
