@@ -7,7 +7,7 @@ license = "AGPL-3.0"
 [dependencies]
 starter-app = { path = "../app", version = "0.6.0" }
 starter-api = { path = "../api", version = "0.6.0" }
-tokio = { version = "1.32.0", features = ["rt-multi-thread", "macros"] }
+tokio = { version = "1.33.0", features = ["rt-multi-thread", "macros"] }
 clap = "4.4.6"
-tracing = "0.1.37"
+tracing = "0.1.39"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
