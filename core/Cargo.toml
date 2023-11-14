@@ -6,4 +6,4 @@ license = "AGPL-3.0"
 
 [dependencies]
 axum = "0.6.20"
-http = "0.2.9"
+http = "0.2.10"
