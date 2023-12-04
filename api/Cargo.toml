@@ -9,5 +9,5 @@ timada-starter-client = { path = "../client", features = ["proto"], version = "0
 anyhow = "1.0.75"
 tonic = { version = "0.10.2", features = ["tls"] }
 tracing = "0.1.40"
-serde = "1.0.192"
-config = "0.13.3"
+serde = "1.0.193"
+config = "0.13.4"

@@ -8,6 +8,6 @@ license = "AGPL-3.0"
 starter-app = { path = "../app", version = "0.6.0" }
 starter-api = { path = "../api", version = "0.6.0" }
 tokio = { version = "1.34.0", features = ["rt-multi-thread", "macros"] }
-clap = "4.4.8"
+clap = "4.4.10"
 tracing = "0.1.40"
-tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
