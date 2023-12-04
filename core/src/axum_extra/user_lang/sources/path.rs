@@ -1,5 +1,5 @@
 use crate::axum_extra::user_lang::UserLanguageSource;
-use axum::{async_trait, extract::Path, RequestPartsExt};
+use axum::{async_trait, extract::Path, http::request::Parts};
 use std::collections::HashMap;
 
 /// TBD
@@ -18,8 +18,8 @@ impl PathSource {
 
 #[async_trait]
 impl UserLanguageSource for PathSource {
-    async fn languages_from_parts(&self, parts: &mut http::request::Parts) -> Vec<String> {
-        let Ok(path) = parts.extract::<Path<HashMap<String, String>>>().await else {
+    async fn languages_from_parts(&self, parts: &mut Parts) -> Vec<String> {
+        let Some(path) = parts.extensions.get::<Path<HashMap<String, String>>>() else {
             return vec![];
         };
 

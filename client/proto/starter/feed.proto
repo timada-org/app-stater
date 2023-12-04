@@ -20,4 +20,3 @@ message ListFeedsRequest {
 message ListFeedsResponse{
     bool success = 1;
 }
-

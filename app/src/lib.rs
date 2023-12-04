@@ -77,13 +77,13 @@ pub async fn serve() -> Result<()> {
         data: "App was updted".into(),
     }]);
 
-    let addr = config.app.addr.parse()?;
+    info!("app listening on http://{}", &config.app.addr);
 
-    info!("app listening on http://{}", &addr);
+    let listener = tokio::net::TcpListener::bind(config.app.addr)
+        .await
+        .unwrap();
 
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
+    axum::serve(listener, app.into_make_service()).await?;
 
     Ok(())
 }

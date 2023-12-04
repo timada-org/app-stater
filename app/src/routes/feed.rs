@@ -1,12 +1,12 @@
 mod index;
 
-use axum::{body::Body, extract::Path, response::IntoResponse, routing::get, Router};
+use axum::{extract::Path, response::IntoResponse, routing::get, Router};
 use index::IndexPage;
 use leptos::*;
 
 use crate::state::AppContext;
 
-pub fn create_router() -> Router<(), Body> {
+pub fn create_router() -> Router<()> {
     Router::new().route("/", get(index))
 }
 

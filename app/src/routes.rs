@@ -2,7 +2,6 @@ mod feed;
 mod index;
 
 use axum::{
-    body::Body,
     extract::Query,
     response::IntoResponse,
     routing::{get, post},
@@ -20,7 +19,7 @@ pub use index::subscribe;
 
 use crate::state::AppContext;
 
-pub fn create_router() -> Router<(), Body> {
+pub fn create_router() -> Router<()> {
     Router::new()
         .route("/", get(index))
         .route("/_load-more", get(load_more))
