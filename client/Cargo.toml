@@ -11,8 +11,8 @@ documentation = "https://docs.rs/timada-starter-client"
 
 [dependencies]
 tonic = { version = "0.10.2", features = ["tls"] }
-http = "0.2.10"
-prost = { version = "0.12.1", optional = true }
+http = "0.2.11"
+prost = { version = "0.12.3", optional = true }
 
 [build-dependencies]
 tonic-build = { version = "0.10.2", features = ["prost"] }

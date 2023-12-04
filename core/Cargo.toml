@@ -5,5 +5,5 @@ edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
-axum = "0.6.20"
-http = "0.2.10"
+axum = "0.7.2"
+http = "0.2.11"
