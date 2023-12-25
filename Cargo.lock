@@ -3789,7 +3789,7 @@ dependencies = [
  "evento",
  "evento-query",
  "futures",
- "http 0.2.11",
+ "http 1.0.0",
  "i18n-embed",
  "i18n-embed-fl",
  "leptos",
@@ -3827,7 +3827,7 @@ name = "starter-core"
 version = "0.6.0"
 dependencies = [
  "axum 0.7.2",
- "http 0.2.11",
+ "http 1.0.0",
 ]
 
 [[package]]
@@ -4014,7 +4014,7 @@ dependencies = [
 name = "timada-starter-client"
 version = "0.6.0"
 dependencies = [
- "http 0.2.11",
+ "http 1.0.0",
  "prost",
  "tonic",
  "tonic-build",
