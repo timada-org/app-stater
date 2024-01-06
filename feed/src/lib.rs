@@ -1,9 +1,9 @@
 mod aggregate;
 mod command;
 mod event;
-mod projection;
+mod query;
 
 pub use aggregate::*;
 pub use command::*;
 pub use event::*;
-pub use projection::*;
+pub use query::*;

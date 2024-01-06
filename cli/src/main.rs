@@ -38,12 +38,7 @@ async fn main() {
 
     match matches.subcommand() {
         Some(("serve", _sub_matches)) => {
-            let res = tokio::try_join! {
-                starter_api::serve(),
-                starter_app::serve()
-            };
-
-            if let Err(e) = res {
+            if let Err(e) = starter_web::serve().await {
                 error!("{}", e);
                 std::process::exit(1);
             }

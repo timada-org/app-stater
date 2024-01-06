@@ -59,7 +59,7 @@ COPY --from=builder /app/target/release/starter-cli /usr/bin/starter-cli
 
 USER starter:starter
 
-EXPOSE 3000 4000
+EXPOSE 3000
 
 ENTRYPOINT [ "starter-cli" ]
 CMD ["serve"]

@@ -1,27 +1,29 @@
 mod common;
 
-use starter_feed::{CreateFeedInput, FeedCommand};
+use evento::Command;
+use starter_feed::CreateFeedInput;
 use std::time::Duration;
 use tokio::time::sleep;
 use uuid::Uuid;
 
 use crate::common::get_producer;
 
-async fn command() -> FeedCommand {
-    FeedCommand {
-        producer: get_producer().await.clone(),
-        request_id: "".into(),
-        user_id: Uuid::new_v4().to_string(),
-        user_lang: "en".into(),
-    }
+async fn command() -> Command {
+    Command::new(&get_producer().await.clone())
 }
 
 #[tokio::test]
 async fn create() {
-    let cmd = command();
+    let cmd = command().await;
     let events = cmd
-        .await
-        .create(&CreateFeedInput { title: "".into() })
+        .execute(
+            "en".to_owned(),
+            &CreateFeedInput {
+                title: "".into(),
+                user_id: Uuid::new_v4().to_string(),
+                request_id: None,
+            },
+        )
         .await
         .unwrap();
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Starter app{% endblock %}</title>
+
+  <link rel="stylesheet" href="/static/main.css" crossorigin="anonymous" />
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <div class="container mx-auto">
+    <!-- <div class="navbar">
+      <div class="navbar-start">
+        <a href="/" class="btn btn-ghost normal-case text-xl" up-follow>Inventory</a>
+      </div>
+      <div class="navbar-center">
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="http://localhost:3000">Shop</a></li>
+          <li><a href="http://localhost:3001">Payment</a></li>
+        </ul>
+      </div>
+      <div class="navbar-end">
+        <a href="/create" class="btn btn-primary btn-sm" up-layer="new" up-accept-location="/">
+          Add product
+        </a>
+        <a href="/generate" class="btn btn-sm" up-layer="new" up-accept-location="/">
+          Generate products
+        </a>
+      </div>
+    </div> -->
+  </div>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  {% block footer %}{% endblock %}
+</body>
+
+</html>

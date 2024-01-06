@@ -8,8 +8,8 @@ repository = "https://github.com/timayz/starter"
 homepage = "https://timada.co"
 
 [dependencies]
-evento = "1.0.0-alpha.5"
-evento-query = "1.0.0-alpha.5"
+evento = { version = "1.0.0-alpha.7", features = ["pg"] }
+evento-query = { version = "1.0.0-alpha.7", features = ["pg"] }
 anyhow = "1.0.76"
 ulid = "1.1.0"
 parse-display = "0.8.2"
@@ -21,6 +21,7 @@ chrono = { version = "0.4.31", default-features = false, features = ["clock", "s
 futures = "0.3.30"
 fake = "2.9.2"
 rand = "0.8.5"
+async-trait = "0.1.75"
 
 [dependencies.uuid]
 version = "1.6.1"

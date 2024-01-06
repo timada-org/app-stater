@@ -5,10 +5,7 @@ resolver = "2"
 members = [
     "./feed",
     "./cli",
-    "./client",
-    "./api",
-    "./core",
-    "./app"
+    "./web"
 ]
 
 [profile.release]

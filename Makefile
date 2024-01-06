@@ -8,18 +8,15 @@ down:
 	docker compose down -v --remove-orphans
 
 dev:
-	$(MAKE) _dev -j3
+	$(MAKE) _dev -j2
 
-_dev: dev.serve dev.css.index dev.css.feed.index
+_dev: dev.serve dev.tailwind
 
 dev.serve:
-	cargo watch -x 'run -- --log error,evento=debug,starter_app=debug,starter_api=debug serve'
+	cargo watch -x 'run -- --log error,evento=debug,starter_web=debug serve'
 
-dev.css.index:
-	npx tailwindcss -i ./app/styles/index.css -o ./app/public/css/index.css --watch
-
-dev.css.feed.index:
-	npx tailwindcss -i ./app/styles/feed/index.css -o ./app/public/css/feed/index.css --watch
+dev.tailwind:
+	npx tailwindcss -i ./web/style/tailwind.css -o ./web/public/main.css --watch
 
 lint:
 	cargo clippy --fix --all-features -- -D warnings
@@ -35,7 +32,6 @@ test:
 
 fmt:
 	cargo fmt -- --emit files
-	# leptosfmt ./*/src/**/*.rs
 
 deny:
 	cargo deny check
