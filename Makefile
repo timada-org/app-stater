@@ -16,7 +16,7 @@ dev.serve:
 	cargo watch -x 'run -- --log error,evento=debug,starter_web=debug serve'
 
 dev.tailwind:
-	npx tailwindcss -i ./web/style/tailwind.css -o ./web/public/main.css --watch
+	node_modules/.bin/tailwindcss -i ./web/style/tailwind.css -o ./web/public/main.css --watch
 
 lint:
 	cargo clippy --fix --all-features -- -D warnings

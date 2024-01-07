@@ -38,6 +38,7 @@ pub async fn serve() -> Result<()> {
         .data(pikva_client.clone())
         .data(config.clone())
         .rules(starter_feed::rules())
+        .rules(pages::rules())
         .start(config.evento_delay.unwrap_or(30))
         .await?;
 

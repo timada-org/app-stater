@@ -8,19 +8,20 @@ pub use tags_count::*;
 
 #[derive(Display, FromStr)]
 #[display(style = "kebab-case")]
-pub enum ProductRule {
-    ProductDetails,
-    ProductTask,
+pub enum FeedRule {
+    TagsCount,
+    FeedDetails,
 }
 
-impl From<ProductRule> for String {
-    fn from(value: ProductRule) -> Self {
+impl From<FeedRule> for String {
+    fn from(value: FeedRule) -> Self {
         value.to_string()
     }
 }
+
 pub fn rules() -> Vec<Rule> {
     vec![
-        Rule::new(ProductRule::ProductDetails).handler("feed/**", TagsCountHandler),
-        Rule::new(ProductRule::ProductTask).handler("feed/**", FeedDetailsHandler),
+        Rule::new(FeedRule::TagsCount).handler("feed/**", TagsCountHandler),
+        Rule::new(FeedRule::FeedDetails).handler("feed/**", FeedDetailsHandler),
     ]
 }

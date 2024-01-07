@@ -1,70 +1,68 @@
 use askama::Template;
-use askama_axum::{Response, IntoResponse};
-use axum::http::StatusCode;
+use i18n_embed_fl::fl;
+
+use crate::context::Context;
+
+pub struct NotFoundPageHomeLinkFl {
+    title: String,
+}
+
+pub struct NotFoundPageFl {
+    title: String,
+    content: String,
+    home_link: NotFoundPageHomeLinkFl,
+}
 
 #[derive(Template)]
 #[template(path = "404.html")]
-pub struct NotFoundPage;
+pub struct NotFoundPage {
+    ctx: Context,
+    fl: NotFoundPageFl,
+}
+
+impl NotFoundPage {
+    pub fn new(ctx: Context) -> Self {
+        Self {
+            fl: NotFoundPageFl {
+                title: fl!(ctx.fl_loader(), "pages_error-NotFoundPage_title"),
+                content: fl!(ctx.fl_loader(), "pages_error-NotFoundPage_content"),
+                home_link: NotFoundPageHomeLinkFl {
+                    title: fl!(ctx.fl_loader(), "pages_error-NotFoundPage_HomeLink_title"),
+                },
+            },
+            ctx,
+        }
+    }
+}
+
+pub struct InternalServerErrorPageHomeLinkFl {
+    title: String,
+}
+
+pub struct InternalServerErrorPageFl {
+    title: String,
+    content: String,
+    home_link: InternalServerErrorPageHomeLinkFl,
+}
 
 #[derive(Template)]
 #[template(path = "500.html")]
-pub struct InternalServerErrorPage;
-
-#[derive(Debug)]
-pub enum Error {
-    Command(evento::CommandError),
-    Query(evento::QueryError),
+pub struct InternalServerErrorPage {
+    ctx: Context,
+    fl: InternalServerErrorPageFl,
 }
 
-impl From<evento::CommandError> for Error {
-    fn from(value: evento::CommandError) -> Self {
-        Error::Command(value)
-    }
-}
-
-impl From<evento::QueryError> for Error {
-    fn from(value: evento::QueryError) -> Self {
-        Error::Query(value)
-    }
-}
-
-impl IntoResponse for Error {
-    fn into_response(self) -> Response {
-        match self {
-            Error::Command(err) => match err {
-                evento::CommandError::Server(_) => (
-                    StatusCode::NOT_FOUND,
-                    [("X-Up-Target", ".errors")],
-                    InternalServerErrorPage,
-                )
-                    .into_response(),
-                evento::CommandError::Validation(errors) => (
-                    StatusCode::UNPROCESSABLE_ENTITY,
-                    [("X-Up-Target", ".errors")],
-                    format!("{errors:?}"),
-                )
-                    .into_response(),
-                evento::CommandError::NotFound(_) => (
-                    StatusCode::NOT_FOUND,
-                    [("X-Up-Target", ".errors")],
-                    NotFoundPage,
-                )
-                    .into_response(),
+impl InternalServerErrorPage {
+    pub fn new(ctx: Context) -> Self {
+        Self {
+            fl: InternalServerErrorPageFl {
+                title: fl!(ctx.fl_loader(), "pages_error-InternalServerErrorPage_title"),
+                content: fl!(ctx.fl_loader(), "pages_error-InternalServerErrorPage_content"),
+                home_link: InternalServerErrorPageHomeLinkFl {
+                    title: fl!(ctx.fl_loader(), "pages_error-InternalServerErrorPage_HomeLink_title"),
+                },
             },
-            Error::Query(err) => match err {
-                evento::QueryError::Server(_) => (
-                    StatusCode::NOT_FOUND,
-                    [("X-Up-Target", ".errors")],
-                    InternalServerErrorPage,
-                )
-                    .into_response(),
-                evento::QueryError::NotFound(_) => (
-                    StatusCode::NOT_FOUND,
-                    [("X-Up-Target", ".errors")],
-                    NotFoundPage,
-                )
-                    .into_response(),
-            },
+            ctx,
         }
     }
 }

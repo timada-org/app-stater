@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use askama_axum::IntoResponse;
 use axum::http::{header, StatusCode, Uri};
 use rust_embed::RustEmbed;
@@ -11,13 +13,14 @@ struct Assets;
 
 pub async fn static_handler(uri: Uri, ctx: Context) -> impl IntoResponse {
     let uri = uri.to_string();
-    let path = ctx
+    let mut path = ctx
         .config
         .base_url
+        .as_ref()
         .map(|base_url| {
             let mut uri = uri.to_owned();
 
-            if uri.starts_with(&base_url) {
+            if uri.starts_with(base_url) {
                 uri.replace_range(0..base_url.len(), "");
             }
 
@@ -29,9 +32,17 @@ pub async fn static_handler(uri: Uri, ctx: Context) -> impl IntoResponse {
         return (
             StatusCode::NOT_FOUND,
             [(header::CONTENT_TYPE, "text/html")],
-            NotFoundPage,
+            NotFoundPage::new(ctx),
         )
             .into_response();
+    }
+
+    let Ok(uri) = Uri::from_str(&path) else {
+        return (StatusCode::BAD_REQUEST, "400 Bad Request").into_response();
+    };
+
+    if let Some(query) = uri.query() {
+        path = path.replace(&format!("?{query}"), "");
     }
 
     match Assets::get(path.as_str()) {

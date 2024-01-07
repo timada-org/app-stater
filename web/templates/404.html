@@ -4,6 +4,10 @@
 404 Page not found
 {% endblock %}
 
-{% block content %}
-<div class="errors">Not found</div>
+{% block body %}
+<h1>{{ fl.title }}</h1>
+<p>{{ fl.content }}</p>
+<a href={{ ctx.create_url("") }}
+    <p>{{ fl.home_link.title }}</p>
+</a>
 {% endblock %}

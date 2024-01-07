@@ -1,11 +1,39 @@
-{% extends "_base.html" %}
+{% extends "_layout.html" %}
 
 {% block head %}
 
 {% endblock %}
 
 {% block content %}
-<div class="container mx-auto">
-  
+{% include "create_feed_form.html" %}
+<div hx-ext="sse" sse-connect="{{ ctx.create_sse_url("/index") }}">
+    <div sse-swap="{{ format!("created{}", self.sse_tag_suffix()) }}" hx-target="#list-feeds" hx-swap="afterbegin"></div>
+</div>
+<div class="grid grid-cols-[auto_24rem] gap-4">
+    <div>
+        <div class="border-b pb-2 mb-4" hx-boost="true">
+            {% if tag.is_some() %}
+            <a class="px-4 pb-2 relative bottom-[-1.3px]" href="{{ global_link }}">Global feed</a>
+            {% else %}
+            <a class="text-info border-b-2 border-info relative bottom-[-1.3px] px-4 pb-2" href="{{ global_link }}">Global feed</a>
+            {% endif %}
+            {% if let Some(prev_tag) = prev_tag.as_ref() %}
+            <a href="{{ ctx.create_url(format!("?tag={prev_tag}")) }}" class="lowercase px-4 pb-2 relative bottom-[-1.3px]">#{{ prev_tag }}</a>
+            {% endif %}
+            {% if let Some(tag) = tag.as_ref() %}
+            <span class="text-info border-b-2 border-info relative bottom-[-1.3px] lowercase px-4 pb-2">#{{ tag }}</span>
+            {% endif %}
+        </div>
+        <div id="list-feeds">
+            {% include "feeds_list.html" %}
+        </div>
+    </div>
+    <div hx-boost="true">
+        {% for tag in popular_tags %}
+        <div class="badge badge-outline mr-2 mt-2 lowercase">
+            <a href="{{ ctx.create_url(format!("?tag={}", tag.tag)) }}">{{ tag.tag }}</a>
+        </div>
+        {% endfor%}
+    </div>
 </div>
 {% endblock %}

@@ -1,41 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ ctx.user_language() }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Timada Starter app{% endblock %}</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}Starter app{% endblock %}</title>
+    <link rel="icon" href="{{ ctx.create_static_url("favicon.ico") }}" />
+    <link rel="stylesheet" href="{{ ctx.create_static_url("main.css") }}" crossorigin="anonymous" />
 
-  <link rel="stylesheet" href="/static/main.css" crossorigin="anonymous" />
-  {% block head %}{% endblock %}
-</head>
+    <script src="{{ ctx.create_static_url("htmx/htmx.min.js?v=1.9.10") }}" crossorigin="anonymous"></script>
+    <script src="{{ ctx.create_static_url("htmx/sse.min.js?v=1.9.10") }}" crossorigin="anonymous"></script>
+    <script src="{{ ctx.create_static_url("htmx/response-targets.min.js?v=1.9.10") }}" crossorigin="anonymous"></script>
+    {% block head %}{% endblock %}
+  </head>
 
-<body>
-  <div class="container mx-auto">
-    <!-- <div class="navbar">
-      <div class="navbar-start">
-        <a href="/" class="btn btn-ghost normal-case text-xl" up-follow>Inventory</a>
-      </div>
-      <div class="navbar-center">
-        <ul class="menu menu-horizontal px-1">
-          <li><a href="http://localhost:3000">Shop</a></li>
-          <li><a href="http://localhost:3001">Payment</a></li>
-        </ul>
-      </div>
-      <div class="navbar-end">
-        <a href="/create" class="btn btn-primary btn-sm" up-layer="new" up-accept-location="/">
-          Add product
-        </a>
-        <a href="/generate" class="btn btn-sm" up-layer="new" up-accept-location="/">
-          Generate products
-        </a>
-      </div>
-    </div> -->
-  </div>
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-  {% block footer %}{% endblock %}
-</body>
+  <body>
+    <main>{% block body %}{% endblock %}</main>
+    {% block footer %}{% endblock %}
+    
+    {% if ctx.hot_reload() %}
+    <script>
+      var es = new EventSource('{{ ctx.create_sse_url("/sys") }}')
 
+      es.addEventListener("hot-reload", function (e) {
+        {
+          location.reload(true);
+        }
+      })
+    </script>
+    {% endif %}
+  </body>
 </html>

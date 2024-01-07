@@ -1,0 +1,12 @@
+<div hx-ext="response-targets">
+    <form hx-post="{{ ctx.create_url("/_create-feed") }}" hx-swap="innerHTML" hx-target-error="#create-feed-errors">
+        <div class="text-error">
+            <div id="create-feed-errors"></div>
+        </div>
+
+        <input id="form-title" name="title" required />
+        {% if let Some(errs) = errors.get("title") %}
+        <div class="text-error">{{ errs[0] }}</div>
+        {% endif %}
+    </form>
+</div>
