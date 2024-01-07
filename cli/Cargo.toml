@@ -1,11 +1,11 @@
 [package]
 name = "starter-cli"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 license = "AGPL-3.0"
 
 [dependencies]
-starter-web = { path = "../web", version = "0.6.0" }
+starter-web = { path = "../web", version = "0.7.0" }
 tokio = { version = "1.35.1", features = ["rt-multi-thread", "macros"] }
 clap = "4.4.13"
 tracing = "0.1.40"
