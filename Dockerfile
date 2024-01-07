@@ -46,7 +46,7 @@ RUN cargo chef cook --release --package=starter-cli --recipe-path recipe.json
 # Build application
 
 COPY . .
-
+ENV SQLX_OFFLINE true
 RUN cargo build --release --bin starter-cli --package starter-cli
 
 FROM scratch
@@ -59,7 +59,7 @@ COPY --from=builder /app/target/release/starter-cli /usr/bin/starter-cli
 
 USER starter:starter
 
-EXPOSE 3000 4000
+EXPOSE 3000
 
 ENTRYPOINT [ "starter-cli" ]
 CMD ["serve"]

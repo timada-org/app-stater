@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+{% block title %}
+500 Internal Server Error
+{% endblock %}
+
+{% block body %}
+<h1>{{ fl.title }}</h1>
+<p>{{ fl.content }}</p>
+<a href={{ ctx.create_url("") }}
+    <p>{{ fl.home_link.title }}</p>
+</a>
+{% endblock %}

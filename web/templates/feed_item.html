@@ -1,0 +1,33 @@
+{% let feed_id = feed.node.id.to_owned() %}
+
+<div
+    id="{{ format!("feed-{feed_id}") }}"
+    class="border-b mb-8 pb-16"
+    {% if let Some(end_cursor) = end_cursor %}
+    {% let query_tag = self.query_tag() %}
+    hx-get="{{ ctx.create_url(format!("/_load-more?first=20&after={}{query_tag}", end_cursor.0)) }}"
+    hx-trigger="revealed"
+    hx-swap="afterend"
+    {% endif %}
+>
+    <div>
+        <div>
+            {{ feed.node.author }} - {{ ctx.format_localized(feed.node.created_at, "%A %e %B %Y, %T") }}
+        </div>
+        <div>{{ feed.node.total_likes }}</div>
+    </div>
+    <article class="prose mb-4">
+        <h1>{{ feed.node.title }}</h1>
+        <p>
+            {{ feed.node.content_short }}...
+        </p>
+    </article>
+    <div class="prose">
+        <a hx-boost="true" href="{{ ctx.create_url(format!("/feed/{feed_id}")) }}">
+            Read more...
+        </a>
+        {% for feed_tag in feed.node.tags %}
+        <span class="ml-2 badge badge-outline">{{ feed_tag }}</span>
+        {% endfor %}
+    </div>
+</div>

@@ -1,4 +1,4 @@
-use evento::{PgEngine, PgProducer};
+use evento::{PgConsumer, Producer};
 use futures_util::{Future, TryFutureExt};
 use sqlx::{
     migrate::{MigrateDatabase, Migrator},
@@ -7,9 +7,9 @@ use sqlx::{
 use std::{io, path::Path, time::Duration};
 use tokio::sync::OnceCell;
 
-static ONCE: OnceCell<PgProducer> = OnceCell::const_new();
+static ONCE: OnceCell<Producer> = OnceCell::const_new();
 
-pub async fn get_producer() -> &'static PgProducer {
+pub async fn get_producer() -> &'static Producer {
     ONCE.get_or_init(|| async {
         let dsn = "postgres://starter@127.0.0.1:26257/starter_test?sslmode=disable";
         let exists = retry_connect_errors(dsn, Any::database_exists)
@@ -35,10 +35,9 @@ pub async fn get_producer() -> &'static PgProducer {
             .await
             .unwrap();
 
-        PgEngine::new(pool)
-            .subscribe(starter_feed::feeds_subscriber())
-            .subscribe(starter_feed::tags_count_subscriber())
-            .run(0)
+        PgConsumer::new(&pool)
+            .rules(starter_feed::rules())
+            .start(0)
             .await
             .unwrap()
     })

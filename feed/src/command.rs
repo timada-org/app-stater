@@ -1,7 +1,5 @@
-use std::{collections::HashSet, str::FromStr};
-
-use anyhow::Result;
-use evento::{Event, PgProducer};
+use async_trait::async_trait;
+use evento::{Command, CommandHandler, CommandOutput};
 use fake::{
     faker::company::en::Buzzword,
     faker::lorem::en::{Paragraph, Sentence},
@@ -9,35 +7,30 @@ use fake::{
 };
 use rand::{seq::SliceRandom, Rng};
 use serde::{Deserialize, Serialize};
+use std::{collections::HashSet, str::FromStr};
 use ulid::Ulid;
 use uuid::Uuid;
 use validator::Validate;
 
-use crate::{Created, Feed, FeedEvent};
+use crate::{Created, Feed};
 
 #[derive(Deserialize, Serialize)]
 pub struct FeedMetadata {
-    pub user_lang: String,
     pub req_id: String,
     pub req_user: Uuid,
-}
-
-#[derive(Clone)]
-pub struct FeedCommand {
-    pub producer: PgProducer,
-    pub user_lang: String,
-    pub user_id: String,
-    pub request_id: String,
 }
 
 #[derive(Deserialize, Validate)]
 pub struct CreateFeedInput {
     #[validate(length(min = 3, max = 100))]
     pub title: String,
+    pub user_id: String,
+    pub request_id: Option<String>,
 }
 
-impl FeedCommand {
-    pub async fn create(&self, _input: &CreateFeedInput) -> Result<Vec<Event>> {
+#[async_trait]
+impl CommandHandler for CreateFeedInput {
+    async fn handle(&self, cmd: &Command) -> CommandOutput {
         let tags: Vec<String> = [
             Buzzword().fake(),
             Buzzword().fake(),
@@ -51,23 +44,21 @@ impl FeedCommand {
         .into_iter()
         .collect::<Vec<_>>();
 
-        let events = self
-            .producer
-            .publish::<Feed, _>(
-                Ulid::new(),
-                vec![Event::new(FeedEvent::Created)
-                    .data(Created {
-                        title: Sentence(5..10).fake(),
-                        content: Paragraph(50..100).fake(),
-                        tags,
-                    })?
-                    .metadata(FeedMetadata {
-                        req_user: Uuid::from_str(self.user_id.as_str())?,
-                        req_id: self.request_id.to_owned(),
-                        user_lang: self.user_lang.to_owned(),
-                    })?],
-                0,
-            )
+        let events = cmd
+            .write(Ulid::new())
+            .metadata(FeedMetadata {
+                req_user: Uuid::from_str(self.user_id.as_str())?,
+                req_id: self
+                    .request_id
+                    .to_owned()
+                    .unwrap_or(Uuid::new_v4().to_string()),
+            })?
+            .event(Created {
+                title: Sentence(5..10).fake(),
+                content: Paragraph(50..100).fake(),
+                tags,
+            })?
+            .commit::<Feed>()
             .await?;
 
         Ok(events)

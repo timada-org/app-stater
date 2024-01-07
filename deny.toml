@@ -145,12 +145,9 @@ exceptions = [
     # list
     #{ allow = ["Zlib"], name = "adler32", version = "*" },
     { allow = ["OpenSSL"], name = "ring" },
-    { allow = ["AGPL-3.0"], name = "timada-starter-client" },
     { allow = ["AGPL-3.0"], name = "starter-feed" },
     { allow = ["AGPL-3.0"], name = "starter-cli" },
-    { allow = ["AGPL-3.0"], name = "starter-app" },
-    { allow = ["AGPL-3.0"], name = "starter-api" },
-    { allow = ["AGPL-3.0"], name = "starter-core" },
+    { allow = ["AGPL-3.0"], name = "starter-web" },
 ]
 
 # Some crates don't have (easily) machine readable licensing information,

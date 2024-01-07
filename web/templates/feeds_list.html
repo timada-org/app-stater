@@ -1,0 +1,4 @@
+{% for feed in feeds.edges %}
+{% let end_cursor = self.end_cursor(feed) %}
+{% include "feed_item.html" %}
+{% endfor %}

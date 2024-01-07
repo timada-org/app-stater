@@ -1,0 +1,24 @@
+{% extends "_layout.html" %}
+
+{% block title %}{{ feed.title }}{% endblock %}
+
+{% block content %}
+<div>
+<a href={{ ctx.create_url("") }}
+    <p>{{ fl.home_link.title }}</p>
+</a>
+</div>
+<div>
+  <div>{{ feed.author }}</div>
+  <div>{{ feed.total_likes }}</div>
+</div>
+<article>
+  <h2>{{ feed.title }}</h2>
+  <p>{{ feed.content }}</p>
+</article>
+<div>
+  {% for tag in feed.tags %}
+  <span>{{tag}}</span>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    INSERT INTO feed_feeds (id, user_id, title, author, content, content_short, tags, created_at)\n                    VALUES ( $1, $2, $3, $4, $5, $6, $7, $8 )\n                    ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Uuid",
+        "Varchar",
+        "Varchar",
+        "Text",
+        "Varchar",
+        "VarcharArray",
+        "Timestamptz"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "dff68e09d9e30923a2dfd94de067cbb6b8f96717dfafa52519680115a95cc6f6"
+}
