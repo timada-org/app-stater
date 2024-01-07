@@ -10,6 +10,7 @@ use config::Config;
 use context::Context;
 use evento::PgConsumer;
 use evento_axum::{AcceptLanguageSource, QuerySource, UserLanguage};
+#[cfg(debug_assertions)]
 use pikav_client::timada::SimpleEvent;
 use sqlx::PgPool;
 use tracing::info;

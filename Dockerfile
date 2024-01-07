@@ -46,7 +46,7 @@ RUN cargo chef cook --release --package=starter-cli --recipe-path recipe.json
 # Build application
 
 COPY . .
-
+ENV SQLX_OFFLINE true
 RUN cargo build --release --bin starter-cli --package starter-cli
 
 FROM scratch
