@@ -1918,9 +1918,9 @@ dependencies = [
 
 [[package]]
 name = "pikav-client"
-version = "0.20.7"
+version = "0.20.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f4e3637dc1db19ce38c47e5dfddfbc0decbb14431883d36721a8a1d94ba6a41"
+checksum = "7aa91a0ae6cfe8b192fde3a57baeb85d64710e4d9a5fa8b0fa35d7cf6a1adcfa"
 dependencies = [
  "parking_lot",
  "prost",
@@ -3245,9 +3245,9 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "twa-jwks"
-version = "1.2.9"
+version = "1.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b8a7854efb8cf7de86d23af8260cbfd26da668b47cb9bd9bc54030075ef16c7b"
+checksum = "601473cb016c040c546d73bb463271d98b807d75d9268a6903a1cc717eb9180c"
 dependencies = [
  "axum 0.7.3",
  "base64 0.21.5",
