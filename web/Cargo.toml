@@ -7,12 +7,12 @@ license = "AGPL-3.0"
 [dependencies]
 starter-feed = { path = "../feed", version = "0.6.0" }
 axum = "0.7.3"
-anyhow = "1.0.78"
+anyhow = "1.0.79"
 tokio = "1.35.1"
 tracing = "0.1.40"
-serde = "1.0.193"
+serde = "1.0.195"
 config = "0.13.4"
-rust-embed = "8.1.0"
+rust-embed = "8.2.0"
 mime_guess = "2.0.4"
 i18n-embed = { version = "0.14.1", features = ["fluent-system"] }
 i18n-embed-fl = "0.7.0"
