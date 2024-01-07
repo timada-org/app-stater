@@ -4,7 +4,7 @@ use askama::Template;
 use askama_axum::Response;
 use axum::{async_trait, extract::Query, Form};
 use evento::{store::Event, Aggregate, ConsumerContext, RuleHandler};
-use evento_query::{CursorType, Edge, QueryResult};
+use evento_query::{Cursor, CursorType, Edge, QueryResult};
 use pikav_client::timada::SimpleEvent;
 use serde::Deserialize;
 use starter_feed::{
@@ -13,7 +13,10 @@ use starter_feed::{
 };
 use validator::Validate;
 
-use crate::context::{Context, UserContext};
+use crate::{
+    config::Config,
+    context::{Context, UserContext},
+};
 
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -160,6 +163,36 @@ pub async fn create_feed(
     })
 }
 
+#[derive(Template)]
+#[template(path = "feed_item.html")]
+pub struct FeedItemTemplate {
+    ctx: UserContext,
+    feed: Edge<UserFeed>,
+    end_cursor: Option<CursorType>,
+}
+
+impl FeedItemTemplate {
+    fn query_tag(&self) -> String {
+        "".into()
+    }
+}
+
+pub async fn feed(
+    ctx: UserContext,
+    Query(input): Query<starter_feed::GetFeedInput>,
+) -> Result<FeedItemTemplate, Response> {
+    let feed = ctx.query(input).await?;
+
+    Ok(FeedItemTemplate {
+        ctx,
+        feed: Edge {
+            cursor: feed.to_cursor(),
+            node: feed,
+        },
+        end_cursor: None,
+    })
+}
+
 #[derive(Clone)]
 pub struct IndexFeedHandler;
 
@@ -168,6 +201,7 @@ impl RuleHandler for IndexFeedHandler {
     async fn handle(&self, event: Event, ctx: ConsumerContext) -> anyhow::Result<()> {
         let id = Feed::from_aggregate_id(&event.aggregate_id);
         let pikav = ctx.extract::<pikav_client::Client>();
+        let config = ctx.extract::<Config>();
         let Some(metadata) = event.to_metadata::<FeedMetadata>()? else {
             return Ok(());
         };
@@ -175,13 +209,17 @@ impl RuleHandler for IndexFeedHandler {
         match event.name.parse()? {
             FeedEvent::Created => {
                 let data: Created = event.to_data()?;
+                let html = format!(
+                    r#"<div hx-get="{}?id={id}" hx-swap="outerHTML" hx-trigger="load"></div>"#,
+                    config.create_url("/_feed")
+                );
 
                 for tag in data.tags {
                     pikav.publish(vec![SimpleEvent {
                         user_id: metadata.req_user.to_string(),
                         topic: "index".into(),
                         event: format!("created-{tag}"),
-                        data: id.to_owned(),
+                        data: html.to_owned(),
                     }]);
                 }
 
@@ -189,7 +227,7 @@ impl RuleHandler for IndexFeedHandler {
                     user_id: metadata.req_user.to_string(),
                     topic: "index".into(),
                     event: "created".into(),
-                    data: id,
+                    data: html,
                 }]);
             }
         };

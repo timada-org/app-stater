@@ -50,4 +50,12 @@ impl Config {
             .build()?
             .try_deserialize()
     }
+
+    pub fn create_url(&self, uri: impl Into<String>) -> String {
+        let uri = uri.into();
+        self.base_url
+            .as_ref()
+            .map(|base_url| format!("{base_url}{}", uri))
+            .unwrap_or(uri)
+    }
 }

@@ -106,12 +106,7 @@ impl Context {
     }
 
     pub fn create_url(&self, uri: impl Into<String>) -> String {
-        let uri = uri.into();
-        self.config
-            .base_url
-            .as_ref()
-            .map(|base_url| format!("{base_url}{}", uri))
-            .unwrap_or(uri)
+        self.config.create_url(uri)
     }
 
     pub fn create_static_url(&self, uri: impl Into<String>) -> String {

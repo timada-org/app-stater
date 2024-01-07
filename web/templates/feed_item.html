@@ -1,5 +1,7 @@
+{% let feed_id = feed.node.id.to_owned() %}
+
 <div
-    id="{{ format!("feed-{}", feed.node.id) }}"
+    id="{{ format!("feed-{feed_id}") }}"
     class="border-b mb-8 pb-16"
     {% if let Some(end_cursor) = end_cursor %}
     {% let query_tag = self.query_tag() %}
@@ -21,7 +23,7 @@
         </p>
     </article>
     <div class="prose">
-        <a hx-boost="true" href="{{ ctx.create_url(format!("/feed/{}", feed.node.id)) }}">
+        <a hx-boost="true" href="{{ ctx.create_url(format!("/feed/{feed_id}")) }}">
             Read more...
         </a>
         {% for feed_tag in feed.node.tags %}

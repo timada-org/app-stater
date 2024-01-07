@@ -18,6 +18,7 @@ pub fn create_router() -> Router {
         .route("/", get(index))
         .route("/_create-feed", post(create_feed))
         .route("/_load-more", get(load_more))
+        .route("/_feed", get(feed))
         .nest("/feed/:id", feed::create_router())
 }
 
