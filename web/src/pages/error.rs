@@ -57,9 +57,15 @@ impl InternalServerErrorPage {
         Self {
             fl: InternalServerErrorPageFl {
                 title: fl!(ctx.fl_loader(), "pages_error-InternalServerErrorPage_title"),
-                content: fl!(ctx.fl_loader(), "pages_error-InternalServerErrorPage_content"),
+                content: fl!(
+                    ctx.fl_loader(),
+                    "pages_error-InternalServerErrorPage_content"
+                ),
                 home_link: InternalServerErrorPageHomeLinkFl {
-                    title: fl!(ctx.fl_loader(), "pages_error-InternalServerErrorPage_HomeLink_title"),
+                    title: fl!(
+                        ctx.fl_loader(),
+                        "pages_error-InternalServerErrorPage_HomeLink_title"
+                    ),
                 },
             },
             ctx,
