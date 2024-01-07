@@ -228,6 +228,10 @@ impl UserContext {
     pub fn create_sse_url(&self, uri: impl Into<String>) -> String {
         self.inner.create_sse_url(uri)
     }
+
+    pub fn hot_reload(&self) -> bool {
+        self.inner.hot_reload()
+    }
 }
 
 #[async_trait]

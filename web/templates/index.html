@@ -1,9 +1,5 @@
 {% extends "_layout.html" %}
 
-{% block head %}
-
-{% endblock %}
-
 {% block content %}
 {% include "create_feed_form.html" %}
 <div hx-ext="sse" sse-connect="{{ ctx.create_sse_url("/index") }}">

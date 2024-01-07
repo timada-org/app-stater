@@ -18,7 +18,6 @@ validator = { version = "0.16.1", features = ["derive"] }
 tracing = "0.1.40"
 sqlx = { version = "0.7.3", features = [ "runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "json" ] }
 chrono = { version = "0.4.31", default-features = false, features = ["clock", "serde"] }
-futures = "0.3.30"
 fake = "2.9.2"
 rand = "0.8.5"
 async-trait = "0.1.75"

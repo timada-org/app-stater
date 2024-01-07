@@ -2,7 +2,8 @@ use anyhow::Result;
 use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use evento::{
-    store::Event, Aggregate, ConsumerContext, Query, QueryHandler, QueryOutput, RuleHandler,
+    store::Event, Aggregate, ConsumerContext, Query, QueryError, QueryHandler, QueryOutput,
+    RuleHandler,
 };
 use evento_query::{Cursor, CursorType, PgQuery, QueryArgs, QueryResult};
 use fake::{faker::name::en::Name, Fake};
@@ -151,13 +152,16 @@ pub struct GetFeedInput {
 
 #[async_trait]
 impl QueryHandler for GetFeedInput {
-    type Output = Option<UserFeed>;
+    type Output = UserFeed;
     async fn handle(&self, query: &Query) -> QueryOutput<Self::Output> {
         let db: sqlx::Pool<sqlx::Postgres> = query.extract::<PgPool>();
-        Ok(
-            sqlx::query_as!(UserFeed, "SELECT * FROM feed_feeds where id = $1", self.id)
-                .fetch_optional(&db)
-                .await?,
-        )
+        let feed = sqlx::query_as!(UserFeed, "SELECT * FROM feed_feeds where id = $1", self.id)
+            .fetch_optional(&db)
+            .await?;
+
+        match feed {
+            Some(feed) => Ok(feed),
+            _ => Err(QueryError::NotFound(format!("feed {} not found", self.id))),
+        }
     }
 }

@@ -1,4 +1,5 @@
 mod error;
+mod feed;
 mod index;
 
 use axum::{
@@ -17,6 +18,7 @@ pub fn create_router() -> Router {
         .route("/", get(index))
         .route("/_create-feed", post(create_feed))
         .route("/_load-more", get(load_more))
+        .nest("/feed/:id", feed::create_router())
 }
 
 pub fn rules() -> Vec<Rule> {
