@@ -19,7 +19,7 @@ async fn create() {
         .execute(
             "en".to_owned(),
             &CreateFeedInput {
-                title: "".into(),
+                title: "aze".into(),
                 user_id: Uuid::new_v4().to_string(),
                 request_id: None,
             },
