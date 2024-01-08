@@ -31,7 +31,7 @@ impl Default for Config {
                 url: "http://127.0.0.1:6751".to_owned(),
                 namespace: "starter".to_owned(),
             },
-            dsn: "cockroach://starter@127.0.0.1:26257/starter?sslmode=disable".to_owned(),
+            dsn: "postgres://starter@127.0.0.1:5433/starter?sslmode=disable".to_owned(),
             region: "eu-west-3".to_owned(),
         }
     }
