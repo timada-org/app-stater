@@ -11,7 +11,7 @@ static ONCE: OnceCell<Producer> = OnceCell::const_new();
 
 pub async fn get_producer() -> &'static Producer {
     ONCE.get_or_init(|| async {
-        let dsn = "postgres://starter@127.0.0.1:26257/starter_test?sslmode=disable";
+        let dsn = "postgres://starter@127.0.0.1:5433/starter_test?sslmode=disable";
         let exists = retry_connect_errors(dsn, Any::database_exists)
             .await
             .unwrap();
@@ -23,7 +23,7 @@ pub async fn get_producer() -> &'static Producer {
         let _ = Any::create_database(dsn).await;
 
         let pool =
-            PgPool::connect("cockroach://starter@127.0.0.1:26257/starter_test?sslmode=disable")
+            PgPool::connect("postgres://starter@127.0.0.1:5433/starter_test?sslmode=disable")
                 .await
                 .unwrap();
 
