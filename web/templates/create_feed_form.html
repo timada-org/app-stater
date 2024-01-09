@@ -4,7 +4,12 @@
             <div id="create-feed-errors"></div>
         </div>
 
-        <input id="form-title" name="title" required />
+        <label for="form-title" class="form-control w-full max-w-xs">
+            <div class="label">
+                <span class="label-text">What is name of feed?</span>
+            </div>
+            <input class="input input-bordered w-full max-w-xs" id="form-title" name="title" required />
+        </label>
         {% if let Some(errs) = errors.get("title") %}
         <div class="text-error">{{ errs[0] }}</div>
         {% endif %}
