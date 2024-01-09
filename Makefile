@@ -30,6 +30,9 @@ db.prepare:
 test:
 	cargo test
 
+test.e2e:
+	npx playwright test --headed
+
 fmt:
 	cargo fmt -- --emit files
 
