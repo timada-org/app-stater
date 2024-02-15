@@ -736,9 +736,9 @@ checksum = "0206175f82b8d6bf6652ff7d71a1e27fd2e4efde587fd368662814d6ec1d9ce0"
 
 [[package]]
 name = "evento"
-version = "1.0.0-alpha.8"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f706fc1b3e7b7963a08df5cbbee241db98672a8b0740c3871aef51bf81c6bf5"
+checksum = "28418ce369394e7f352be0a783c166c3e7a9cf62c5e1c68a90515d7d5e9fd421"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -761,18 +761,18 @@ dependencies = [
 
 [[package]]
 name = "evento-axum"
-version = "1.0.0-alpha.8"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d489303e397bfdf898eb3147a840f62c8bdf2bb0630acbca916ccba099a1e57c"
+checksum = "d353ee82c3a0aeba819028493133dc890a579fdfe69136bdffbe06a78d2de1a8"
 dependencies = [
  "axum 0.7.4",
 ]
 
 [[package]]
 name = "evento-macro"
-version = "1.0.0-alpha.8"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ba382b1e612317e4800ee485076902010b9197ede7308205fad4669866c4dfb"
+checksum = "7574c8cf91244324b0a44a94953e39437b2687cc8499f92d574199a0e346cbe0"
 dependencies = [
  "convert_case",
  "proc-macro-error",
@@ -784,9 +784,9 @@ dependencies = [
 
 [[package]]
 name = "evento-query"
-version = "1.0.0-alpha.8"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "722412f5bc48b0803562980f670605c41897779cca6b25112a2c363fba2df6b8"
+checksum = "8aeb3a448ee45e25a61101214dfad9734655f96b7366f2e4d0711f42fec257fb"
 dependencies = [
  "base64",
  "chrono",
@@ -799,9 +799,9 @@ dependencies = [
 
 [[package]]
 name = "evento-store"
-version = "1.0.0-alpha.8"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd048d3bf544647bfe48a0b37365c49530869f924f46a18cf8b207bb44f83217"
+checksum = "30f02674f5581c8ccefd7fa5847d7254250175fe41e9d84598de5421d2745486"
 dependencies = [
  "anyhow",
  "async-trait",
